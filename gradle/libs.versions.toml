@@ -11,6 +11,8 @@ targetSdk = "33"
 appcompat = "1.7.1"
 constraintlayout = "2.2.1"
 coreKtx = "1.18.0"
+navigation = "2.7.7"
+room = "2.6.1"
 
 # Testing
 espressoCore = "3.5.1"
@@ -20,6 +22,8 @@ junitExt = "1.1.5"
 # Static analysis
 detekt = "1.23.8"
 detektTwitterComposeRules = "0.0.26"
+navigationFragmentKtx = "2.10.0"
+navigationUiKtx = "2.10.0"
 
 [libraries]
 
@@ -27,6 +31,11 @@ detektTwitterComposeRules = "0.0.26"
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 
 # UI
 material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -44,5 +53,7 @@ staticAnalysis-detektLibraries = { module = "io.gitlab.arturbosch.detekt:detekt-
 staticAnalysis-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 staticAnalysis-detektTest = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
 staticAnalysis-detektTwitterComposeRules = { module = "com.twitter.compose.rules:detekt", version.ref = "detektTwitterComposeRules" }
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 
 [bundles]
