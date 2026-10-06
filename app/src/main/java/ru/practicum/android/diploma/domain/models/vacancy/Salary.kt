@@ -1,6 +1,5 @@
-package ru.practicum.android.diploma.data.dto.response.vacancy
+package ru.practicum.android.diploma.domain.models.vacancy
 
-// зарплата
 data class Salary(
     val id: String?,
     val from: Int?,

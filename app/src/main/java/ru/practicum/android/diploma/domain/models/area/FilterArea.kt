@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.dto.response.area
+package ru.practicum.android.diploma.domain.models.area
 
 data class FilterArea(
     val id: String,

@@ -3,16 +3,25 @@ package ru.practicum.android.diploma.di
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 import ru.practicum.android.diploma.BuildConfig
+import ru.practicum.android.diploma.data.NetworkClientInterface
+import ru.practicum.android.diploma.data.network.JobsApiClient
 import ru.practicum.android.diploma.data.network.JobsApiService
 
 
 val networkModule = module {
 
+    single<NetworkClientInterface> {
+        JobsApiClient(
+            jobsApiService = get(),
+            context = androidContext()
+        )
+    }
 
     single<JobsApiService>{
         get<Retrofit>().create(JobsApiService::class.java)

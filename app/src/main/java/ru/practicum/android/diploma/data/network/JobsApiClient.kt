@@ -10,11 +10,11 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import ru.practicum.android.diploma.data.NetworkClientInterface
 import ru.practicum.android.diploma.data.dto.requests.AreasRequest
-import ru.practicum.android.diploma.data.dto.response.area.AreasResponse
+import ru.practicum.android.diploma.data.dto.response.area.AreasResponseDto
 import ru.practicum.android.diploma.data.dto.requests.IndustriesRequest
 import ru.practicum.android.diploma.data.dto.requests.VacanciesRequest
 import ru.practicum.android.diploma.data.dto.requests.VacancyDetailsRequest
-import ru.practicum.android.diploma.data.dto.response.industries.IndustriesResponse
+import ru.practicum.android.diploma.data.dto.response.industries.IndustriesResponseDto
 import ru.practicum.android.diploma.data.dto.response.Response
 import java.io.IOException
 import ru.practicum.android.diploma.data.network.NetworkResultCode.BAD_REQUEST
@@ -36,8 +36,8 @@ class JobsApiClient(
         return withContext(Dispatchers.IO){
             try {
                 val response =  when (dto) {
-                    is AreasRequest -> AreasResponse(areas = jobsApiService.areas())
-                    is IndustriesRequest -> IndustriesResponse(industries = jobsApiService.industries())
+                    is AreasRequest -> AreasResponseDto(areas = jobsApiService.areas())
+                    is IndustriesRequest -> IndustriesResponseDto(industries = jobsApiService.industries())
                     is VacanciesRequest -> jobsApiService.vacancies(dto.toQueryMap())
                     is VacancyDetailsRequest -> jobsApiService.vacancy(dto.id)
                     else -> {

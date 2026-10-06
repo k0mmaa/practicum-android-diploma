@@ -6,5 +6,5 @@ data class VacancyResponse(
     val found: Int,
     val pages: Int,
     val page: Int,
-    val items: List<VacancyCard>
+    val items: List<VacancyCardDto>
 ) : Response()

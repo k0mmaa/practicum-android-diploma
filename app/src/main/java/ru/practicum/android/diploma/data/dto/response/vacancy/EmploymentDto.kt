@@ -1,7 +1,8 @@
 package ru.practicum.android.diploma.data.dto.response.vacancy
 
-// рабочий день (полный/ не полный)
-data class Schedule(
+
+// занятость
+data class EmploymentDto(
     val id: String,
     val name: String
 )

@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.dto.response.vacancy
+package ru.practicum.android.diploma.domain.models.vacancy
 
 data class Contacts(
     val id: String,
