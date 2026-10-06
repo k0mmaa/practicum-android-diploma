@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Поиск вакансий</string>
+    <string name="error_internet">Нет интернета</string>
+    <string name="empty_list_vacations">Не удалось получить\nсписок вакансий</string>
+    <string name="input_text">Введите запрос</string>
+
+
+    <!--название иконок навигации в главном меню-->
+    <string name="main">Главная</string>
+    <string name="favorites">Избранное</string>
+    <string name="team">Команда</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
