@@ -13,8 +13,10 @@ import ru.practicum.android.diploma.data.NetworkClientInterface
 import ru.practicum.android.diploma.data.network.JobsApiClient
 import ru.practicum.android.diploma.data.network.JobsApiService
 
-
+private const val DEFAULT_API_BASE_URL =
+    "https://android-diploma.education-services.ru"
 val networkModule = module {
+
 
     single<NetworkClientInterface> {
         JobsApiClient(
@@ -27,8 +29,11 @@ val networkModule = module {
         get<Retrofit>().create(JobsApiService::class.java)
     }
     single<Retrofit> {
+        val baseUrl = BuildConfig.API_BASE_URL.ifBlank {
+            DEFAULT_API_BASE_URL
+        }
         Retrofit.Builder()
-            .baseUrl( BuildConfig.API_BASE_URL)
+            .baseUrl( baseUrl)
             .client(get())
             .addConverterFactory(
                 GsonConverterFactory.create()
