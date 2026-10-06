@@ -21,6 +21,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField(type = "String", name = "API_ACCESS_TOKEN", value = "\"${developProperties.apiAccessToken}\"")
+        buildConfigField(type = "String", name = "API_BASE_URL", value = "\"${developProperties.apiBaseUrl}\"")
     }
 
     buildTypes {
@@ -60,8 +61,17 @@ dependencies {
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso.core)
 
+    implementation(libs.gson)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+
+    implementation(libs.okhttp.logging)
+    implementation(libs.koin.android)
+
     //зависимости для БД
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
 }
+
