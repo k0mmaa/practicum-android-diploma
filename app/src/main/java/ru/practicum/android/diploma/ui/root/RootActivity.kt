@@ -23,7 +23,7 @@ class RootActivity : AppCompatActivity() {
             insets
         }
 
-        // Пример использования access token для HeadHunter API
+        // Пример использования access token для HeadHunter API test
         networkRequestExample(accessToken = BuildConfig.API_ACCESS_TOKEN)
     }
 
