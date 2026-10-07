@@ -6,7 +6,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/favorite_vacancy_fragment"
     android:orientation="vertical"
-    android:background="?attr/colorSecondary"
+    android:background="?attr/colorOnPrimary"
     tools:context=".favorites.ui.FavoriteFragment">
 
+    <TextView
+        android:id="@+id/text_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Фрагмент избранного"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/button_to_vacancy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Переход к вакансии"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_fragment"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
