@@ -35,7 +35,7 @@
 
     <!---Создал дополнительные стили, но не уверен, что они пригодятся. Скорее всего обойдемся стилями выше. Пока решил оставить -->
     <!-- Заголовок экрана (тулбар) -->
-    <style name="Diploma.ScreenTitle">
+    <style name="Diploma.ScreenTitle" parent="">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">@style/TextAppearance.Diploma.Medium22</item>
