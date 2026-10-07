@@ -6,7 +6,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/filter_fragment"
     android:orientation="vertical"
-    android:background="@color/blue"
+    android:background="?attr/colorOnPrimary"
     tools:context=".filter.ui.FilterFragment">
+
+    <TextView
+        android:id="@+id/text_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Фрагмент фильтра"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Назад"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_fragment"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

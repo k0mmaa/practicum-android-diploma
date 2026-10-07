@@ -10,6 +10,8 @@
 /.idea/gradle.xml
 /.idea/compiler.xml
 /.idea/misc.xml
+/.idea
+.kotlin/
 
 # Gradle files
 .gradle/
