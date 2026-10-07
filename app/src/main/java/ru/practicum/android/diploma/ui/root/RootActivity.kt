@@ -32,9 +32,6 @@ class RootActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNavigation.setupWithNavController(navController)
-
-        // Пример использования access token для HeadHunter API networkRequestExample(accessToken = BuildConfig.API_ACCESS_TOKEN)
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.vacancyFragment,
@@ -47,10 +44,6 @@ class RootActivity : AppCompatActivity() {
             }
         }
 
-    }
-
-    private fun networkRequestExample(accessToken: String) {
-        // ...
     }
 
 }
