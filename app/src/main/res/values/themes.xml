@@ -1,15 +1,40 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Светлая тема -->
     <style name="Base.Theme.PracticumAndroidDiploma" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-
+        <!-- Material -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorError">@color/red</item>
         <item name="android:colorBackground">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorSurfaceVariant">@color/light_gray</item>
+        <item name="colorOnSurfaceVariant">@color/gray</item>
+
+        <!-- Свои атрибуты (attrs.xml) -->
+        <item name="colorBackground">@color/white</item>
         <item name="textColorPrimary">@color/black</item>
+        <item name="textColorSecondary">@color/gray</item>
+        <item name="textColorHint">@color/gray</item>
+        <item name="searchFieldBackground">@color/light_gray</item>
+        <item name="searchFieldTextColor">@color/black</item>
+        <item name="clearButtonTint">@color/black</item>
+        <item name="searchIconTint">@color/black</item>
+        <item name="placeholderPrimaryColor">@color/black</item>
+        <item name="placeholderSecondaryColor">@color/gray</item>
+        <item name="dividerLineColor">@color/light_gray</item>
+
+        <!-- Системные панели -->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+
+        <!-- Шрифт и компоненты по умолчанию -->
+        <item name="android:fontFamily">@font/ys_text_regular</item>
+        <item name="fontFamily">@font/ys_text_regular</item>
+        <item name="bottomNavigationStyle">@style/Widget.Diploma.BottomNavigation</item>
     </style>
 
-    <style name="Theme.PracticumAndroidDiploma" parent="Base.Theme.PracticumAndroidDiploma">
-        <item name="android:colorBackground">@color/black</item>
-        <item name="textColorPrimary">@color/white</item>
-    </style>
+    <style name="Theme.PracticumAndroidDiploma" parent="Base.Theme.PracticumAndroidDiploma" />
 </resources>
