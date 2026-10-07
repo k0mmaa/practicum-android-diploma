@@ -12,9 +12,9 @@
         tools:layout="@layout/filter_fragment" />
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="ru.practicum.android.diploma.favorite_vacancy.ui.FavoriteFragment"
-        android:label="search_fragment"
-        tools:layout="@layout/search_fragment" >
+        android:name="ru.practicum.android.diploma.favorites.ui.FavoriteFragment"
+        android:label="favorite_fragment"
+        tools:layout="@layout/favorite_fragment" >
         <action
             android:id="@+id/action_favoriteFragment_to_vacancyFragment"
             app:destination="@id/vacancyFragment" />
@@ -32,8 +32,8 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="ru.practicum.android.diploma.search.ui.SearchFragment"
-        android:label="favorite_fragment"
-        tools:layout="@layout/favorite_fragment" >
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment" >
         <action
             android:id="@+id/action_searchFragment_to_filterFragment"
             app:destination="@id/filterFragment" />

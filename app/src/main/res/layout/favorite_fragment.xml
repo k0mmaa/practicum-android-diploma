@@ -7,6 +7,6 @@
     android:id="@+id/favorite_vacancy_fragment"
     android:orientation="vertical"
     android:background="?attr/colorSecondary"
-    tools:context=".search.ui.SearchFragment">
+    tools:context=".favorites.ui.FavoriteFragment">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
