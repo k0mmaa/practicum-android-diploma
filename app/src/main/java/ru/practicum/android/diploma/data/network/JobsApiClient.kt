@@ -1,9 +1,5 @@
 package ru.practicum.android.diploma.data.network
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -24,11 +20,11 @@ import ru.practicum.android.diploma.data.network.NetworkResultCode.SERVER_ERROR
 import ru.practicum.android.diploma.data.network.NetworkResultCode.SUCCESS
 class JobsApiClient(
     private val jobsApiService: JobsApiService,
-    private val context: Context
+    private val checkNetwork: CheckNetwork
 ) : NetworkClientInterface {
 
     override  suspend fun doRequest(dto: Any): Response {
-        if (isConnected() == false) {
+        if (!checkNetwork.isConnected()) {
             Log.e("JobsApiClient", "No internet connection")
             return Response().apply {  resultCode = NO_INTERNET }
         }
@@ -60,20 +56,5 @@ class JobsApiClient(
                 Response().apply { resultCode = SERVER_ERROR }
             }
         }
-    }
-
-
-    private fun isConnected(): Boolean {
-        val connectivityManager = context.getSystemService(
-            Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
-            }
-        }
-        return false
     }
 }
