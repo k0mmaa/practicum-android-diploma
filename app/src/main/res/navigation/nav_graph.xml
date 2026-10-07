@@ -6,8 +6,39 @@
     app:startDestination="@id/searchFragment">
 
     <fragment
+        android:id="@+id/filterFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.FilterFragment"
+        android:label="filter_fragment"
+        tools:layout="@layout/filter_fragment" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="ru.practicum.android.diploma.favorites.ui.FavoriteFragment"
+        android:label="favorite_fragment"
+        tools:layout="@layout/favorite_fragment" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_vacancyFragment"
+            app:destination="@id/vacancyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/teamFragment"
+        android:name="ru.practicum.android.diploma.ui.TeamFragment"
+        android:label="team_fragment"
+        tools:layout="@layout/team_fragment" />
+    <fragment
+        android:id="@+id/vacancyFragment"
+        android:name="ru.practicum.android.diploma.vacancy.ui.VacancyFragment"
+        android:label="vacancy_fragment"
+        tools:layout="@layout/vacancy_fragment" />
+    <fragment
         android:id="@+id/searchFragment"
-        android:name="ru.practicum.android.diploma.FragmentSearch"
-        android:label="FragmentSearch"
-        tools:layout="@layout/fragment_search" />
+        android:name="ru.practicum.android.diploma.search.ui.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_vacancyFragment"
+            app:destination="@id/vacancyFragment" />
+    </fragment>
 </navigation>
