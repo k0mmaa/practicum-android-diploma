@@ -19,8 +19,8 @@ coreKtx = "1.18.0"
 navigation = "2.10.0"
 room = "2.6.1"
 lifecycle-viewmodel-ktx = "2.11.0"
-activity-ktx = "1.13.0"
-kotlinx-coroutines-android = "1.11.0"
+activity-ktx = "1.9.3"
+kotlinx-coroutines-android = "1.8.1"
 
 # Testing
 espressoCore = "3.5.1"
