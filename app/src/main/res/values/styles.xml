@@ -1,2 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <!-- Типографика из макета Figma -->
+    <style name="TextAppearance.Diploma.Bold32" parent="">
+        <item name="android:fontFamily">@font/ys_display_bold</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Diploma.Medium22" parent="">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Diploma.Medium16" parent="">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Diploma.Regular16" parent="">
+        <item name="android:fontFamily">@font/ys_text_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Diploma.Regular12" parent="">
+        <item name="android:fontFamily">@font/ys_text_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+    </style>
+
+
+    <!---Создал дополнительные стили, но не уверен, что они пригодятся. Скорее всего обойдемся стилями выше. Пока решил оставить -->
+    <!-- Заголовок экрана (тулбар) -->
+    <style name="Diploma.ScreenTitle" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.Diploma.Medium22</item>
+    </style>
+
+    <!-- Основная синяя кнопка («Применить», «Выбрать») -->
+    <style name="Widget.Diploma.Button" parent="Widget.Material3.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textAppearance">@style/TextAppearance.Diploma.Medium16</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/corner_radius_12</item>
+    </style>
+
+    <!-- Текстовая красная кнопка («Сбросить») -->
+    <style name="Widget.Diploma.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">?attr/colorError</item>
+        <item name="android:textAppearance">@style/TextAppearance.Diploma.Medium16</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- Нижняя панель навигации: применяется ко всем BottomNavigationView через тему -->
+    <style name="Widget.Diploma.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">?attr/colorBackground</item>
+        <item name="itemIconTint">@color/bottom_nav_colors</item>
+        <item name="itemTextColor">@color/bottom_nav_colors</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.Diploma.Regular12</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.Diploma.Regular12</item>
+        <item name="itemActiveIndicatorStyle">@null</item>
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
+</resources>

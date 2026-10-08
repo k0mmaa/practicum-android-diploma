@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Атрибуты темы: значения задаются в values/themes.xml (светлая) и values-night/themes.xml (тёмная) -->
+    <attr name="colorBackground" format="color" />
+    <attr name="textColorPrimary" format="color" />
+    <attr name="textColorSecondary" format="color" />
+    <attr name="textColorHint" format="color" />
 
-        <attr name="colorBackground" format="color" />
-        <attr name="textColorPrimary" format="color" />
-        <attr name="textColorSecondary" format="color" />
-        <attr name="textColorTertiary" format="color"/>
-        <attr name="settingsIconTint" format="color" />
-        <attr name="textColorHint" format="color" />
-        <attr name="textColorRecycleView" format="color"/>
-        <attr name="playerButtonBackground" format="color"/>
+    <attr name="searchFieldBackground" format="color" />
+    <attr name="searchFieldTextColor" format="color" />
+    <attr name="clearButtonTint" format="color" />
+    <attr name="searchIconTint" format="color" />
 
+    <attr name="placeholderPrimaryColor" format="color" />
+    <attr name="placeholderSecondaryColor" format="color" />
 
-        <attr name="refreshButtonBackground" format="color" />
-        <attr name="refreshButtonTextColor" format="color" />
-
-        <attr name="placeholderPrimaryColor" format="color" />
-        <attr name="placeholderSecondaryColor" format="color" />
-        <attr name="placeholderAccentColor" format="color" />
-
-        <attr name="clearButtonTint" format="color" />
-        <attr name="searchIconTint" format="color" />
-
+    <attr name="dividerLineColor" format="color" />
 </resources>
