@@ -22,7 +22,7 @@
         <item name="searchIconTint">@color/black</item>
         <item name="placeholderPrimaryColor">@color/black</item>
         <item name="placeholderSecondaryColor">@color/gray</item>
-        <item name="dividerLineColor">@color/light_gray</item>
+        <item name="dividerLineColor">@color/gray</item>
 
         <!-- Системные панели -->
         <item name="android:statusBarColor">@color/white</item>
