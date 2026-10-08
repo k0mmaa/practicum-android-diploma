@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp">
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/logo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="5dp"
+        android:scaleType="centerCrop"
+        style="@style/LogoStyle"
+        tools:src="@tools:sample/avatars" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/vacancy_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            style="@style/TextAppearance.Diploma.Medium22"
+            tools:text="Разработчик на С++ в команду внутренних сервисов, Москва" />
+        <TextView
+            android:id="@+id/vacancy_company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            style="@style/TextAppearance.Diploma.Medium16"
+            tools:text="Авто.ру" />
+        <TextView
+            android:id="@+id/vacancy_salary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            style="@style/TextAppearance.Diploma.Medium16"
+            tools:text="от 40 000 до 80 000 ₽" />
+    </LinearLayout>
+</LinearLayout>
