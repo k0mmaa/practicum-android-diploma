@@ -13,28 +13,38 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        android:background="?attr/colorPrimary"
         app:navGraph="@navigation/nav_graph"
 
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
          />
+<!--разделитель-->
+    <View
+        android:id="@+id/bottom_navigation_divider"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_height"
+        android:background="?attr/dividerLineColor"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:itemActiveIndicatorStyle="@null"
-        app:itemIconTint="@color/bottom_nav_colors"
-        app:itemTextColor="@color/bottom_nav_colors"
-        android:background="?attr/colorPrimary"
         app:menu="@menu/bottom_navigation_menu"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
          />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/bottom_navigation_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="bottom_navigation,bottom_navigation_divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

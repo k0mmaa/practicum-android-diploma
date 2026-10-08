@@ -36,10 +36,10 @@ class RootActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.vacancyFragment,
                 R.id.filterFragment -> {
-                    binding.bottomNavigation.visibility = View.GONE
+                    binding.bottomNavigationGroup.visibility = View.GONE
                 }
                 else -> {
-                    binding.bottomNavigation.visibility = View.VISIBLE
+                    binding.bottomNavigationGroup.visibility = View.VISIBLE
                 }
             }
         }

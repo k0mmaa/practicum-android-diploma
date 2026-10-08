@@ -62,6 +62,7 @@
     <!-- Нижняя панель навигации: применяется ко всем BottomNavigationView через тему -->
     <style name="Widget.Diploma.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
         <item name="backgroundTint">?attr/colorBackground</item>
+        <item name="elevation">0dp</item>
         <item name="itemIconTint">@color/bottom_nav_colors</item>
         <item name="itemTextColor">@color/bottom_nav_colors</item>
         <item name="itemTextAppearanceActive">@style/TextAppearance.Diploma.Regular12</item>
