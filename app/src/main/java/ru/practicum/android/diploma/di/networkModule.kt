@@ -10,18 +10,23 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.NetworkClientInterface
+import ru.practicum.android.diploma.data.network.CheckNetwork
+import ru.practicum.android.diploma.data.network.CheckNetworkImpl
 import ru.practicum.android.diploma.data.network.JobsApiClient
 import ru.practicum.android.diploma.data.network.JobsApiService
 
 private const val DEFAULT_API_BASE_URL =
     "https://android-diploma.education-services.ru"
 val networkModule = module {
-
+    // Регистрация CheckNetwork
+    single<CheckNetwork> {
+        CheckNetworkImpl(androidContext())
+    }
 
     single<NetworkClientInterface> {
         JobsApiClient(
             jobsApiService = get(),
-            context = androidContext()
+            checkNetwork = get()
         )
     }
 
