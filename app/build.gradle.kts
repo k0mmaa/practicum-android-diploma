@@ -47,8 +47,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
 
@@ -63,6 +61,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(libs.gson)
+    implementation(libs.glide)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
@@ -74,5 +73,10 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
+
+    //для работы с viewModel и корутинами
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.activity.ktx)
+    implementation(libs.kotlinx.coroutines.android)
 }
 
