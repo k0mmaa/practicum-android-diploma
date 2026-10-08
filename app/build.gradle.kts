@@ -69,12 +69,12 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.koin.android)
 
-    //зависимости для БД
+    // зависимости для БД
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
 
-    //для работы с viewModel и корутинами
+    // для работы с viewModel и корутинами
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.activity.ktx)
     implementation(libs.kotlinx.coroutines.android)
