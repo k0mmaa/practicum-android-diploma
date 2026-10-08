@@ -10,9 +10,8 @@ import ru.practicum.android.diploma.util.SalaryFormatter
 import java.text.NumberFormat
 import java.util.Locale
 
-class VacanciesViewHolder(private val binding: ListItemVacancyBinding ) : AbstractViewHolder<VacancyCard>(binding.root) {
-    private val numberFormat =
-        NumberFormat.getIntegerInstance(Locale("ru", "RU"))
+class VacanciesViewHolder(private val binding: ListItemVacancyBinding) : AbstractViewHolder<VacancyCard>(binding.root) {
+
     companion object {
         fun from(parent: ViewGroup): VacanciesViewHolder {
             val inflater = LayoutInflater.from(parent.context)

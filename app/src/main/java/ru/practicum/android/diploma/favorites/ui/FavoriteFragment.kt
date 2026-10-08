@@ -22,8 +22,8 @@ class FavoriteFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FavoriteFragmentBinding.inflate(inflater,container, false)
+    ): View {
+        _binding = FavoriteFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,31 +46,34 @@ class FavoriteFragment : Fragment() {
     }
 
     /** ! В списке используется модель VacancyCard если из базы будет приходить VacancyDetail
-       ! нужно будет VacancyDetail преобразовать в VacancyCard, думаю это лучше, чем отдельный
-      VacanciesViewHolder создавать
-     Заглушка для показа списка вакансий **/
-    fun renderList(){
-        adapter = VacanciesListAdapter( {vacancy ->
+    ! нужно будет VacancyDetail преобразовать в VacancyCard, думаю это лучше, чем отдельный
+    VacanciesViewHolder создавать
+    Заглушка для показа списка вакансий **/
+    fun renderList() {
+        adapter = VacanciesListAdapter({ vacancy ->
             onVacancyClickDebounce(vacancy) // обработка клика
         })
         binding.vacanciesList.adapter = adapter
-        adapter.setOnLongClickListener {
-                vacancy ->
+        adapter.setOnLongClickListener { vacancy ->
             // обработка длинного клика (если понадобится)
         }
         showVacancies(mockVacancies())
     }
 
-    fun showVacancies(list: List<VacancyCard>){
+    fun showVacancies(list: List<VacancyCard>) {
         binding.vacanciesList.isVisible = true
         adapter.list.clear()
         adapter.list.addAll(list)
         adapter.notifyDataSetChanged()
     }
-    fun onVacancyClickDebounce(vacancy: VacancyCard){
-        findNavController().navigate(R.id.action_favoriteFragment_to_vacancyFragment,
-            VacancyFragment.createArgs(vacancy.id))
+
+    fun onVacancyClickDebounce(vacancy: VacancyCard) {
+        findNavController().navigate(
+            R.id.action_favoriteFragment_to_vacancyFragment,
+            VacancyFragment.createArgs(vacancy.id)
+        )
     }
+
     // Заглушка вакансий
     fun mockVacancies(): List<VacancyCard> {
         return listOf(

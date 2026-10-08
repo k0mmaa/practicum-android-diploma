@@ -27,8 +27,8 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = SearchFragmentBinding.inflate(inflater,container, false)
+    ): View {
+        _binding = SearchFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -36,8 +36,10 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonToVacancy.setOnClickListener {
-            findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment,
-                VacancyFragment.createArgs("test_id"))
+            findNavController().navigate(
+                R.id.action_searchFragment_to_vacancyFragment,
+                VacancyFragment.createArgs("test_id")
+            )
         }
 
         binding.buttonToFilter.setOnClickListener {
@@ -53,26 +55,29 @@ class SearchFragment : Fragment() {
     }
 
     // Заглушка для показа списка вакансий
-    fun renderList(){
-        adapter = VacanciesListAdapter( {vacancy ->
-                onVacancyClickDebounce(vacancy) // обработка клика
+    fun renderList() {
+        adapter = VacanciesListAdapter({ vacancy ->
+            onVacancyClickDebounce(vacancy) // обработка клика
         })
         binding.vacanciesList.adapter = adapter
-        adapter.setOnLongClickListener {
-                vacancy ->
-                    // обработка длинного клика (если понадобится)
+        adapter.setOnLongClickListener { vacancy ->
+            // обработка длинного клика (если понадобится)
         }
         showVacancies(mockVacancies())
     }
-    fun showVacancies(list: List<VacancyCard>){
+
+    fun showVacancies(list: List<VacancyCard>) {
         binding.vacanciesList.isVisible = true
         adapter.list.clear()
         adapter.list.addAll(list)
         adapter.notifyDataSetChanged()
     }
-    fun onVacancyClickDebounce(vacancy: VacancyCard){
-        findNavController().navigate(R.id.action_searchFragment_to_vacancyFragment,
-            VacancyFragment.createArgs(vacancy.id))
+
+    fun onVacancyClickDebounce(vacancy: VacancyCard) {
+        findNavController().navigate(
+            R.id.action_searchFragment_to_vacancyFragment,
+            VacancyFragment.createArgs(vacancy.id)
+        )
     }
 
     // Заглушка вакансий

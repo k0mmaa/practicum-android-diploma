@@ -1,10 +1,10 @@
 package ru.practicum.android.diploma.util
 
+import android.content.res.Resources
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.vacancy.Salary
 import java.text.NumberFormat
 import java.util.Locale
-import ru.practicum.android.diploma.R
-import android.content.res.Resources
 
 object SalaryFormatter {
 
