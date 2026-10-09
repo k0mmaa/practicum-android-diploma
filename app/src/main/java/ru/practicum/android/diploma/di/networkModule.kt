@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.di
 
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -60,8 +61,15 @@ val networkModule = module {
             .build()
     }
     factory<HttpLoggingInterceptor> {
-        HttpLoggingInterceptor().apply {
-            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        HttpLoggingInterceptor { message ->
+            Log.d("API_HTTP", message)
+        }.apply {
+            redactHeader("Authorization")
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
         }
     }
 }
