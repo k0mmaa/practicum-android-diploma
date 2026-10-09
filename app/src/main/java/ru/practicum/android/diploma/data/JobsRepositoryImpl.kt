@@ -18,6 +18,7 @@ import ru.practicum.android.diploma.domain.models.area.FilterArea
 import ru.practicum.android.diploma.domain.models.industries.FilterIndustry
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancies
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyDetail
+import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.Resource
 
 
@@ -36,7 +37,7 @@ class JobsRepositoryImpl(
                 emit(Resource.Success(areas))
             }
             else -> {
-                emit(Resource.Error(response.resultCode))
+                emit(Resource.Error(mapErrorCode(response.resultCode)))
             }
         }
     }
@@ -55,7 +56,7 @@ class JobsRepositoryImpl(
 
             else -> {
                 emit(
-                    Resource.Error(response.resultCode)
+                    Resource.Error(mapErrorCode(response.resultCode))
                 )
             }
         }
@@ -94,7 +95,7 @@ class JobsRepositoryImpl(
 
             else -> {
                 emit(
-                    Resource.Error(response.resultCode)
+                    Resource.Error(mapErrorCode(response.resultCode))
                 )
             }
         }
@@ -119,8 +120,18 @@ class JobsRepositoryImpl(
             }
 
             else -> {
-                emit(Resource.Error(response.resultCode))
+                emit(Resource.Error(mapErrorCode(response.resultCode)))
             }
+        }
+    }
+
+    private fun mapErrorCode(code: Int): ErrorType {
+        return when (code) {
+            NetworkResultCode.NO_INTERNET -> ErrorType.NO_INTERNET
+            NetworkResultCode.NOT_FOUND -> ErrorType.NOT_FOUND
+            NetworkResultCode.BAD_REQUEST -> ErrorType.BAD_REQUEST
+            NetworkResultCode.SERVER_ERROR -> ErrorType.SERVER_ERROR
+            else -> ErrorType.SERVER_ERROR
         }
     }
 }
