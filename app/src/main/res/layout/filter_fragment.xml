@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/filter_fragment"
     android:orientation="vertical"
-    android:background="?attr/colorOnPrimary"
+    android:background="?attr/colorBackground"
     tools:context=".filter.ui.FilterFragment">
 
     <TextView
