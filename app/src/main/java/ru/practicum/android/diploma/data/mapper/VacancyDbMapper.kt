@@ -1,11 +1,17 @@
 package ru.practicum.android.diploma.data.mapper
 
+import ru.practicum.android.diploma.data.db.entity.AddressEntity
+import ru.practicum.android.diploma.data.db.entity.ContactsEntity
+import ru.practicum.android.diploma.data.db.entity.PhoneEntity
 import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 import ru.practicum.android.diploma.domain.models.area.FilterArea
 import ru.practicum.android.diploma.domain.models.industries.FilterIndustry
+import ru.practicum.android.diploma.domain.models.vacancy.Address
+import ru.practicum.android.diploma.domain.models.vacancy.Contacts
 import ru.practicum.android.diploma.domain.models.vacancy.Employer
 import ru.practicum.android.diploma.domain.models.vacancy.Employment
 import ru.practicum.android.diploma.domain.models.vacancy.Experience
+import ru.practicum.android.diploma.domain.models.vacancy.Phone
 import ru.practicum.android.diploma.domain.models.vacancy.Salary
 import ru.practicum.android.diploma.domain.models.vacancy.Schedule
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
@@ -35,8 +41,8 @@ class VacancyDbMapper {
             scheduleName = vacancy.schedule?.name,
             employmentId = vacancy.employment?.id,
             employmentName = vacancy.employment?.name,
-            address = vacancy.address,
-            contacts = vacancy.contacts,
+            address = vacancy.address?.toEntity(),
+            contacts = vacancy.contacts?.toEntity(),
             skills = vacancy.skills,
             addedAt = System.currentTimeMillis()
         )
@@ -67,8 +73,8 @@ class VacancyDbMapper {
             experience = mapExperience(entity.experienceId, entity.experienceName),
             schedule = mapSchedule(entity.scheduleId, entity.scheduleName),
             employment = mapEmployment(entity.employmentId, entity.employmentName),
-            address = entity.address,
-            contacts = entity.contacts,
+            address = entity.address?.toModel(),
+            contacts = entity.contacts?.toModel(),
             skills = entity.skills
         )
     }
@@ -111,5 +117,58 @@ class VacancyDbMapper {
 
     private fun mapEmployment(id: String?, name: String?): Employment? {
         return if (id != null && name != null) Employment(id = id, name = name) else null
+    }
+
+
+    private fun Address.toEntity(): AddressEntity {
+        return AddressEntity(
+            id = id,
+            city = city,
+            street = street,
+            building = building,
+            raw = raw
+        )
+    }
+
+    private fun AddressEntity.toModel(): Address {
+        return Address(
+            id = id,
+            city = city,
+            street = street,
+            building = building,
+            raw = raw
+        )
+    }
+
+    private fun Contacts.toEntity(): ContactsEntity {
+        return ContactsEntity(
+            id = id,
+            name = name,
+            email = email,
+            phones = phones.map { it.toEntity() }
+        )
+    }
+
+    private fun ContactsEntity.toModel(): Contacts {
+        return Contacts(
+            id = id,
+            name = name,
+            email = email,
+            phones = phones.map { it.toModel() }
+        )
+    }
+
+    private fun Phone.toEntity(): PhoneEntity {
+        return PhoneEntity(
+            comment = comment,
+            formatted = formatted
+        )
+    }
+
+    private fun PhoneEntity.toModel(): Phone {
+        return Phone(
+            comment = comment,
+            formatted = formatted
+        )
     }
 }

@@ -2,8 +2,6 @@ package ru.practicum.android.diploma.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.practicum.android.diploma.domain.models.vacancy.Address
-import ru.practicum.android.diploma.domain.models.vacancy.Contacts
 
 @Entity(tableName = "favorite_vacancies")
 data class VacancyEntity(
@@ -38,8 +36,8 @@ data class VacancyEntity(
     val employmentName: String?,
 
     // Сложные объекты и списки — хранятся как JSON через VacancyDbConverter - кажется так было в плейлисте
-    val address: Address?,
-    val contacts: Contacts?,
+    val address: AddressEntity?,
+    val contacts: ContactsEntity?,
     val skills: List<String>,
 
     // Время добавления вакансии в избранное — для сортировки списка - где-то подсмотрел
