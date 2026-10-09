@@ -7,10 +7,20 @@ material = "1.13.0"
 minSdk = "26"
 targetSdk = "33"
 
+gson = "2.10"
+glide = "4.16.0"
+retrofit = "2.9.0"
+okhttp = "4.12.0"
+koin = "3.5.6"
 # AndroidX
 appcompat = "1.7.1"
 constraintlayout = "2.2.1"
 coreKtx = "1.18.0"
+navigation = "2.10.0"
+room = "2.8.5"
+lifecycle-viewmodel-ktx = "2.11.0"
+activity-ktx = "1.9.3"
+kotlinx-coroutines-android = "1.8.1"
 
 # Testing
 espressoCore = "3.5.1"
@@ -27,9 +37,15 @@ detektTwitterComposeRules = "0.0.26"
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 
 # UI
 material = { module = "com.google.android.material:material", version.ref = "material" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 # Testing
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
@@ -45,4 +61,15 @@ staticAnalysis-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gra
 staticAnalysis-detektTest = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
 staticAnalysis-detektTwitterComposeRules = { module = "com.twitter.compose.rules:detekt", version.ref = "detektTwitterComposeRules" }
 
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+lifecycle-viewmodel-ktx = {group = "androidx.lifecycle", name="lifecycle-viewmodel-ktx", version.ref="lifecycle-viewmodel-ktx"}
+activity-ktx = {group = "androidx.activity", name="activity-ktx", version.ref="activity-ktx"}
+kotlinx-coroutines-android = {group="org.jetbrains.kotlinx", name="kotlinx-coroutines-android", version.ref="kotlinx-coroutines-android"}
 [bundles]
+
+

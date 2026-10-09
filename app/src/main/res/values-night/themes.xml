@@ -1,7 +1,38 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Тёмная тема: переопределяем только цвета -->
     <style name="Base.Theme.PracticumAndroidDiploma" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Material -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorError">@color/red</item>
+        <item name="android:colorBackground">@color/black</item>
+        <item name="colorSurface">@color/black</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorSurfaceVariant">@color/light_gray</item>
+        <item name="colorOnSurfaceVariant">@color/gray</item>
+
+        <!-- Свои атрибуты (attrs.xml) -->
+        <item name="colorBackground">@color/black</item>
+        <item name="textColorPrimary">@color/white</item>
+        <item name="textColorSecondary">@color/gray</item>
+        <item name="textColorHint">@color/gray</item>
+        <item name="searchFieldBackground">@color/light_gray</item>
+        <item name="searchFieldTextColor">@color/black</item>
+        <item name="clearButtonTint">@color/black</item>
+        <item name="searchIconTint">@color/black</item>
+        <item name="placeholderPrimaryColor">@color/white</item>
+        <item name="placeholderSecondaryColor">@color/gray</item>
+        <item name="dividerLineColor">@color/gray</item>
+
+        <!-- Системные панели -->
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
+        <!-- Шрифт и компоненты по умолчанию -->
+        <item name="android:fontFamily">@font/ys_text_regular</item>
+        <item name="fontFamily">@font/ys_text_regular</item>
+        <item name="bottomNavigationStyle">@style/Widget.Diploma.BottomNavigation</item>
     </style>
 </resources>

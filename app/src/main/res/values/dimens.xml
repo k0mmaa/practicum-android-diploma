@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Отступы -->
+    <dimen name="padding_4">4dp</dimen>
+    <dimen name="padding_8">8dp</dimen>
+    <dimen name="padding_12">12dp</dimen>
+    <dimen name="padding_16">16dp</dimen>
+    <dimen name="padding_24">24dp</dimen>
+
+    <!-- Скругления -->
+    <dimen name="corner_radius_8">8dp</dimen>
+    <dimen name="corner_radius_12">12dp</dimen>
+
+    <!-- Размеры элементов -->
+    <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="search_field_height">56dp</dimen>
+    <dimen name="button_height">60dp</dimen>
+    <dimen name="icon_size_24">24dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+</resources>

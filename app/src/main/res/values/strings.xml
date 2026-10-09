@@ -1,3 +1,58 @@
 <resources>
-    <string name="app_name">Practicum-Android-Diploma</string>
+    <string name="app_name">Поиск вакансий</string>
+
+    <string name="input_text">Введите запрос</string>
+    <string name="settings_filters">Настройки фильтрации</string>
+    <string name="vacancy">Вакансия</string>
+
+    <!--Названия разделов-->
+    <string name="title_vacancies">Вакансии</string>
+    <string name="title_favorites">Избранное</string>
+    <string name="title_filters">Настройки фильтрации</string>
+    <string name="title_team">Команда</string>
+
+
+    <!--Раздел команда-->
+    <string name="team_description">Над приложением работали</string>
+    <string name="team_member">members</string>
+
+    <!--Раздел Избранное-->
+    <string name="empty_list">Список пуст</string>
+
+    <!--Раздел Вакансия-->
+    <string name="error_vacansy">Вакансия не найдена или удалена</string>
+
+    <!--Раздел Фильтрация-->
+    <string name="error_region">Такого региона нет</string>
+    <string name="empty_list_region">Не удалось получить список</string>
+
+    <!--Описание фильтров-->
+    <string name="choose_work_place">Выбор места работы</string>
+    <string name="choose_contry">Выбор страны</string>
+    <string name="choose_region">Выбор региона</string>
+    <string name="choose_industry">Выбор отрасли</string>
+    <string name="ch_box_hide_salary">Не показывать без зарплаты</string>
+
+    <!--Ошибки загрузки-->
+    <string name="network_error">Нет интернета</string>
+    <string name="empty_list_vacations">Не удалось получить\nсписок вакансий</string>
+    <string name="server_error">Ошибка сервера</string>
+
+
+    <!--Название кнопок-->
+    <string name="btn_title_choose">Выбрать</string>
+    <string name="btn_title_apply">Применить</string>
+    <string name="btn_title_clear">Сбросить</string>
+    <string name="btn_title_refresh">Обновить</string>
+
+
+    <!--название иконок навигации в главном меню-->
+    <string name="btn_main">Главная</string>
+    <string name="btn_favorites">Избранное</string>
+    <string name="btn_team">Команда</string>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
