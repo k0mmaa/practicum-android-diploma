@@ -12,7 +12,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginEnd="5dp"
-        android:scaleType="centerCrop"
+        android:scaleType="centerInside"
         style="@style/LogoStyle"
         tools:src="@tools:sample/avatars" />
     <LinearLayout
