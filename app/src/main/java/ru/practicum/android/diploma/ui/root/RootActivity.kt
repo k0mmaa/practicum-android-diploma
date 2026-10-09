@@ -33,15 +33,10 @@ class RootActivity : AppCompatActivity() {
 
         binding.bottomNavigation.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.vacancyFragment,
-                R.id.filterFragment -> {
-                    binding.bottomNavigationGroup.visibility = View.GONE
-                }
-                else -> {
-                    binding.bottomNavigationGroup.visibility = View.VISIBLE
-                }
-            }
+            val isBottomNavigationVisible = destination.id in setOf(
+                R.id.searchFragment, R.id.favoriteFragment, R.id.teamFragment
+            )
+            binding.bottomNavigation.visibility = if (isBottomNavigationVisible) View.VISIBLE else View.GONE
         }
 
     }
