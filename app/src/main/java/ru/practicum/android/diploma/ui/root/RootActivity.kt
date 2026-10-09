@@ -28,7 +28,8 @@ class RootActivity : AppCompatActivity() {
             insets
         }
 
-        val navHostFragment = supportFragmentManager.findFragmentById(binding.rootFragmentContainerView.id) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(binding.rootFragmentContainerView.id) as NavHostFragment
         val navController = navHostFragment.navController
 
         binding.bottomNavigation.setupWithNavController(navController)
