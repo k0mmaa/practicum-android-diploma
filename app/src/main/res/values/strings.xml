@@ -14,13 +14,19 @@
 
     <!--Раздел команда-->
     <string name="team_description">Над приложением работали</string>
-    <string name="team_member">members</string>
+    <string name="team_member1">members</string>
+    <string name="team_member2">members</string>
+    <string name="team_member3">members</string>
+    <string name="team_member4">Волчков Дмитрий</string>
 
     <!--Раздел Избранное-->
     <string name="empty_list">Список пуст</string>
 
     <!--Раздел Вакансия-->
-    <string name="error_vacansy">Вакансия не найдена или удалена</string>
+    <string name="error_vacancies">Вакансия не найдена или удалена</string>
+    <string name="empty_list_vacancies">Не удалось получить список вакансий</string>
+    <string name="clear_vacancies">Таких вакансий нет</string>
+
 
     <!--Раздел Фильтрация-->
     <string name="error_region">Такого региона нет</string>

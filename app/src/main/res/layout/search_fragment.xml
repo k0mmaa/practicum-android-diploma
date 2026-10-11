@@ -1,43 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/search_fragment"
-    android:orientation="vertical"
-    android:background="?attr/colorOnPrimary"
+    android:background="?attr/colorBackground"
     tools:context=".search.ui.SearchFragment">
 
-    <TextView
-        android:id="@+id/text_fragment"
-        android:layout_width="wrap_content"
+    <!-- Заголовок экрана -->
+    <LinearLayout
+        android:id="@+id/search_fragment_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Фрагмент поиска"
-
-        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <Button
-        android:id="@+id/button_to_vacancy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Переход к вакансии"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_fragment"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/button_to_filter"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tv_app_title"
+            style="@style/TextAppearance.Diploma.Medium22"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/app_name" />
+
+        <ImageView
+            android:id="@+id/buttonToFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/title_filters"
+            android:padding="8dp"
+            android:src="@drawable/ic_trailing" />
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_input_layout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Переход к фильтру"
-
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:boxBackgroundColor="@color/light_gray"
+        app:boxBackgroundMode="filled"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:endIconDrawable="@drawable/ic_clear"
+        app:endIconMode="custom"
+        app:endIconTint="?attr/clearButtonTint"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_to_vacancy"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_fragment_title"
+        app:startIconDrawable="@drawable/ic_search_18"
+        app:startIconTint="?attr/searchIconTint">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_strings"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/input_text"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:paddingStart="0dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_search_history"
+        style="@style/TextAppearance.Diploma.Medium22"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="@dimen/settings_item_spacing"
+        android:gravity="center"
+        android:text="@string/input_text"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_input_layout" />
+
+    <!-- Контейнер результатов и плейсхолдеров -->
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_input_layout">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="144dp"
+            android:indeterminateTint="@color/blue"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trackRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/emptyPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal|top"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:background="?attr/colorBackground">
+
+            <ImageView
+                android:layout_width="360dp"
+                android:layout_height="535dp"
+                android:contentDescription="@null"
+                android:src="@drawable/img_activity_root" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/errorPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|top"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:contentDescription="@string/network_error"
+                android:src="@drawable/ic_no_internet" />
+
+            <TextView
+                android:id="@+id/errorMessage"
+                style="@style/TextAppearance.Diploma.Medium22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/network_error" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nothingFinded"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|top"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:contentDescription="@string/empty_list_vacancies"
+                android:src="@drawable/ic_placeholder_nothing_find_vacancy" />
+
+            <TextView
+                android:id="@+id/tv_nothingFinded"
+                style="@style/TextAppearance.Diploma.Medium22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_list_vacancies" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_clear_vacancies"
+                style="@style/Widget.Diploma.Button.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_vacancies"
+                app:cornerRadius="@dimen/button_corner_radius" />
+        </LinearLayout>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
