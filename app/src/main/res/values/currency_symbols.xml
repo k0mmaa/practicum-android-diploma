@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="currency_rub" translatable="false">₽</string>
+    <string name="currency_byr" translatable="false">Br</string>
+    <string name="currency_usd" translatable="false">$</string>
+    <string name="currency_eur" translatable="false">€</string>
+    <string name="currency_kzt" translatable="false">₸</string>
+    <string name="currency_uah" translatable="false">₴</string>
+    <string name="currency_azn" translatable="false">₼</string>
+    <string name="currency_uzs" translatable="false">сум</string>
+    <string name="currency_gel" translatable="false">₾</string>
+    <string name="currency_kgt" translatable="false">⃀</string>
+    <string name="currency_kgt_fallback" translatable="false">сом</string>
+</resources>
