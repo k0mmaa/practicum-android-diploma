@@ -35,13 +35,6 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonToVacancy.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_searchFragment_to_vacancyFragment,
-                VacancyFragment.createArgs("test_id")
-            )
-        }
-
         binding.buttonToFilter.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
         }
