@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/search_fragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="?attr/colorBackground"
     tools:context=".search.ui.SearchFragment">
 
@@ -23,74 +22,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_app_title"
-            style="@style/TextAppearance.Diploma.Medium22"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/app_name" />
-
-        <ImageView
-            android:id="@+id/buttonToFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/title_filters"
-            android:padding="8dp"
-            android:src="@drawable/ic_trailing" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/button_to_vacancy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Переход к вакансии"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_fragment"
+       />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:boxBackgroundColor="@color/light_gray"
-        app:boxBackgroundMode="filled"
-        app:boxCornerRadiusBottomEnd="12dp"
-        app:boxCornerRadiusBottomStart="12dp"
-        app:boxCornerRadiusTopEnd="12dp"
-        app:boxCornerRadiusTopStart="12dp"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:endIconDrawable="@drawable/ic_clear"
-        app:endIconMode="custom"
-        app:endIconTint="?attr/clearButtonTint"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_fragment_title"
-        app:startIconDrawable="@drawable/ic_search_18"
-        app:startIconTint="?attr/searchIconTint">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_strings"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="@string/input_text"
-            android:imeOptions="actionDone"
-            android:maxLines="1"
-            android:paddingStart="0dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="0dp"
-            android:paddingBottom="8dp"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:textColorHint="@color/gray" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_search_history"
-        style="@style/TextAppearance.Diploma.Medium22"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="@dimen/settings_item_spacing"
-        android:gravity="center"
-        android:text="@string/input_text"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Переход к фильтру"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_input_layout" />
 
@@ -188,4 +134,15 @@
         </LinearLayout>
     </FrameLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        app:layout_constraintTop_toBottomOf="@id/button_to_filter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/vacancies_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_margin="16dp"
+        tools:listitem="@layout/list_item_vacancy" />
 </androidx.constraintlayout.widget.ConstraintLayout>
