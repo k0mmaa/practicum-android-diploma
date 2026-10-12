@@ -1,22 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/team_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/team_fragment"
+    android:background="?attr/colorBackground"
     android:orientation="vertical"
-    android:background="?attr/colorOnPrimary"
     tools:context="ru.practicum.android.diploma.ui.TeamFragment">
 
     <TextView
-        android:id="@+id/text_fragment"
-        android:layout_width="wrap_content"
+        android:id="@+id/team_title"
+        style="@style/TextAppearance.Diploma.Medium22"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Фрагмент команды"
+        android:padding="@dimen/padding_16"
+        android:text="@string/title_team" />
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/tv_team_desc"
+        style="@style/TextAppearance.Diploma.Bold32"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_16"
+        android:paddingHorizontal="@dimen/padding_16"
+        android:text="@string/team_description" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_team_member1"
+        style="@style/TextAppearance.Diploma.Medium16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_24"
+        android:paddingHorizontal="@dimen/padding_16"
+        android:text="@string/member1" />
+
+    <TextView
+        android:id="@+id/tv_team_member2"
+        style="@style/TextAppearance.Diploma.Medium16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_16"
+        android:paddingHorizontal="@dimen/padding_16"
+        android:text="@string/member2" />
+
+    <TextView
+        android:id="@+id/tv_team_member3"
+        style="@style/TextAppearance.Diploma.Medium16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_16"
+        android:paddingHorizontal="@dimen/padding_16"
+        android:text="@string/member3" />
+
+    <TextView
+        android:id="@+id/tv_team_member4"
+        style="@style/TextAppearance.Diploma.Medium16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_16"
+        android:paddingHorizontal="@dimen/padding_16"
+        android:text="@string/member4" />
+
+</LinearLayout>
