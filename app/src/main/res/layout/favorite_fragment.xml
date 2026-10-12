@@ -42,48 +42,32 @@
         android:visibility="gone"
         app:constraint_referenced_ids="placeholder_image,placeholder_text" />
 
-        <ImageView
-            android:id="@+id/placeholder_image"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:scaleType="fitCenter"
-            app:layout_constraintDimensionRatio="328:223"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_favorite"
-            app:layout_constraintBottom_toTopOf="@id/placeholder_text"
-            />
-
-        <TextView
-            android:id="@+id/placeholder_text"
-            style="@style/TextAppearance.Diploma.Medium22"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="@string/empty_list"
-            android:layout_marginTop="@dimen/padding_16"
-
-            app:layout_constraintTop_toBottomOf="@+id/placeholder_image"
-            app:layout_constraintStart_toStartOf="@+id/placeholder_image"
-            app:layout_constraintEnd_toEndOf="@+id/placeholder_image"
-            />
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_fragment"
-    />
-
-    <androidx.recyclerview.widget.RecyclerView
-        app:layout_constraintTop_toBottomOf="@id/button_to_vacancy"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/vacancies_list"
+    <ImageView
+        android:id="@+id/placeholder_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_margin="16dp"
-        tools:listitem="@layout/list_item_vacancy" />
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:scaleType="fitCenter"
+        app:layout_constraintDimensionRatio="328:223"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_favorite"
+        app:layout_constraintBottom_toTopOf="@id/placeholder_text"
+        />
+
+    <TextView
+        android:id="@+id/placeholder_text"
+        style="@style/TextAppearance.Diploma.Medium22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/empty_list"
+        android:layout_marginTop="@dimen/padding_16"
+
+        app:layout_constraintTop_toBottomOf="@+id/placeholder_image"
+        app:layout_constraintStart_toStartOf="@+id/placeholder_image"
+        app:layout_constraintEnd_toEndOf="@+id/placeholder_image"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
