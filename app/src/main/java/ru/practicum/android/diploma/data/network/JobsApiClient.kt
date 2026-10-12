@@ -1,8 +1,8 @@
 package ru.practicum.android.diploma.data.network
 
 import android.util.Log
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+
+import kotlinx.coroutines.CancellationException
 import retrofit2.HttpException
 import ru.practicum.android.diploma.data.NetworkClientInterface
 import ru.practicum.android.diploma.data.dto.requests.AreasRequest
@@ -29,20 +29,21 @@ class JobsApiClient(
             return Response().apply {  resultCode = NO_INTERNET }
         }
 
-        return withContext(Dispatchers.IO){
-            try {
+        return try {
                 val response =  when (dto) {
                     is AreasRequest -> AreasResponseDto(areas = jobsApiService.areas())
                     is IndustriesRequest -> IndustriesResponseDto(industries = jobsApiService.industries())
                     is VacanciesRequest -> jobsApiService.vacancies(dto.toQueryMap())
                     is VacancyDetailsRequest -> jobsApiService.vacancy(dto.id)
                     else -> {
-                        return@withContext Response().apply { resultCode = BAD_REQUEST }
+                        return Response().apply { resultCode = BAD_REQUEST }
                     }
                 }
                 response.apply {
                     resultCode = SUCCESS
                 }
+            }catch (e: CancellationException ){
+                throw e
             }catch (e: HttpException) {
                 if( e.code() == 404){
                     Response().apply { resultCode = NOT_FOUND  }
@@ -52,9 +53,8 @@ class JobsApiClient(
             }catch (e: IOException) {
                 Response().apply { resultCode = NO_INTERNET }
             } catch (e: Exception){
-                Log.e("JobsApiClient", "Network is unavailable or a connection error has occurred", e)
+                Log.e("JobsApiClient", "Unexpected request error", e)
                 Response().apply { resultCode = SERVER_ERROR }
             }
         }
-    }
 }

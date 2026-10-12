@@ -3,8 +3,9 @@ package ru.practicum.android.diploma.data.db
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import ru.practicum.android.diploma.domain.models.vacancy.Address
-import ru.practicum.android.diploma.domain.models.vacancy.Contacts
+import ru.practicum.android.diploma.data.db.entity.AddressEntity
+import ru.practicum.android.diploma.data.db.entity.ContactsEntity
+
 
 class VacancyDbConverter {
 
@@ -20,14 +21,14 @@ class VacancyDbConverter {
     }
 
     @TypeConverter
-    fun fromAddress(address: Address?): String? = address?.let { gson.toJson(it) }
+    fun fromAddress(address: AddressEntity?): String? = address?.let { gson.toJson(it) }
 
     @TypeConverter
-    fun toAddress(json: String?): Address? = json?.let { gson.fromJson(it, Address::class.java) }
+    fun toAddress(json: String?): AddressEntity? = json?.let { gson.fromJson(it, AddressEntity::class.java) }
 
     @TypeConverter
-    fun fromContacts(contacts: Contacts?): String? = contacts?.let { gson.toJson(it) }
+    fun fromContacts(contacts: ContactsEntity?): String? = contacts?.let { gson.toJson(it) }
 
     @TypeConverter
-    fun toContacts(json: String?): Contacts? = json?.let { gson.fromJson(it, Contacts::class.java) }
+    fun toContacts(json: String?): ContactsEntity? = json?.let { gson.fromJson(it, ContactsEntity::class.java) }
 }

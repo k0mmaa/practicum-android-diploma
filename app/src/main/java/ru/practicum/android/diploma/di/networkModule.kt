@@ -1,13 +1,12 @@
 package ru.practicum.android.diploma.di
 
-import com.google.gson.GsonBuilder
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.NetworkClientInterface
 import ru.practicum.android.diploma.data.network.CheckNetwork
@@ -30,7 +29,7 @@ val networkModule = module {
         )
     }
 
-    single<JobsApiService>{
+    single<JobsApiService> {
         get<Retrofit>().create(JobsApiService::class.java)
     }
     single<Retrofit> {
@@ -38,32 +37,39 @@ val networkModule = module {
             DEFAULT_API_BASE_URL
         }
         Retrofit.Builder()
-            .baseUrl( baseUrl)
+            .baseUrl(baseUrl)
             .client(get())
             .addConverterFactory(
                 GsonConverterFactory.create()
             ).build()
     }
 
-    factory<OkHttpClient>{
+    factory<OkHttpClient> {
         OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
                 val request = originalRequest.newBuilder().addHeader(
-                        "Authorization",
-                        "Bearer ${BuildConfig.API_ACCESS_TOKEN}"
-                    ).addHeader(
-                        "Content-Type",
-                        "application/json"
-                    ).build()
+                    "Authorization",
+                    "Bearer ${BuildConfig.API_ACCESS_TOKEN}"
+                ).addHeader(
+                    "Content-Type",
+                    "application/json"
+                ).build()
 
                 chain.proceed(request)
             }.addInterceptor(get<HttpLoggingInterceptor>())
             .build()
     }
     factory<HttpLoggingInterceptor> {
-        HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+        HttpLoggingInterceptor { message ->
+            Log.d("API_HTTP", message)
+        }.apply {
+            redactHeader("Authorization")
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
         }
     }
 }
