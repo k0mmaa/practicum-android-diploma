@@ -18,6 +18,8 @@ import ru.practicum.android.diploma.data.network.NetworkResultCode.NO_INTERNET
 import ru.practicum.android.diploma.data.network.NetworkResultCode.NOT_FOUND
 import ru.practicum.android.diploma.data.network.NetworkResultCode.SERVER_ERROR
 import ru.practicum.android.diploma.data.network.NetworkResultCode.SUCCESS
+import java.net.SocketTimeoutException
+
 class JobsApiClient(
     private val jobsApiService: JobsApiService,
     private val checkNetwork: CheckNetwork
@@ -50,6 +52,8 @@ class JobsApiClient(
                 }else{
                     Response().apply { resultCode = SERVER_ERROR }
                 }
+            }catch (e: SocketTimeoutException) {
+                Response().apply { resultCode = SERVER_ERROR }
             }catch (e: IOException) {
                 Response().apply { resultCode = NO_INTERNET }
             } catch (e: Exception){
