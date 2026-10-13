@@ -18,18 +18,19 @@ object SalaryFormatter {
 
         val numberFormat =
             NumberFormat.getIntegerInstance(Locale("ru", "RU"))
-
+        val fromString = resources.getString(R.string.from)
+        val toString = resources.getString(R.string.to)
         val amount = when {
             from != null && to != null ->
-                "от ${numberFormat.format(from)} до ${numberFormat.format(to)}"
+                "$fromString ${numberFormat.format(from)} $toString ${numberFormat.format(to)}"
 
             from != null ->
-                "от ${numberFormat.format(from)}"
+                "$fromString ${numberFormat.format(from)}"
 
             to != null ->
-                "до ${numberFormat.format(to)}"
+                "$toString ${numberFormat.format(to)}"
 
-            else -> return "Зарплата не указана"
+            else -> return resources.getString(R.string.salary_not_found)
         }
 
         val symbol = getCurrencySymbol(

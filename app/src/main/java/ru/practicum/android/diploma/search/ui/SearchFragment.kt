@@ -5,11 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.search.ui.activity.VacanciesListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -17,7 +23,9 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.SearchFragmentBinding
 import ru.practicum.android.diploma.domain.models.vacancy.Salary
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
+import ru.practicum.android.diploma.search.ui.view_model.SearchState
 import ru.practicum.android.diploma.search.ui.view_model.SearchViewModel
+import ru.practicum.android.diploma.util.debounce
 import ru.practicum.android.diploma.vacancy.ui.VacancyFragment
 
 
@@ -30,6 +38,8 @@ class SearchFragment : Fragment() {
 
     private var current_search: String = STRING_DEF
     private val viewModel by viewModel<SearchViewModel>()
+
+    private lateinit var onVacancyClickDebounce: (VacancyCard) -> Unit
     companion object {
 
         const val STRING_DEF = ""
@@ -52,13 +62,49 @@ class SearchFragment : Fragment() {
             findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
         }
         binding.searchInputLayout.setEndIconOnClickListener {
-
+            if(current_search.isNotBlank()){
+               current_search = ""
+               hideKeyboard()
+               binding.inputStrings.clearFocus()
+               viewModel.clearSearch()
+            }
         }
 
+        onVacancyClickDebounce = debounce<VacancyCard>(
+            CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false)
+        { vacancy ->
+            openVacancy(vacancy)
+        }
+
+        binding.inputStrings.setOnEditorActionListener { _, actionId, event  ->
+
+            if (actionId == EditorInfo.IME_ACTION_DONE
+                || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                viewModel.searchNow(current_search)
+            }
+            false
+        }
+
+        adapter = VacanciesListAdapter({ vacancy ->
+            onVacancyClickDebounce(vacancy) // обработка клика
+        })
+        binding.vacanciesList.adapter = adapter
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
+        binding.vacanciesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
+                if (dy > 0) {
+                    val pos = (binding.vacanciesList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val itemsCount = adapter.itemCount
+                    if (pos >= itemsCount-1) {
+                        viewModel.nextPage()
+                    }
+                }
+            }
+        })
         binding.inputStrings.doOnTextChanged { s: CharSequence?, start: Int, before: Int, count: Int ->
             if (!s.isNullOrEmpty()) {
                 current_search = s.toString()
@@ -81,30 +127,87 @@ class SearchFragment : Fragment() {
         _binding = null
     }
 
-    // Заглушка для показа списка вакансий
-    fun renderList() {
-        adapter = VacanciesListAdapter({ vacancy ->
-            onVacancyClickDebounce(vacancy) // обработка клика
-        })
-        binding.vacanciesList.adapter = adapter
-        adapter.setOnLongClickListener { vacancy ->
-            // обработка длинного клика (если понадобится)
+    fun render(state: SearchState){
+        when(state){
+            is SearchState.Content -> {
+                showVacancies(state.vacancies)
+                if(state.totalCount > 0){
+                    hideAll(textInfo = true, vacanciesList= true)
+                    val vacanciesCountText = resources.getQuantityString(
+                        R.plurals.vacancies_count,
+                        state.totalCount,
+                        state.totalCount,
+                    )
+                    binding.textInfo.text = resources.getString(
+                            R.string.finding_vacancies,
+                            resources.getString(R.string.finding),
+                            vacanciesCountText)
+                }else{
+                    showEmptyVacancies()
+                }
+
+            }
+            SearchState.Loading -> {
+                hideAll(progressBar = true)
+            }
+            SearchState.NoInternet -> {
+                hideAll(errorPlaceholder = true)
+                binding.errorImage.setImageResource(R.drawable.ic_no_internet)
+                binding.errorMessage.text = getString(R.string.network_error)
+            }
+            SearchState.NotFound -> {
+                showEmptyVacancies()
+            }
+            SearchState.ServerError -> {
+                hideAll(errorPlaceholder = true)
+                binding.errorImage.setImageResource(R.drawable.ic_server_error_1)
+                binding.errorMessage.text = getString(R.string.server_error)
+            }
+            SearchState.StartPage -> {
+                hideAll(startImage = true)
+                binding.inputStrings.setText("")
+            }
+
+            SearchState.LoadingNextPage -> {
+                hideAll(progressBar = true, vacanciesList = true)
+            }
         }
-        showVacancies(mockVacancies())
     }
 
+    fun showEmptyVacancies(){
+        hideAll(textInfo = true, errorPlaceholder = true)
+        binding.textInfo.text = resources.getString(R.string.clear_vacancies)
+        binding.errorImage.setImageResource(R.drawable.ic_placeholder_nothing_find_vacancy)
+        binding.errorMessage.text = getString(R.string.empty_list_vacations)
+    }
+    fun hideAll(startImage: Boolean = false, textInfo: Boolean = false,
+                vacanciesList : Boolean = false, progressBar : Boolean = false,
+                errorPlaceholder : Boolean = false ){
+        binding.startImage.isVisible = startImage
+        binding.textInfo.isVisible = textInfo;
+        binding.vacanciesList.isVisible = vacanciesList
+        binding.progressBar.isVisible = progressBar;
+        binding.errorPlaceholder.isVisible = errorPlaceholder
+        if(binding.errorPlaceholder.isVisible){
+            binding.errorImage.isVisible = true
+            binding.errorMessage.isVisible = true
+        }
+    }
+
+    fun openVacancy(vacancy: VacancyCard) {
+        findNavController().navigate(
+            R.id.action_searchFragment_to_vacancyFragment,
+            VacancyFragment.createArgs(vacancy.id)
+        )
+    }
     fun showVacancies(list: List<VacancyCard>) {
-        binding.vacanciesList.isVisible = true
         adapter.list.clear()
         adapter.list.addAll(list)
         adapter.notifyDataSetChanged()
     }
 
     fun onVacancyClickDebounce(vacancy: VacancyCard) {
-        findNavController().navigate(
-            R.id.action_searchFragment_to_vacancyFragment,
-            VacancyFragment.createArgs(vacancy.id)
-        )
+        onVacancyClickDebounce(vacancy)
     }
     fun hideKeyboard() {
         val imm = requireContext()
@@ -112,82 +215,5 @@ class SearchFragment : Fragment() {
 
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
-    // Заглушка вакансий
-    fun mockVacancies(): List<VacancyCard> {
-        return listOf(
-            VacancyCard(
-                id = "0000258d-fb45-3152-bfeb-250a4c547384",
-                name = "Backend-разработчик",
-                company = "Intel",
-                city = "Новосибирск",
-                salary = Salary(
-                    from = null,
-                    to = null,
-                    currency = "AZN",
-                    id = "1"
-                ),
-                logo = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Intel_logo_2023.svg/500px-Intel_logo_2023.svg.png"
-            ),
-            VacancyCard(
-                id = "0001db2d-1366-379d-98ce-6f965bbc7816",
-                name = "Frontend-разработчик",
-                company = "NVIDIA",
-                city = "Барнаул",
-                salary = Salary(
-                    from = 1800,
-                    to = 3200,
-                    currency = "RUB",
-                    id = null
-                ),
-                logo = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/NVIDIA_logo.svg/500px-NVIDIA_logo.svg.png"
-            ),
-            VacancyCard(
-                id = "0000347f-1440-3f6f-a91a-d52c15a41021",
-                name = "Android-разработчик",
-                company = "Microsoft",
-                city = "Самара",
-                salary = null,
-                logo = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/500px-Microsoft_logo.svg.png"
-            ),
-            VacancyCard(
-                id = "test-007",
-                name = "QA-инженер",
-                company = "Samsung",
-                city = "Алматы",
-                salary = Salary(
-                    id = null,
-                    from = 500000,
-                    to = 900000,
-                    currency = "KZT"
-                ),
-                logo = null
-            ),
-            VacancyCard(
-                id = "test-008",
-                name = "DevOps-инженер",
-                company = "IBM",
-                city = "Тбилиси",
-                salary = Salary(
-                    id = null,
-                    from = null,
-                    to = 6000,
-                    currency = "GEL"
-                ),
-                logo = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Adobe_Corporate_logo.svg"
-            ),
-            VacancyCard(
-                id = "test-009",
-                name = "Разработчик внутренних сервисов и высоконагруженных систем на Kotlin и Java",
-                company = "Компания с очень длинным названием для проверки переноса текста",
-                city = "Нижний Новгород",
-                salary = Salary(
-                    id = null,
-                    from = 500,
-                    to = null,
-                    currency = "RUR"
-                ),
-                logo = null
-            ),
-        )
-    }
+
 }

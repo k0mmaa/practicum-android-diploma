@@ -18,6 +18,7 @@
         <activity
             android:name=".ui.root.RootActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -7,6 +7,7 @@ import ru.practicum.android.diploma.di.dataModule
 import ru.practicum.android.diploma.di.interactorModule
 import ru.practicum.android.diploma.di.networkModule
 import ru.practicum.android.diploma.di.repositoryModule
+import ru.practicum.android.diploma.di.viewModelModule
 
 class App : Application()  {
 
@@ -19,7 +20,8 @@ class App : Application()  {
                 networkModule,
                 interactorModule,
                 repositoryModule,
-                dataModule
+                dataModule,
+                viewModelModule
                 )
 
         }
