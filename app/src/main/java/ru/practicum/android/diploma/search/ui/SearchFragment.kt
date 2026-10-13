@@ -1,18 +1,23 @@
 package ru.practicum.android.diploma.search.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.playlistmaker.search.ui.activity.VacanciesListAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.SearchFragmentBinding
 import ru.practicum.android.diploma.domain.models.vacancy.Salary
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
+import ru.practicum.android.diploma.search.ui.view_model.SearchViewModel
 import ru.practicum.android.diploma.vacancy.ui.VacancyFragment
 
 
@@ -22,6 +27,14 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: VacanciesListAdapter
+
+    private var current_search: String = STRING_DEF
+    private val viewModel by viewModel<SearchViewModel>()
+    companion object {
+
+        const val STRING_DEF = ""
+        private const val CLICK_DEBOUNCE_DELAY = 2000L
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,8 +51,29 @@ class SearchFragment : Fragment() {
         binding.buttonToFilter.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
         }
+        binding.searchInputLayout.setEndIconOnClickListener {
 
-        renderList()
+        }
+
+        viewModel.observeState().observe(viewLifecycleOwner) {
+            render(it)
+        }
+
+        binding.inputStrings.doOnTextChanged { s: CharSequence?, start: Int, before: Int, count: Int ->
+            if (!s.isNullOrEmpty()) {
+                current_search = s.toString()
+            } else {
+                current_search = STRING_DEF
+            }
+
+            if(!s.isNullOrEmpty()){
+                binding.searchInputLayout.setEndIconDrawable(R.drawable.ic_clear)
+            }else{
+                binding.searchInputLayout.setEndIconDrawable(R.drawable.ic_search_18)
+            }
+
+            viewModel.searchDebounce(current_search)
+        }
     }
 
     override fun onDestroyView() {
@@ -72,7 +106,12 @@ class SearchFragment : Fragment() {
             VacancyFragment.createArgs(vacancy.id)
         )
     }
+    fun hideKeyboard() {
+        val imm = requireContext()
+            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+    }
     // Заглушка вакансий
     fun mockVacancies(): List<VacancyCard> {
         return listOf(
