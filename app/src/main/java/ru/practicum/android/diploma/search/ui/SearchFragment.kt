@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -18,10 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.search.ui.activity.VacanciesListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.SearchFragmentBinding
-import ru.practicum.android.diploma.domain.models.vacancy.Salary
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
 import ru.practicum.android.diploma.search.ui.view_model.SearchState
 import ru.practicum.android.diploma.search.ui.view_model.SearchViewModel
@@ -40,6 +36,7 @@ class SearchFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
 
     private lateinit var onVacancyClickDebounce: (VacancyCard) -> Unit
+
     companion object {
 
         const val STRING_DEF = ""
@@ -62,24 +59,26 @@ class SearchFragment : Fragment() {
             findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
         }
         binding.searchInputLayout.setEndIconOnClickListener {
-            if(current_search.isNotBlank()){
-               current_search = ""
-               hideKeyboard()
-               binding.inputStrings.clearFocus()
-               viewModel.clearSearch()
+            if (current_search.isNotBlank()) {
+                current_search = ""
+                hideKeyboard()
+                binding.inputStrings.clearFocus()
+                viewModel.clearSearch()
             }
         }
 
         onVacancyClickDebounce = debounce<VacancyCard>(
-            CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false)
+            CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false
+        )
         { vacancy ->
             openVacancy(vacancy)
         }
 
-        binding.inputStrings.setOnEditorActionListener { _, actionId, event  ->
+        binding.inputStrings.setOnEditorActionListener { _, actionId, event ->
 
             if (actionId == EditorInfo.IME_ACTION_DONE
-                || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                || actionId == EditorInfo.IME_ACTION_SEARCH
+            ) {
                 viewModel.searchNow(current_search)
             }
             false
@@ -99,7 +98,7 @@ class SearchFragment : Fragment() {
                 if (dy > 0) {
                     val pos = (binding.vacanciesList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemsCount = adapter.itemCount
-                    if (pos >= itemsCount-1) {
+                    if (pos >= itemsCount - 1) {
                         viewModel.nextPage()
                     }
                 }
@@ -112,9 +111,9 @@ class SearchFragment : Fragment() {
                 current_search = STRING_DEF
             }
 
-            if(!s.isNullOrEmpty()){
+            if (!s.isNullOrEmpty()) {
                 binding.searchInputLayout.setEndIconDrawable(R.drawable.ic_clear)
-            }else{
+            } else {
                 binding.searchInputLayout.setEndIconDrawable(R.drawable.ic_search_18)
             }
 
@@ -127,42 +126,48 @@ class SearchFragment : Fragment() {
         _binding = null
     }
 
-    fun render(state: SearchState){
-        when(state){
+    fun render(state: SearchState) {
+        when (state) {
             is SearchState.Content -> {
                 showVacancies(state.vacancies)
-                if(state.totalCount > 0){
-                    hideAll(textInfo = true, vacanciesList= true)
+                if (state.totalCount > 0) {
+                    hideAll(textInfo = true, vacanciesList = true)
                     val vacanciesCountText = resources.getQuantityString(
                         R.plurals.vacancies_count,
                         state.totalCount,
                         state.totalCount,
                     )
                     binding.textInfo.text = resources.getString(
-                            R.string.finding_vacancies,
-                            resources.getString(R.string.finding),
-                            vacanciesCountText)
-                }else{
+                        R.string.finding_vacancies,
+                        resources.getString(R.string.finding),
+                        vacanciesCountText
+                    )
+                } else {
                     showEmptyVacancies()
                 }
 
             }
+
             SearchState.Loading -> {
                 hideAll(progressBar = true)
             }
+
             SearchState.NoInternet -> {
                 hideAll(errorPlaceholder = true)
                 binding.errorImage.setImageResource(R.drawable.ic_no_internet)
                 binding.errorMessage.text = getString(R.string.network_error)
             }
+
             SearchState.NotFound -> {
                 showEmptyVacancies()
             }
+
             SearchState.ServerError -> {
                 hideAll(errorPlaceholder = true)
                 binding.errorImage.setImageResource(R.drawable.ic_server_error_1)
                 binding.errorMessage.text = getString(R.string.server_error)
             }
+
             SearchState.StartPage -> {
                 hideAll(startImage = true)
                 binding.inputStrings.setText("")
@@ -174,21 +179,24 @@ class SearchFragment : Fragment() {
         }
     }
 
-    fun showEmptyVacancies(){
+    fun showEmptyVacancies() {
         hideAll(textInfo = true, errorPlaceholder = true)
         binding.textInfo.text = resources.getString(R.string.clear_vacancies)
         binding.errorImage.setImageResource(R.drawable.ic_placeholder_nothing_find_vacancy)
         binding.errorMessage.text = getString(R.string.empty_list_vacations)
     }
-    fun hideAll(startImage: Boolean = false, textInfo: Boolean = false,
-                vacanciesList : Boolean = false, progressBar : Boolean = false,
-                errorPlaceholder : Boolean = false ){
+
+    fun hideAll(
+        startImage: Boolean = false, textInfo: Boolean = false,
+        vacanciesList: Boolean = false, progressBar: Boolean = false,
+        errorPlaceholder: Boolean = false
+    ) {
         binding.startImage.isVisible = startImage
-        binding.textInfo.isVisible = textInfo;
+        binding.textInfo.isVisible = textInfo
         binding.vacanciesList.isVisible = vacanciesList
-        binding.progressBar.isVisible = progressBar;
+        binding.progressBar.isVisible = progressBar
         binding.errorPlaceholder.isVisible = errorPlaceholder
-        if(binding.errorPlaceholder.isVisible){
+        if (binding.errorPlaceholder.isVisible) {
             binding.errorImage.isVisible = true
             binding.errorMessage.isVisible = true
         }
@@ -200,6 +208,7 @@ class SearchFragment : Fragment() {
             VacancyFragment.createArgs(vacancy.id)
         )
     }
+
     fun showVacancies(list: List<VacancyCard>) {
         adapter.list.clear()
         adapter.list.addAll(list)
@@ -209,6 +218,7 @@ class SearchFragment : Fragment() {
     fun onVacancyClickDebounce(vacancy: VacancyCard) {
         onVacancyClickDebounce(vacancy)
     }
+
     fun hideKeyboard() {
         val imm = requireContext()
             .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

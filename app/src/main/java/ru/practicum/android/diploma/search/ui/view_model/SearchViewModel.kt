@@ -11,10 +11,11 @@ import ru.practicum.android.diploma.domain.api.JobsInteractor
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancies
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
 import ru.practicum.android.diploma.util.Debounce
-import ru.practicum.android.diploma.util.ErrorType.*
+import ru.practicum.android.diploma.util.ErrorType.NOT_FOUND
+import ru.practicum.android.diploma.util.ErrorType.NO_INTERNET
 import ru.practicum.android.diploma.util.Resource
 
-class SearchViewModel(private val context: Context, private val jobsInteractor: JobsInteractor): ViewModel()  {
+class SearchViewModel(private val context: Context, private val jobsInteractor: JobsInteractor) : ViewModel() {
 
     private val stateLiveData = MutableLiveData<SearchState>()
     fun observeState(): LiveData<SearchState> = stateLiveData
@@ -24,7 +25,8 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
     private var currentPage: Int = DEFAULT_PAGE_VALUE
     private var totalPages: Int = DEFAULT_TOTAL_PAGES_VALUE
     private var totalCount: Int = 0
-    private var loadingNextPage = false;
+    private var loadingNextPage = false
+
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val DEFAULT_PAGE_VALUE = 1
@@ -38,30 +40,33 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
             SearchState.StartPage
         )
     }
+
     private val vacanciesSearchDebounce =
         Debounce<String>(
             delayMillis = SEARCH_DEBOUNCE_DELAY,
             coroutineScope = viewModelScope,
             useLastParam = true
         ) { changedText ->
-            if(changedText == latestSearchText){
+            if (changedText == latestSearchText) {
                 renderState(SearchState.Loading)
                 searchRequest(changedText)
             }
         }
-    fun searchDebounce(changedText: String){
+
+    fun searchDebounce(changedText: String) {
         if (latestSearchText == changedText) {
             return
         }
         latestSearchText = changedText
         vacanciesSearchDebounce.cancel()
-        if(latestSearchText.isNotEmpty()){
+        if (latestSearchText.isNotEmpty()) {
             vacanciesSearchDebounce(changedText)
-        }else{
+        } else {
             renderState(SearchState.StartPage)
         }
     }
-    fun searchNow(changedText: String){
+
+    fun searchNow(changedText: String) {
         if (latestSearchText == changedText || this.latestSearchText.isBlank()) {
             return
         }
@@ -69,23 +74,23 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
 
         vacanciesSearchDebounce.cancel()
         renderState(SearchState.Loading)
-        searchRequest( changedText)
+        searchRequest(changedText)
     }
 
-    fun nextPage(){
-        if(loadingNextPage){
+    fun nextPage() {
+        if (loadingNextPage) {
             return
         }
-        if(totalPages > currentPage){
+        if (totalPages > currentPage) {
             currentPage++
             vacanciesSearchDebounce.cancel()
             loadingNextPage = true
             renderState(SearchState.LoadingNextPage)
-            searchRequest( this.latestSearchText, false )
+            searchRequest(this.latestSearchText, false)
         }
     }
 
-    fun clearSearch(){
+    fun clearSearch() {
         latestSearchText = ""
         currentPage = DEFAULT_PAGE_VALUE
         vacanciesList.clear()
@@ -93,13 +98,13 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
             SearchState.StartPage
         )
     }
+
     private fun searchRequest(newSearchText: String, clearResult: Boolean = true) {
         if (newSearchText.isNotEmpty()) {
-            val txt = newSearchText;
+            val txt = newSearchText
             viewModelScope.launch {
-                jobsInteractor.getVacancies(text = newSearchText, page = currentPage).collect {
-                        result ->
-                    if(txt == latestSearchText){
+                jobsInteractor.getVacancies(text = newSearchText, page = currentPage).collect { result ->
+                    if (txt == latestSearchText) {
                         processResult(result, clearResult)
                     }
                     loadingNextPage = false
@@ -107,10 +112,11 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
             }
         }
     }
-    private fun processResult(result: Resource<Vacancies>, clearResult: Boolean = true ){
-        when(result){
+
+    private fun processResult(result: Resource<Vacancies>, clearResult: Boolean = true) {
+        when (result) {
             is Resource.Success -> {
-                if(clearResult){
+                if (clearResult) {
                     vacanciesList.clear()
                 }
                 result.data?.let {
@@ -118,21 +124,24 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
                     currentPage = it.page
                     totalPages = it.pages
                     totalCount = it.found
-                    if(totalCount == 0){
+                    if (totalCount == 0) {
                         renderState(SearchState.NotFound)
-                    }else{
+                    } else {
                         renderState(SearchState.Content(vacanciesList, totalCount))
                     }
                 }
             }
+
             is Resource.Error -> {
-                when(result.code){
+                when (result.code) {
                     NOT_FOUND -> {
                         renderState(SearchState.NotFound)
                     }
+
                     NO_INTERNET -> {
                         renderState(SearchState.NoInternet)
                     }
+
                     else -> {
                         renderState(SearchState.ServerError)
                     }
@@ -141,8 +150,9 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
         }
 
     }
+
     private fun renderState(state: SearchState) {
-        Log.d("debug_model",  state.javaClass.toString())
+        Log.d("debug_model", state.javaClass.toString())
         stateLiveData.postValue(state)
     }
 }
