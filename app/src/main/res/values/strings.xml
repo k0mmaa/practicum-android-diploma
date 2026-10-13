@@ -14,9 +14,9 @@
 
     <!--Раздел команда-->
     <string name="team_description">Над приложением работали</string>
-    <string name="team_member1">members</string>
-    <string name="team_member2">members</string>
-    <string name="team_member3">members</string>
+    <string name="team_member1">Анохов Андрей</string>
+    <string name="team_member2">Проскурин Даниил</string>
+    <string name="team_member3">Карелина-Верховская Светлана</string>
     <string name="team_member4">Волчков Дмитрий</string>
 
     <!--Раздел Избранное-->

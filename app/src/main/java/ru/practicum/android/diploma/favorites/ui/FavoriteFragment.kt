@@ -7,17 +7,22 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.playlistmaker.search.ui.activity.VacanciesListAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FavoriteFragmentBinding
 import ru.practicum.android.diploma.domain.models.vacancy.Salary
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
+import ru.practicum.android.diploma.favorites.domain.api.FavoriteVacanciesState
 import ru.practicum.android.diploma.vacancy.ui.VacancyFragment
 
 class FavoriteFragment : Fragment() {
     private var _binding: FavoriteFragmentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: VacanciesListAdapter
+
+    private val viewModel: FavoriteViewModel by viewModel()
+    private lateinit var vacancyAdapter: VacanciesListAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,10 +34,26 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.appDataBase()
+        viewModel.observeState().observe(viewLifecycleOwner){
+            render(it)
+        }
 
+        viewModel.observeIntent().observe(viewLifecycleOwner){ vacancy ->
+            if(vacancy != null){
+                findNavController().navigate(
+                    R.id.action_favoriteFragment_to_vacancyFragment,
+                    VacancyFragment.createArgs(vacancy.id)
+                )
+                viewModel.cleanVacancy()
+            }
+        }
 
-
-        renderList()
+        binding.vacanciesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        vacancyAdapter = VacanciesListAdapter { vacancyCard ->
+            viewModel.openVacancy(vacancyCard)
+        }
+        binding.vacanciesList.adapter = vacancyAdapter
     }
 
     override fun onDestroyView() {
@@ -40,16 +61,48 @@ class FavoriteFragment : Fragment() {
         _binding = null
     }
 
+    fun render(state: FavoriteVacanciesState){
+        when(state){
+            is FavoriteVacanciesState.Error -> {
+                binding.apply {
+                    vacanciesList.visibility = View.GONE
+                    placeholderMessage.visibility = View.VISIBLE
+
+                    placeholderText.text = getString(R.string.empty_list_vacations)
+                    placeholderImage.setImageResource(R.drawable.ic_placeholder_nothing_find_vacancy)
+                }
+            }
+            is FavoriteVacanciesState.Empty -> {
+                binding.apply {
+                    vacanciesList.visibility = View.GONE
+                    placeholderMessage.visibility = View.VISIBLE
+
+                    placeholderText.text = getString(R.string.empty_list)
+                    placeholderImage.setImageResource(R.drawable.img_empty_list_favorites)
+                }
+            }
+            is FavoriteVacanciesState.Content -> {
+                vacancyAdapter.list.clear()
+                vacancyAdapter.list.addAll(viewModel.vacancyList)
+                vacancyAdapter.notifyDataSetChanged()
+                binding.apply {
+                    placeholderMessage.visibility = View.GONE
+                    vacanciesList.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
     /** ! В списке используется модель VacancyCard если из базы будет приходить VacancyDetail
     ! нужно будет VacancyDetail преобразовать в VacancyCard, думаю это лучше, чем отдельный
     VacanciesViewHolder создавать
     Заглушка для показа списка вакансий **/
     fun renderList() {
-        adapter = VacanciesListAdapter({ vacancy ->
+        vacancyAdapter = VacanciesListAdapter({ vacancy ->
             onVacancyClickDebounce(vacancy) // обработка клика
         })
-        binding.vacanciesList.adapter = adapter
-        adapter.setOnLongClickListener { vacancy ->
+        binding.vacanciesList.adapter = vacancyAdapter
+        vacancyAdapter.setOnLongClickListener { vacancy ->
             // обработка длинного клика (если понадобится)
         }
         showVacancies(mockVacancies())
@@ -57,9 +110,9 @@ class FavoriteFragment : Fragment() {
 
     fun showVacancies(list: List<VacancyCard>) {
         binding.vacanciesList.isVisible = true
-        adapter.list.clear()
-        adapter.list.addAll(list)
-        adapter.notifyDataSetChanged()
+        vacancyAdapter.list.clear()
+        vacancyAdapter.list.addAll(list)
+        vacancyAdapter.notifyDataSetChanged()
     }
 
     fun onVacancyClickDebounce(vacancy: VacancyCard) {
