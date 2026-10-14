@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.di.networkModule
 import ru.practicum.android.diploma.di.repositoryModule
 import ru.practicum.android.diploma.di.viewModelModule
 
-class App : Application()  {
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -22,7 +22,7 @@ class App : Application()  {
                 repositoryModule,
                 dataModule,
                 viewModelModule
-                )
+            )
 
         }
     }

@@ -10,12 +10,12 @@ import ru.practicum.android.diploma.favorites.domain.db.FavoriteVacancyRepositor
 
 class FavoriteVacancyRepositoryImpl(
     private val vacancyDao: VacancyDao,
-    private val converter: VacancyDbMapper)
-    : FavoriteVacancyRepository {
+    private val converter: VacancyDbMapper
+) : FavoriteVacancyRepository {
 
     override fun favoriteVacancies(): Flow<List<VacancyCard>> {
-        return vacancyDao.getVacancies().map {
-                entities -> converter.mapToCardList(entities)
+        return vacancyDao.getVacancies().map { entities ->
+            converter.mapToCardList(entities)
         }
     }
 
