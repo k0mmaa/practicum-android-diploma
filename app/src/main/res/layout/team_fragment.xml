@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_24"
         android:paddingHorizontal="@dimen/padding_16"
-        android:text="@string/member1" />
+        android:text="@string/team_member1" />
 
     <TextView
         android:id="@+id/tv_team_member2"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_16"
         android:paddingHorizontal="@dimen/padding_16"
-        android:text="@string/member2" />
+        android:text="@string/team_member2" />
 
     <TextView
         android:id="@+id/tv_team_member3"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_16"
         android:paddingHorizontal="@dimen/padding_16"
-        android:text="@string/member3" />
+        android:text="@string/team_member3" />
 
     <TextView
         android:id="@+id/tv_team_member4"
@@ -59,6 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_16"
         android:paddingHorizontal="@dimen/padding_16"
-        android:text="@string/member4" />
+        android:text="@string/team_member4" />
 
 </LinearLayout>
