@@ -10,6 +10,7 @@
         <item name="colorOnSurface">@color/white</item>
         <item name="colorSurfaceVariant">@color/light_gray</item>
         <item name="colorOnSurfaceVariant">@color/gray</item>
+        <item name="titleTextColor">@color/white</item>
 
         <!-- Свои атрибуты (attrs.xml) -->
         <item name="colorBackground">@color/black</item>

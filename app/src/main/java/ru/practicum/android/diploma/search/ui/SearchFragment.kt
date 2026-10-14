@@ -55,8 +55,14 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonToFilter.setOnClickListener {
-            findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
+        binding.searchFragmentTitle.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.button_to_filter -> {
+                    findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
+                    true
+                }
+                else -> false
+            }
         }
         binding.searchInputLayout.setEndIconOnClickListener {
             if (current_search.isNotBlank()) {
