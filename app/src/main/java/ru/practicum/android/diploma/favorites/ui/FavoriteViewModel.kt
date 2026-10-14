@@ -5,15 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.domain.models.vacancy.Vacancies
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
 import ru.practicum.android.diploma.favorites.domain.api.FavoriteVacanciesState
 import ru.practicum.android.diploma.favorites.domain.db.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.util.debounce
 
-class FavoriteViewModel(private val interactor: FavoriteVacancyInteractor): ViewModel() {
+class FavoriteViewModel(private val interactor: FavoriteVacancyInteractor) : ViewModel() {
 
-    companion object{
+    companion object {
         const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
@@ -36,21 +35,22 @@ class FavoriteViewModel(private val interactor: FavoriteVacancyInteractor): View
     ) { vacancy ->
         intentLiveData.value = vacancy
     }
-    fun appDataBase(){
+
+    fun appDataBase() {
         viewModelScope.launch {
-            interactor.favoriteVacancies().collect {
-                vacancyCards -> showResults(vacancyCards)
+            interactor.favoriteVacancies().collect { vacancyCards ->
+                showResults(vacancyCards)
             }
         }
     }
 
-    fun showResults(vacancyCard: List<VacancyCard>){
-        if (vacancyCard.isNotEmpty()){
+    fun showResults(vacancyCard: List<VacancyCard>) {
+        if (vacancyCard.isNotEmpty()) {
             vacancyList.addAll(vacancyCard)
             renderState(FavoriteVacanciesState.Content(vacancyCard))
-        } else if (vacancyCard.isEmpty()){
+        } else if (vacancyCard.isEmpty()) {
             renderState(FavoriteVacanciesState.Empty)
-        } else{
+        } else {
             renderState(FavoriteVacanciesState.Error)
         }
     }
@@ -59,11 +59,11 @@ class FavoriteViewModel(private val interactor: FavoriteVacancyInteractor): View
         onClickDebounce(vacancy)
     }
 
-    fun cleanVacancy(){
+    fun cleanVacancy() {
         intentLiveData.value = null
     }
 
-    fun renderState(state: FavoriteVacanciesState){
+    fun renderState(state: FavoriteVacanciesState) {
         stateLiveData.postValue(state)
     }
 }
