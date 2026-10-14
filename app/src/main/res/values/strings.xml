@@ -64,5 +64,10 @@
     <string name="member4">member4</string>
 
 
+    <string name="salary_not_found">Зарплата не указана</string>
+    <string name="from">от</string>
+    <string name="to">до</string>
+    <string name="finding_vacancies">%1$s %2$s</string>
+    <string name="finding">Найдено</string>
 
 </resources>
