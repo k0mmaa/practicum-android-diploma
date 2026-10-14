@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.search.ui.view_model
 
-import android.content.Context
+
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +15,7 @@ import ru.practicum.android.diploma.util.ErrorType.NOT_FOUND
 import ru.practicum.android.diploma.util.ErrorType.NO_INTERNET
 import ru.practicum.android.diploma.util.Resource
 
-class SearchViewModel(private val context: Context, private val jobsInteractor: JobsInteractor) : ViewModel() {
+class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() {
 
     private val stateLiveData = MutableLiveData<SearchState>()
     fun observeState(): LiveData<SearchState> = stateLiveData
@@ -34,8 +34,6 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
     }
 
     init {
-        latestSearchText = ""
-        currentPage = DEFAULT_PAGE_VALUE
         renderState(
             SearchState.StartPage
         )
@@ -60,6 +58,7 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
         latestSearchText = changedText
         vacanciesSearchDebounce.cancel()
         if (latestSearchText.isNotEmpty()) {
+            resetPagination()
             vacanciesSearchDebounce(changedText)
         } else {
             renderState(SearchState.StartPage)
@@ -67,12 +66,15 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
     }
 
     fun searchNow(changedText: String) {
-        if (latestSearchText == changedText || this.latestSearchText.isBlank()) {
+        if (changedText.isBlank()) {
             return
         }
         this.latestSearchText = changedText
 
         vacanciesSearchDebounce.cancel()
+
+        resetPagination()
+
         renderState(SearchState.Loading)
         searchRequest(changedText)
     }
@@ -82,28 +84,39 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
             return
         }
         if (totalPages > currentPage) {
-            currentPage++
             vacanciesSearchDebounce.cancel()
             loadingNextPage = true
             renderState(SearchState.LoadingNextPage)
-            searchRequest(this.latestSearchText, false)
+            searchRequest(
+                this.latestSearchText,
+                false, currentPage + 1
+            )
         }
     }
 
     fun clearSearch() {
         latestSearchText = ""
-        currentPage = DEFAULT_PAGE_VALUE
+        vacanciesSearchDebounce.cancel()
+        resetPagination()
         vacanciesList.clear()
         renderState(
             SearchState.StartPage
         )
     }
 
-    private fun searchRequest(newSearchText: String, clearResult: Boolean = true) {
+    private fun resetPagination() {
+        currentPage = DEFAULT_PAGE_VALUE
+        totalPages = DEFAULT_TOTAL_PAGES_VALUE
+        totalCount = 0
+        loadingNextPage = false
+    }
+
+    private fun searchRequest(newSearchText: String, clearResult: Boolean = true, page: Int = DEFAULT_PAGE_VALUE) {
         if (newSearchText.isNotEmpty()) {
             val txt = newSearchText
             viewModelScope.launch {
-                jobsInteractor.getVacancies(text = newSearchText, page = currentPage).collect { result ->
+
+                jobsInteractor.getVacancies(text = newSearchText, page = page).collect { result ->
                     if (txt == latestSearchText) {
                         processResult(result, clearResult)
                     }
@@ -127,7 +140,7 @@ class SearchViewModel(private val context: Context, private val jobsInteractor: 
                     if (totalCount == 0) {
                         renderState(SearchState.NotFound)
                     } else {
-                        renderState(SearchState.Content(vacanciesList, totalCount))
+                        renderState(SearchState.Content(vacanciesList.toList(), totalCount))
                     }
                 }
             }
