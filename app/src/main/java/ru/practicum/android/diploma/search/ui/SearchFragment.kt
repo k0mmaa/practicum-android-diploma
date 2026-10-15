@@ -14,11 +14,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.search.ui.activity.VacanciesListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.SearchFragmentBinding
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
+import ru.practicum.android.diploma.search.ui.activity.VacanciesListAdapter
 import ru.practicum.android.diploma.search.ui.view_model.SearchState
 import ru.practicum.android.diploma.search.ui.view_model.SearchViewModel
 import ru.practicum.android.diploma.util.debounce
