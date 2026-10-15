@@ -22,16 +22,6 @@ val networkModule = module {
     single<CheckNetwork> {
         CheckNetworkImpl(androidContext())
     }
-    /*
-    single {
-        FakeNetworkClient()
-    }
-
-    single<NetworkClientInterface> {
-        get<FakeNetworkClient>()
-    }
-
-     */
 
     single<NetworkClientInterface> {
         JobsApiClient(
