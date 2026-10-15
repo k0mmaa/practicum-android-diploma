@@ -221,9 +221,7 @@ class SearchFragment : Fragment() {
         adapter.notifyDataSetChanged()
     }
 
-    fun onVacancyClickDebounce(vacancy: VacancyCard) {
-        onVacancyClickDebounce(vacancy)
-    }
+
 
     fun hideKeyboard() {
         val imm = requireContext()
