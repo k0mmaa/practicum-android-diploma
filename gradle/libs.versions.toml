@@ -46,6 +46,8 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 # UI
 material = { module = "com.google.android.material:material", version.ref = "material" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+androidsvg = { module = "com.caverock:androidsvg-aar", version = "1.4" }
 
 # Testing
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }

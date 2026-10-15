@@ -48,13 +48,12 @@ val networkModule = module {
         OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
-                val request = originalRequest.newBuilder().addHeader(
-                    "Authorization",
-                    "Bearer ${BuildConfig.API_ACCESS_TOKEN}"
-                ).addHeader(
-                    "Content-Type",
-                    "application/json"
-                ).build()
+                val request = originalRequest.newBuilder()
+                    .addHeader("Authorization", "Bearer ${BuildConfig.API_ACCESS_TOKEN}")
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("User-Agent", "Practicum-Android-Diploma/1.0 (support@practicum.ru)")
+                    .addHeader("HH-User-Agent", "Practicum-Android-Diploma/1.0 (support@practicum.ru)")
+                    .build()
 
                 chain.proceed(request)
             }.addInterceptor(get<HttpLoggingInterceptor>())

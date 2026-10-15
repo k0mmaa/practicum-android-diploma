@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.playlistmaker.search.ui.activity.VacanciesListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FavoriteFragmentBinding
 import ru.practicum.android.diploma.favorites.domain.api.FavoriteVacanciesState
+import ru.practicum.android.diploma.search.ui.activity.VacanciesListAdapter
 import ru.practicum.android.diploma.vacancy.ui.VacancyFragment
 
 class FavoriteFragment : Fragment() {

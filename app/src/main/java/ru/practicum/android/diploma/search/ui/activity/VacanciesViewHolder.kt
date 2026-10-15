@@ -7,8 +7,6 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.ListItemVacancyBinding
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
 import ru.practicum.android.diploma.util.SalaryFormatter
-import java.text.NumberFormat
-import java.util.Locale
 
 class VacanciesViewHolder(private val binding: ListItemVacancyBinding) : AbstractViewHolder<VacancyCard>(binding.root) {
 
@@ -37,6 +35,4 @@ class VacanciesViewHolder(private val binding: ListItemVacancyBinding) : Abstrac
             .fallback(R.drawable.ic_placeholder_32px)
             .into(binding.logo)
     }
-
-
 }
