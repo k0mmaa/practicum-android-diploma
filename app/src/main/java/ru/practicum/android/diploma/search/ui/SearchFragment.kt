@@ -174,7 +174,7 @@ class SearchFragment : Fragment() {
             }
 
             SearchState.LoadingNextPage -> {
-                hideAll(progressBar = true, vacanciesList = true)
+                hideAll(progressBar = true, vacanciesList = true,  textInfo = true)
             }
         }
     }
