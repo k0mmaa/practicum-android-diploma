@@ -13,14 +13,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.065" />
+        app:layout_constraintGuide_begin="@dimen/padding_16" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/right_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.935" />
+        app:layout_constraintGuide_end="@dimen/padding_16" />
     <!-- Заголовок экрана -->
     <LinearLayout
         android:id="@+id/search_fragment_title"
@@ -56,39 +56,31 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_input_layout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:boxBackgroundColor="@color/light_gray"
-        app:boxBackgroundMode="filled"
-        app:boxCornerRadiusBottomEnd="12dp"
-        app:boxCornerRadiusBottomStart="12dp"
-        app:boxCornerRadiusTopEnd="12dp"
-        app:boxCornerRadiusTopStart="12dp"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/padding_8"
+        android:background="@drawable/background_edit_text"
+        app:boxBackgroundMode="none"
         app:endIconDrawable="@drawable/ic_search_18"
         app:endIconMode="custom"
         app:endIconTint="?attr/clearButtonTint"
         app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/search_fragment_title"
         app:startIconTint="?attr/searchIconTint">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_strings"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:hint="@string/input_text"
             android:imeOptions="actionDone"
             android:maxLines="1"
-            android:paddingStart="14dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="0dp"
-            android:paddingBottom="8dp"
-            android:singleLine="true"
+            android:inputType="text"
+            android:paddingStart="@dimen/padding_16"
+            android:paddingEnd="56dp"
+            android:background="@null"
             android:textColor="@color/black"
             android:textColorHint="@color/gray" />
     </com.google.android.material.textfield.TextInputLayout>
