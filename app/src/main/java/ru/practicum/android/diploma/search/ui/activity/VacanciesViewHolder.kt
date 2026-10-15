@@ -45,6 +45,7 @@ class VacanciesViewHolder(private val binding: ListItemVacancyBinding) : Abstrac
         val request = if (isSvg) {
             requestManager
                 .`as`(PictureDrawable::class.java)
+                .dontTransform()
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .load(item.logo)
         } else {
