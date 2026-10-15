@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/team_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorBackground"
     android:orientation="vertical"
     tools:context="ru.practicum.android.diploma.ui.TeamFragment">
-
-    <TextView
-        android:id="@+id/team_title"
-        style="@style/TextAppearance.Diploma.Medium22"
+    <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_16"
-        android:text="@string/title_team" />
-
+        app:title="@string/title_team"
+        style="@style/Toolbars"
+        android:id="@+id/team_title"
+        />
     <TextView
         android:id="@+id/tv_team_desc"
         style="@style/TextAppearance.Diploma.Bold32"

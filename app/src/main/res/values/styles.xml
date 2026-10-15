@@ -13,6 +13,13 @@
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">?attr/textColorPrimary</item>
     </style>
+    <style name="ToolbarsTextAppearance" parent="TextAppearance.Diploma.Medium22">
+        <item name="fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="Toolbars" parent="Widget.Material3.Toolbar">
+        <item name="titleTextAppearance">@style/ToolbarsTextAppearance</item>
+    </style>
 
     <style name="TextAppearance.Diploma.Medium16" parent="">
         <item name="android:fontFamily">@font/ys_display_medium</item>

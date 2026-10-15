@@ -22,36 +22,17 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.935" />
     <!-- Заголовок экрана -->
-    <LinearLayout
-        android:id="@+id/search_fragment_title"
+    <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:title="@string/app_name"
+        style="@style/Toolbars"
+        android:id="@+id/search_fragment_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_app_title"
-            style="@style/TextAppearance.Diploma.Medium22"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/app_name" />
-
-        <ImageView
-            android:id="@+id/buttonToFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/title_filters"
-            android:padding="8dp"
-            android:src="@drawable/ic_trailing" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/search_toolbar_menu"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_input_layout"
