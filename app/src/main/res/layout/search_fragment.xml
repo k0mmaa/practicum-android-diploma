@@ -120,13 +120,19 @@
 
     <TextView
         android:id="@+id/text_info"
+        style="@style/TextAppearance.Diploma.Regular16"
         app:layout_constraintTop_toBottomOf="@id/tv_search_history"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        style="@style/TextAppearance.Diploma.Medium16"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/background_info_text_search_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/empty_list_vacancies" />
+        android:paddingHorizontal="@dimen/padding_12"
+        android:paddingVertical="@dimen/padding_4"
+        android:text="@string/clear_vacancies"
+        android:textColor="@color/white" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vacanciesList"
         android:layout_width="0dp"
