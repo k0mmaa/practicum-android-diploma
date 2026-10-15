@@ -58,7 +58,7 @@ class VacancyDbMapper {
             employer = Employer(
                 id = entity.employerId,
                 name = entity.employerName,
-                logo = entity.employerLogo
+                logo = entity.employerLogo ?: ""
             ),
             area = FilterArea(
                 id = entity.areaId,
