@@ -82,7 +82,7 @@
             android:paddingEnd="56dp"
             android:background="@null"
             android:textColor="@color/black"
-            android:textColorHint="@color/gray" />
+            android:textColorHint="?attr/textColorHint" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
