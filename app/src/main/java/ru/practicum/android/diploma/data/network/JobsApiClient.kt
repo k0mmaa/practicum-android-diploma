@@ -4,6 +4,7 @@ import android.util.Log
 
 import kotlinx.coroutines.CancellationException
 import retrofit2.HttpException
+import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.NetworkClientInterface
 import ru.practicum.android.diploma.data.dto.requests.AreasRequest
 import ru.practicum.android.diploma.data.dto.response.area.AreasResponseDto
@@ -13,7 +14,6 @@ import ru.practicum.android.diploma.data.dto.requests.VacancyDetailsRequest
 import ru.practicum.android.diploma.data.dto.response.industries.IndustriesResponseDto
 import ru.practicum.android.diploma.data.dto.response.Response
 import java.io.IOException
-import ru.practicum.android.diploma.data.network.NetworkResultCode.BAD_REQUEST
 import ru.practicum.android.diploma.data.network.NetworkResultCode.NO_INTERNET
 import ru.practicum.android.diploma.data.network.NetworkResultCode.NOT_FOUND
 import ru.practicum.android.diploma.data.network.NetworkResultCode.SERVER_ERROR
@@ -26,6 +26,9 @@ class JobsApiClient(
 ) : NetworkClientInterface {
 
     override  suspend fun doRequest(dto: Any): Response {
+        if (BuildConfig.API_ACCESS_TOKEN.isBlank()) {
+            return Response().apply { resultCode = NetworkResultCode.UNAUTHORIZED }
+        }
         if (!checkNetwork.isConnected()) {
             Log.e("JobsApiClient", "No internet connection")
             return Response().apply {  resultCode = NO_INTERNET }
@@ -38,7 +41,7 @@ class JobsApiClient(
                     is VacanciesRequest -> jobsApiService.vacancies(dto.toQueryMap())
                     is VacancyDetailsRequest -> jobsApiService.vacancy(dto.id)
                     else -> {
-                        return Response().apply { resultCode = BAD_REQUEST }
+                        return Response().apply { resultCode = NetworkResultCode.BAD_REQUEST }
                     }
                 }
                 response.apply {
@@ -47,10 +50,10 @@ class JobsApiClient(
             }catch (e: CancellationException ){
                 throw e
             }catch (e: HttpException) {
-                if( e.code() == 404){
-                    Response().apply { resultCode = NOT_FOUND  }
-                }else{
-                    Response().apply { resultCode = SERVER_ERROR }
+                when (e.code()) {
+                    401, 403 -> Response().apply { resultCode = NetworkResultCode.UNAUTHORIZED }
+                    404 -> Response().apply { resultCode = NOT_FOUND }
+                    else -> Response().apply { resultCode = SERVER_ERROR }
                 }
             }catch (e: SocketTimeoutException) {
                 Response().apply { resultCode = SERVER_ERROR }
