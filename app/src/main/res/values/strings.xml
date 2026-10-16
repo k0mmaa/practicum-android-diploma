@@ -33,10 +33,16 @@
     <string name="empty_list_region">Не удалось получить список</string>
 
     <!--Описание фильтров-->
-    <string name="choose_work_place">Выбор места работы</string>
-    <string name="choose_contry">Выбор страны</string>
+    <string name="choose_work_place_title">Выбор места работы</string>
+    <string name="choose_work_place">Место работы</string>
+    <string name="choose_cuntry">Выбор страны</string>
+    <string name="cuntry">Страна</string>
+    <string name="region">Регион</string>
+
     <string name="choose_region">Выбор региона</string>
-    <string name="choose_industry">Выбор отрасли</string>
+    <string name="choose_industry">Отрасль</string>
+    <string name="choose_salary">Ожидаемая зарплата</string>
+    <string name="input_salary">Введите сумму</string>
     <string name="ch_box_hide_salary">Не показывать без зарплаты</string>
 
     <!--Ошибки загрузки-->
@@ -63,5 +69,7 @@
     <string name="to">до</string>
     <string name="finding_vacancies">%1$s %2$s</string>
     <string name="finding">Найдено</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

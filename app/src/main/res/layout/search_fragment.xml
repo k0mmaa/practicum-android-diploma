@@ -54,14 +54,14 @@
             android:id="@+id/input_strings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@null"
             android:gravity="center_vertical"
             android:hint="@string/input_text"
             android:imeOptions="actionDone"
-            android:maxLines="1"
             android:inputType="text"
+            android:maxLines="1"
             android:paddingStart="@dimen/padding_16"
             android:paddingEnd="56dp"
-            android:background="@null"
             android:textColor="@color/black"
             android:textColorHint="?attr/textColorHint" />
     </com.google.android.material.textfield.TextInputLayout>

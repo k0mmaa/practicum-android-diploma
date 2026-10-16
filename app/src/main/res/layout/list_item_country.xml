@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingHorizontal="@dimen/padding_16">
+
+    <TextView
+        android:id="@+id/country_name"
+        style="@style/TextAppearance.Diploma.Regular16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="40dp"
+        tools:text="Россия" />
+
+    <ImageView
+        android:layout_width="@dimen/icon_size_24"
+        android:layout_height="@dimen/icon_size_24"
+        android:layout_gravity="end|center_vertical"
+        android:contentDescription="@string/cuntry"
+        android:src="@drawable/ic_arrow_forward_24px"
+        app:tint="?attr/textColorPrimary" />
+
+</FrameLayout>

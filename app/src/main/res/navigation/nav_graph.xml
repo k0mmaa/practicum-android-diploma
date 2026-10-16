@@ -5,35 +5,66 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/searchFragment">
 
+    <!-- Экран настроек фильтрации -->
     <fragment
         android:id="@+id/filterFragment"
         android:name="ru.practicum.android.diploma.filter.ui.FilterFragment"
         android:label="filter_fragment"
-        tools:layout="@layout/filter_fragment" />
+        tools:layout="@layout/filter_fragment_settings">
+        <action
+            android:id="@+id/action_filterFragment_to_filterFragmentWorkPlace"
+            app:destination="@id/filterFragmentWorkPlace" />
+    </fragment>
+
+    <!-- Экран выбора места работы -->
+    <fragment
+        android:id="@+id/filterFragmentWorkPlace"
+        android:name="ru.practicum.android.diploma.FilterFragmentWorkPlace"
+        android:label="filter_fragment_work_place"
+        tools:layout="@layout/filter_fragment_work_place">
+        <action
+            android:id="@+id/action_filterFragmentWorkPlace_to_filterFragmentCountry"
+            app:destination="@id/filterFragmentCountry" />
+    </fragment>
+
+    <!-- Экран выбора страны -->
+    <fragment
+        android:id="@+id/filterFragmentCountry"
+        android:name="ru.practicum.android.diploma.FilterFragmentCountry"
+        android:label="filter_fragment_country"
+        tools:layout="@layout/filter_fragment_country" />
+
+    <!-- Избранное -->
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="ru.practicum.android.diploma.favorites.ui.FavoriteFragment"
         android:label="favorite_fragment"
-        tools:layout="@layout/favorite_fragment" >
+        tools:layout="@layout/favorite_fragment">
         <action
             android:id="@+id/action_favoriteFragment_to_vacancyFragment"
             app:destination="@id/vacancyFragment" />
     </fragment>
+
+    <!-- Команда -->
     <fragment
         android:id="@+id/teamFragment"
         android:name="ru.practicum.android.diploma.ui.TeamFragment"
         android:label="team_fragment"
         tools:layout="@layout/team_fragment" />
+
+    <!-- Детали вакансии -->
     <fragment
         android:id="@+id/vacancyFragment"
         android:name="ru.practicum.android.diploma.vacancy.ui.VacancyFragment"
         android:label="vacancy_fragment"
         tools:layout="@layout/vacancy_fragment" />
+
+    <!-- Поиск -->
     <fragment
         android:id="@+id/searchFragment"
         android:name="ru.practicum.android.diploma.search.ui.SearchFragment"
         android:label="search_fragment"
-        tools:layout="@layout/search_fragment" >
+        tools:layout="@layout/search_fragment">
         <action
             android:id="@+id/action_searchFragment_to_filterFragment"
             app:destination="@id/filterFragment" />
@@ -41,4 +72,5 @@
             android:id="@+id/action_searchFragment_to_vacancyFragment"
             app:destination="@id/vacancyFragment" />
     </fragment>
+
 </navigation>
