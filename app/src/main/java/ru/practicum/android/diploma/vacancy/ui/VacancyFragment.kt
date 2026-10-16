@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import org.koin.core.parameter.parametersOf
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.VacancyFragmentBinding
+import ru.practicum.android.diploma.vacancy.ui.view_model.VacancyViewModel
 
 class VacancyFragment : Fragment() {
     private var _binding: VacancyFragmentBinding? = null
@@ -18,6 +20,8 @@ class VacancyFragment : Fragment() {
     private val vacancyId: String? by lazy {
         requireArguments().getString(ARGS_VACANCY_ID)
     }
+
+    private val viewModel by viewModel<VacancyViewModel>()
     companion object {
         private const val ARGS_VACANCY_ID = "ARGS_VACANCY_ID"
         fun createArgs(vacancyId: String): Bundle {
@@ -43,7 +47,15 @@ class VacancyFragment : Fragment() {
         binding.vacancyFragmentTitle.setOnClickListener {
             findNavController().popBackStack()
         }
-
+        binding.vacancyFragmentTitle.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.button_share -> {
+                    viewModel.shareLink()
+                    true
+                }
+                else -> false
+            }
+        }
 
 
 
