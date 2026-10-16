@@ -13,6 +13,7 @@ import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
 import ru.practicum.android.diploma.util.Debounce
 import ru.practicum.android.diploma.util.ErrorType.NOT_FOUND
 import ru.practicum.android.diploma.util.ErrorType.NO_INTERNET
+import ru.practicum.android.diploma.util.ErrorType.AUTHORIZATION_ERROR
 import ru.practicum.android.diploma.util.Resource
 
 class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() {
@@ -153,6 +154,10 @@ class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() 
 
                     NO_INTERNET -> {
                         renderState(SearchState.NoInternet)
+                    }
+
+                    AUTHORIZATION_ERROR -> {
+                        renderState(SearchState.AuthorizationError)
                     }
 
                     else -> {

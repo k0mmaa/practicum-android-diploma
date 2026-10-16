@@ -26,6 +26,13 @@
     <string name="error_vacancies">Вакансия не найдена или удалена</string>
     <string name="empty_list_vacancies">Не удалось получить список вакансий</string>
     <string name="clear_vacancies">Таких вакансий нет</string>
+    <string name="api_authorization_error">Настройте API-токен в файле develop.properties</string>
+    <string name="vacancy_experience_title">Требуемый опыт</string>
+    <string name="vacancy_description_title">Описание вакансии</string>
+    <string name="vacancy_responsibilities_title">Обязанности</string>
+    <string name="vacancy_requirements_title">Требования</string>
+    <string name="vacancy_terms_title">Условия</string>
+    <string name="vacancy_skills_title">Ключевые навыки</string>
 
 
     <!--Раздел Фильтрация-->

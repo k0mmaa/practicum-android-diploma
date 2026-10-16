@@ -130,6 +130,7 @@ class JobsRepositoryImpl(
             NetworkResultCode.NO_INTERNET -> ErrorType.NO_INTERNET
             NetworkResultCode.NOT_FOUND -> ErrorType.NOT_FOUND
             NetworkResultCode.BAD_REQUEST -> ErrorType.BAD_REQUEST
+            NetworkResultCode.UNAUTHORIZED -> ErrorType.AUTHORIZATION_ERROR
             NetworkResultCode.SERVER_ERROR -> ErrorType.SERVER_ERROR
             else -> ErrorType.SERVER_ERROR
         }

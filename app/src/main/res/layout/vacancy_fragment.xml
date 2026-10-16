@@ -1,27 +1,299 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vacancy_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/vacancy_fragment"
-    android:orientation="vertical"
     android:background="?attr/colorBackground"
     tools:context=".vacancy.ui.VacancyFragment">
+
     <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/vacancy_fragment_title"
+        style="@style/Toolbars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="@string/vacancy"
-        app:navigationIcon="@drawable/ic_arrow_back_24px"
-        app:navigationIconTint="?attr/textColorPrimary"
-        style="@style/Toolbars"
-        android:id="@+id/vacancy_fragment_title"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/vacancy_toolbar_menu"
-        />
+        app:navigationIcon="@drawable/ic_arrow_back_24px"
+        app:navigationIconTint="?attr/textColorPrimary"
+        app:title="@string/vacancy" />
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/vacancy_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vacancy_fragment_title"
+        tools:visibility="visible">
 
+        <LinearLayout
+            android:id="@+id/vacancy_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:id="@+id/vacancy_name"
+                style="@style/TextAppearance.Diploma.Medium22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Android-разработчик" />
+
+            <TextView
+                android:id="@+id/vacancy_salary"
+                style="@style/TextAppearance.Diploma.Medium16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                tools:text="от 100 000 ₽" />
+
+            <LinearLayout
+                android:id="@+id/employer_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_employer_card"
+                android:gravity="center_vertical"
+                android:minHeight="64dp"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/employer_logo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="@null"
+                    android:scaleType="centerInside"
+                    style="@style/LogoStyle"
+                    tools:src="@drawable/ic_placeholder_32px" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/employer_name"
+                        style="@style/TextAppearance.Diploma.Medium16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        tools:text="Еда" />
+
+                    <TextView
+                        android:id="@+id/vacancy_location"
+                        style="@style/TextAppearance.Diploma.Regular12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        tools:text="Москва" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/metadata_title"
+                style="@style/TextAppearance.Diploma.Medium16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/vacancy_experience_title" />
+
+            <TextView
+                android:id="@+id/vacancy_metadata"
+                style="@style/TextAppearance.Diploma.Regular16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="?attr/textColorPrimary"
+                tools:text="От 1 года до 3 лет" />
+
+            <TextView
+                android:id="@+id/vacancy_conditions"
+                style="@style/TextAppearance.Diploma.Regular16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="?attr/textColorPrimary"
+                tools:text="Полная занятость, удаленная работа" />
+
+            <LinearLayout
+                android:id="@+id/description_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/description_title"
+                    style="@style/TextAppearance.Diploma.Bold20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/vacancy_description_title" />
+
+                <TextView
+                    android:id="@+id/description"
+                    style="@style/TextAppearance.Diploma.Regular16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="?attr/textColorPrimary"
+                    tools:text="Работа над мобильным приложением" />
+
+                <LinearLayout
+                    android:id="@+id/responsibilities_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/responsibilities_title"
+                        style="@style/TextAppearance.Diploma.Bold20"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/vacancy_responsibilities_title" />
+
+                    <TextView
+                        android:id="@+id/responsibilities_text"
+                        style="@style/TextAppearance.Diploma.Regular16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="2dp"
+                        android:textColor="?attr/textColorPrimary"
+                        tools:text="Разрабатывать новые функции&#10;Участвовать в code review" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/requirements_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/requirements_title"
+                        style="@style/TextAppearance.Diploma.Bold20"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/vacancy_requirements_title" />
+
+                    <TextView
+                        android:id="@+id/requirements_text"
+                        style="@style/TextAppearance.Diploma.Regular16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="2dp"
+                        android:textColor="?attr/textColorPrimary"
+                        tools:text="Опыт разработки Android-приложений" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/terms_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/terms_title"
+                        style="@style/TextAppearance.Diploma.Bold20"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/vacancy_terms_title" />
+
+                    <TextView
+                        android:id="@+id/terms_text"
+                        style="@style/TextAppearance.Diploma.Regular16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="2dp"
+                        android:textColor="?attr/textColorPrimary"
+                        tools:text="Гибкий график, удаленная работа" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/skills_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/skills_title"
+                    style="@style/TextAppearance.Diploma.Bold20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/vacancy_skills_title" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/skills_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:overScrollMode="never"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_vacancy_skill" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/loading_progress"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:indeterminateTint="@color/blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vacancy_fragment_title" />
+
+    <LinearLayout
+        android:id="@+id/error_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vacancy_fragment_title">
+
+        <TextView
+            android:id="@+id/error_message"
+            style="@style/TextAppearance.Diploma.Medium16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:text="@string/error_vacancies" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/retry_button"
+            style="@style/Widget.Diploma.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/btn_title_refresh" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
