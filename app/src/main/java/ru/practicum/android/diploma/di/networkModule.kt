@@ -11,7 +11,6 @@ import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.NetworkClientInterface
 import ru.practicum.android.diploma.data.network.CheckNetwork
 import ru.practicum.android.diploma.data.network.CheckNetworkImpl
-import ru.practicum.android.diploma.data.network.FakeNetworkClient
 import ru.practicum.android.diploma.data.network.JobsApiClient
 import ru.practicum.android.diploma.data.network.JobsApiService
 
