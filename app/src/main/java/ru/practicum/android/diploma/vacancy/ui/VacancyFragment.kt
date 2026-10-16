@@ -40,11 +40,12 @@ class VacancyFragment : Fragment() {
         vacancyId?.let {
             Log.d("VacancyFragment_ID" , it)
         }
-
-
-        binding.buttonBack.setOnClickListener {
+        binding.vacancyFragmentTitle.setOnClickListener {
             findNavController().popBackStack()
         }
+
+
+
 
     }
 

@@ -8,26 +8,20 @@
     android:orientation="vertical"
     android:background="?attr/colorBackground"
     tools:context=".vacancy.ui.VacancyFragment">
-
-    <TextView
-        android:id="@+id/text_fragment"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Фрагмент вакансии"
-
+        app:title="@string/vacancy"
+        app:navigationIcon="@drawable/ic_arrow_back_24px"
+        app:navigationIconTint="?attr/textColorPrimary"
+        style="@style/Toolbars"
+        android:id="@+id/vacancy_fragment_title"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:menu="@menu/vacancy_toolbar_menu"
+        />
 
-    <Button
-        android:id="@+id/button_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Назад"
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_fragment"
-        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
