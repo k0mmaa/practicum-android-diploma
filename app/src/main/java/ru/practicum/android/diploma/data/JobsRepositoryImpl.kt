@@ -1,8 +1,9 @@
 package ru.practicum.android.diploma.data
 
+import android.util.Log
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import ru.practicum.android.diploma.data.NetworkClientInterface
 import ru.practicum.android.diploma.data.dto.requests.AreasRequest
 import ru.practicum.android.diploma.data.dto.requests.IndustriesRequest
 import ru.practicum.android.diploma.data.dto.requests.VacanciesRequest
@@ -25,6 +26,10 @@ import ru.practicum.android.diploma.util.Resource
 class JobsRepositoryImpl(
     private val networkClient: NetworkClientInterface
 ) : JobsRepository {
+    private companion object {
+        const val TAG = "JobsRepository"
+    }
+
 
     override fun getAreas(): Flow<Resource<List<FilterArea>>> = flow {
         val response = networkClient.doRequest(AreasRequest())
@@ -104,24 +109,35 @@ class JobsRepositoryImpl(
     override fun getVacancyDetails(
         id: String
     ): Flow<Resource<VacancyDetail>> = flow {
+        val vacancyId = id.trim()
+        if (vacancyId.isEmpty()) {
+            emit(Resource.Error(ErrorType.BAD_REQUEST))
+            return@flow
+        }
 
-        val response = networkClient.doRequest(
-            VacancyDetailsRequest(id)
-        )
+        try {
+            val response = networkClient.doRequest(VacancyDetailsRequest(vacancyId))
+            when {
+                response.resultCode != NetworkResultCode.SUCCESS ->
+                    emit(Resource.Error(mapErrorCode(response.resultCode)))
 
-        when (response.resultCode) {
+                response !is VacancyDetailResponse -> {
+                    Log.e(TAG, "Unexpected response type for vacancy details request")
+                    emit(Resource.Error(ErrorType.SERVER_ERROR))
+                }
 
-            NetworkResultCode.SUCCESS -> {
-                emit(
-                    Resource.Success(
-                        (response as VacancyDetailResponse).toModel()
-                    )
-                )
+                response.id != vacancyId -> {
+                    Log.e(TAG, "Vacancy details response ID did not match request ID")
+                    emit(Resource.Error(ErrorType.SERVER_ERROR))
+                }
+
+                else -> emit(Resource.Success(response.toModel()))
             }
-
-            else -> {
-                emit(Resource.Error(mapErrorCode(response.resultCode)))
-            }
+        } catch (exception: CancellationException) {
+            throw exception
+        } catch (exception: Exception) {
+            Log.e(TAG, "Failed to fetch vacancy details", exception)
+            emit(Resource.Error(ErrorType.SERVER_ERROR))
         }
     }
 

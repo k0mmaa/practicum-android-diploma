@@ -24,6 +24,7 @@
 
     <!--Раздел Вакансия-->
     <string name="error_vacancies">Вакансия не найдена или удалена</string>
+    <string name="vacancy_invalid_id">Не удалось открыть вакансию: некорректная ссылка</string>
     <string name="empty_list_vacancies">Не удалось получить список вакансий</string>
     <string name="clear_vacancies">Таких вакансий нет</string>
     <string name="api_authorization_error">Настройте API-токен в файле develop.properties</string>

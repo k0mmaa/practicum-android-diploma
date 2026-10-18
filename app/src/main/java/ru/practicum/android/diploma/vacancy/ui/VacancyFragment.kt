@@ -62,12 +62,12 @@ class VacancyFragment : Fragment() {
             findNavController().popBackStack()
         }
         binding.retryButton.setOnClickListener {
-            vacancyId?.let(viewModel::loadVacancy)
+            vacancyId?.let { viewModel.loadVacancy(it, forceReload = true) }
         }
         viewModel.state.observe(viewLifecycleOwner, ::render)
         val id = vacancyId
         if (id.isNullOrBlank()) {
-            render(VacancyState.Error(ErrorType.NOT_FOUND))
+            render(VacancyState.Error(ErrorType.BAD_REQUEST))
         } else {
             viewModel.loadVacancy(id)
         }
@@ -97,12 +97,14 @@ class VacancyFragment : Fragment() {
                         ErrorType.NO_INTERNET -> R.string.network_error
                         ErrorType.NOT_FOUND -> R.string.error_vacancies
                         ErrorType.AUTHORIZATION_ERROR -> R.string.api_authorization_error
-                        ErrorType.BAD_REQUEST, ErrorType.SERVER_ERROR -> R.string.server_error
+                        ErrorType.BAD_REQUEST -> R.string.vacancy_invalid_id
+                        ErrorType.SERVER_ERROR -> R.string.server_error
                     }
                 )
                 binding.retryButton.isVisible =
                     state.error != ErrorType.NOT_FOUND &&
-                        state.error != ErrorType.AUTHORIZATION_ERROR
+                        state.error != ErrorType.AUTHORIZATION_ERROR &&
+                        state.error != ErrorType.BAD_REQUEST
             }
         }
     }

@@ -53,8 +53,9 @@ class JobsApiClient(
                 when (e.code()) {
                     401, 403 -> Response().apply { resultCode = NetworkResultCode.UNAUTHORIZED }
                     404 -> Response().apply { resultCode = NOT_FOUND }
-                    else -> Response().apply { resultCode = SERVER_ERROR }
-                }
+                400 -> Response().apply { resultCode = NetworkResultCode.BAD_REQUEST }
+                else -> Response().apply { resultCode = SERVER_ERROR }
+            }
             }catch (e: SocketTimeoutException) {
                 Response().apply { resultCode = SERVER_ERROR }
             }catch (e: IOException) {
