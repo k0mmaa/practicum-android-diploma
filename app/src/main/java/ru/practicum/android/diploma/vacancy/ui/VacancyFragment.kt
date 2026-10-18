@@ -24,23 +24,11 @@ import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.SalaryFormatter
 
 class VacancyFragment : Fragment() {
-    private enum class DescriptionCategory {
-        RESPONSIBILITIES,
-        REQUIREMENTS,
-        TERMS
-    }
-
-    private data class DescriptionParts(
-        val intro: CharSequence,
-        val responsibilities: CharSequence,
-        val requirements: CharSequence,
-        val terms: CharSequence
-    )
-
     private var _binding: VacancyFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<VacancyViewModel>()
     private lateinit var skillsAdapter: VacancySkillsAdapter
+    private val descriptionParser = VacancyDescriptionParser()
 
     private val vacancyId: String?
         get() = arguments?.getString(ARGS_VACANCY_ID)
@@ -143,21 +131,24 @@ class VacancyFragment : Fragment() {
         binding.vacancyConditions.text = conditions.joinToString(", ")
         binding.vacancyConditions.isVisible = conditions.isNotEmpty()
 
-        val description = parseDescription(vacancy.description)
-        binding.description.text = formatDescriptionContent(description.intro)
-        binding.description.isVisible = description.intro.isNotBlank()
-        binding.responsibilitiesText.text =
-            formatDescriptionContent(description.responsibilities)
-        binding.responsibilitiesSection.isVisible = description.responsibilities.isNotBlank()
-        binding.requirementsText.text = formatDescriptionContent(description.requirements)
-        binding.requirementsSection.isVisible = description.requirements.isNotBlank()
-        binding.termsText.text = formatDescriptionContent(description.terms)
-        binding.termsSection.isVisible = description.terms.isNotBlank()
+        val description = descriptionParser.parse(vacancy.description)
+        val intro = formatDescriptionHtml(description.introHtml)
+        val responsibilities = formatDescriptionHtml(description.responsibilitiesHtml)
+        val requirements = formatDescriptionHtml(description.requirementsHtml)
+        val terms = formatDescriptionHtml(description.termsHtml)
+        binding.description.text = intro
+        binding.description.isVisible = intro.isNotBlank()
+        binding.responsibilitiesText.text = responsibilities
+        binding.responsibilitiesSection.isVisible = responsibilities.isNotBlank()
+        binding.requirementsText.text = requirements
+        binding.requirementsSection.isVisible = requirements.isNotBlank()
+        binding.termsText.text = terms
+        binding.termsSection.isVisible = terms.isNotBlank()
         binding.descriptionSection.isVisible = listOf(
-            description.intro,
-            description.responsibilities,
-            description.requirements,
-            description.terms
+            intro,
+            responsibilities,
+            requirements,
+            terms
         ).any(CharSequence::isNotBlank)
 
         val skills = vacancy.skills.filter(String::isNotBlank)
@@ -189,7 +180,7 @@ class VacancyFragment : Fragment() {
             .into(binding.employerLogo)
     }
 
-    private fun parseDescription(html: String): DescriptionParts {
+    private fun formatDescriptionHtml(html: String): CharSequence {
         val spacedHtml = Regex(
             "(</(?:ul|ol|p)>)\\s*(<p\\b[^>]*>\\s*<(?:strong|b)\\b)",
             RegexOption.IGNORE_CASE
@@ -200,61 +191,7 @@ class VacancyFragment : Fragment() {
             HtmlCompat.fromHtml(spacedHtml, HtmlCompat.FROM_HTML_MODE_COMPACT)
         )
         removeDuplicateDescriptionTitle(text)
-
-        val headingPattern = Regex(
-            "^(обязанности|требования(?:\\s+к\\s+[^:]+)?|условия(?:\\s+работы)?)\\s*:?\\s*(.*)$",
-            RegexOption.IGNORE_CASE
-        )
-        val intro = SpannableStringBuilder()
-        val sections = DescriptionCategory.values().associateWith {
-            SpannableStringBuilder()
-        }
-        var currentCategory: DescriptionCategory? = null
-        var segmentStart = 0
-
-        fun appendSegment(end: Int) {
-            val segment = trimmedSubsequence(text, segmentStart, end)
-            if (segment.isNotBlank()) {
-                val destination = currentCategory?.let(sections::get) ?: intro
-                if (destination.isNotEmpty()) destination.append("\n")
-                destination.append(segment)
-            }
-        }
-
-        var lineStart = 0
-        while (lineStart < text.length) {
-            val newline = text.indexOf("\n", lineStart)
-            val lineEnd = if (newline == -1) text.length else newline
-            val rawLine = text.substring(lineStart, lineEnd)
-            val trimmedLine = rawLine.trim()
-            val match = headingPattern.matchEntire(trimmedLine)
-            if (match != null) {
-                appendSegment(lineStart)
-                currentCategory = when {
-                    match.groupValues[1].startsWith("обязанности", ignoreCase = true) ->
-                        DescriptionCategory.RESPONSIBILITIES
-                    match.groupValues[1].startsWith("требования", ignoreCase = true) ->
-                        DescriptionCategory.REQUIREMENTS
-                    else -> DescriptionCategory.TERMS
-                }
-                val leadingWhitespace = rawLine.indexOfFirst { !it.isWhitespace() }
-                val body = match.groupValues[2]
-                segmentStart = if (body.isBlank()) {
-                    if (newline == -1) lineEnd else lineEnd + 1
-                } else {
-                    lineStart + leadingWhitespace + match.groups[2]!!.range.first
-                }
-            }
-            lineStart = if (newline == -1) text.length else newline + 1
-        }
-        appendSegment(text.length)
-
-        return DescriptionParts(
-            intro = intro,
-            responsibilities = sections.getValue(DescriptionCategory.RESPONSIBILITIES),
-            requirements = sections.getValue(DescriptionCategory.REQUIREMENTS),
-            terms = sections.getValue(DescriptionCategory.TERMS)
-        )
+        return formatDescriptionContent(text)
     }
 
     private fun removeDuplicateDescriptionTitle(text: SpannableStringBuilder) {
@@ -266,14 +203,6 @@ class VacancyFragment : Fragment() {
         if (heading.equals(getString(R.string.vacancy_description_title), ignoreCase = true)) {
             text.delete(0, if (newline == -1) text.length else newline + 1)
         }
-    }
-
-    private fun trimmedSubsequence(text: CharSequence, start: Int, end: Int): CharSequence {
-        var trimmedStart = start.coerceAtLeast(0)
-        var trimmedEnd = end.coerceAtMost(text.length)
-        while (trimmedStart < trimmedEnd && text[trimmedStart].isWhitespace()) trimmedStart++
-        while (trimmedEnd > trimmedStart && text[trimmedEnd - 1].isWhitespace()) trimmedEnd--
-        return text.subSequence(trimmedStart, trimmedEnd)
     }
 
     private fun formatDescriptionContent(content: CharSequence): CharSequence {
