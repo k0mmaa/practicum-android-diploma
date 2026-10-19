@@ -41,6 +41,7 @@ class FilterFragment : Fragment() {
         }
 
         filtersViewModel.observeFilter().observe(viewLifecycleOwner) {
+            // тут приходит измененая модель в других фрагментах
             Log.d("FilterFragment", it.toString())
         }
     }
