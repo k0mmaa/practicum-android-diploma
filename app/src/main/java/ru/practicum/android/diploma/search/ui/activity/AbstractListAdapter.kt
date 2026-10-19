@@ -7,7 +7,7 @@ abstract class AbstractListAdapter<T>(
     val clickListener: ClickListener<T>,
 ) : RecyclerView.Adapter<AbstractViewHolder<T>>() {
 
-    var list = ArrayList<T>()
+    private var list = ArrayList<T>()
 
     private var longClickListener: ((T) -> Unit)? = null
 
@@ -38,6 +38,11 @@ abstract class AbstractListAdapter<T>(
     }
 
     override fun getItemCount(): Int = list.size
+
+    fun submitList(list: List<T>){
+        this.list.clear()
+        this.list.addAll(list)
+    }
 
     fun interface ClickListener<T> {
         fun onClick(item: T)

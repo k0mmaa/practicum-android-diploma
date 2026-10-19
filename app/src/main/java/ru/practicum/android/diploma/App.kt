@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma
 
-import SvgDecoder
+import ru.practicum.android.diploma.util.SvgDecoder
 import android.app.Application
 import android.graphics.drawable.PictureDrawable
 import com.bumptech.glide.Glide

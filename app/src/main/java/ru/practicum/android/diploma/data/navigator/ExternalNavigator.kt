@@ -3,10 +3,11 @@ package ru.practicum.android.diploma.data.navigator
 import android.content.Context
 import android.content.Intent
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.domain.api.ExternalNavigatorInterface
 
-class ExternalNavigator(val content: Context) {
+class ExternalNavigator(val content: Context) : ExternalNavigatorInterface {
 
-    fun shareLink(link: String){
+    override fun shareLink(link: String){
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             setType("text/plain")
             putExtra(Intent.EXTRA_TEXT,link)

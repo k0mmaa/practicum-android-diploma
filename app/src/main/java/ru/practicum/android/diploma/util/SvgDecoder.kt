@@ -1,3 +1,5 @@
+package ru.practicum.android.diploma.util
+
 import android.graphics.drawable.PictureDrawable
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.ResourceDecoder
