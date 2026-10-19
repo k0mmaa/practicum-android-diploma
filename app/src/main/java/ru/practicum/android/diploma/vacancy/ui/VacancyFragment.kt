@@ -1,7 +1,5 @@
 package ru.practicum.android.diploma.vacancy.ui
 
-import android.graphics.drawable.PictureDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.BulletSpan
@@ -15,14 +13,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.VacancyFragmentBinding
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyDetail
 import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.SalaryFormatter
+import ru.practicum.android.diploma.util.loadLogo
 
 class VacancyFragment : Fragment() {
     private var _binding: VacancyFragmentBinding? = null
@@ -191,29 +188,7 @@ class VacancyFragment : Fragment() {
         skillsAdapter.submitList(skills)
         binding.skillsSection.isVisible = skills.isNotEmpty()
 
-        val logo = vacancy.employer.logo
-        val isSvg = logo
-            ?.let { Uri.parse(it).path }
-            ?.endsWith(".svg", ignoreCase = true) == true
-        binding.employerLogo.setLayerType(
-            if (isSvg) View.LAYER_TYPE_SOFTWARE else View.LAYER_TYPE_NONE,
-            null
-        )
-        val requestManager = Glide.with(binding.employerLogo)
-        val request = if (isSvg) {
-            requestManager
-                .`as`(PictureDrawable::class.java)
-                .dontTransform()
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .load(logo)
-        } else {
-            requestManager.asDrawable().load(logo)
-        }
-        request
-            .placeholder(R.drawable.ic_placeholder_32px)
-            .error(R.drawable.ic_placeholder_32px)
-            .fallback(R.drawable.ic_placeholder_32px)
-            .into(binding.employerLogo)
+        binding.employerLogo.loadLogo(vacancy.employer.logo)
     }
 
     private fun formatDescriptionHtml(html: String): CharSequence {

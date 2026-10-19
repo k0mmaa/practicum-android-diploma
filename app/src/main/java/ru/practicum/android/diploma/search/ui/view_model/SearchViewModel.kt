@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.JobsInteractor
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancies
@@ -27,6 +28,7 @@ class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() 
     private var totalPages: Int = DEFAULT_TOTAL_PAGES_VALUE
     private var totalCount: Int = 0
     private var loadingNextPage = false
+    private var searchJob: Job? = null
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
@@ -115,7 +117,8 @@ class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() 
     private fun searchRequest(newSearchText: String, clearResult: Boolean = true, page: Int = DEFAULT_PAGE_VALUE) {
         if (newSearchText.isNotEmpty()) {
             val txt = newSearchText
-            viewModelScope.launch {
+            searchJob?.cancel()
+            searchJob = viewModelScope.launch {
 
                 jobsInteractor.getVacancies(text = newSearchText, page = page).collect { result ->
                     if (txt == latestSearchText) {
@@ -170,7 +173,7 @@ class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() 
     }
 
     private fun renderState(state: SearchState) {
-        Log.d("debug_model", state.javaClass.toString())
+
         stateLiveData.postValue(state)
     }
 }

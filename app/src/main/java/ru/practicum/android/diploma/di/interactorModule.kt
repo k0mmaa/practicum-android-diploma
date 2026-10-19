@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.di
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import ru.practicum.android.diploma.data.navigator.ExternalNavigator
+import ru.practicum.android.diploma.domain.api.ExternalNavigatorInterface
 import ru.practicum.android.diploma.domain.api.JobsInteractor
 import ru.practicum.android.diploma.domain.api.SharingInteractor
 import ru.practicum.android.diploma.domain.impl.JobsInteractorImpl
@@ -17,7 +18,7 @@ val interactorModule = module {
         JobsInteractorImpl(get())
     }
 
-    single<FavoriteVacancyInteractor> {
+    factory<FavoriteVacancyInteractor> {
         FavoriteVacancyInteractorImpl(get())
     }
 
@@ -25,7 +26,7 @@ val interactorModule = module {
         SharingInteractorImpl(get())
     }
 
-    single{
+    factory<ExternalNavigatorInterface>{
         ExternalNavigator(androidContext())
     }
 }

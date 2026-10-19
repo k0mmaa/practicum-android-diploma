@@ -16,7 +16,7 @@ class FavoriteViewModel(private val interactor: FavoriteVacancyInteractor) : Vie
         const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
-    var vacancyList = mutableListOf<VacancyCard>()
+
     private val stateLiveData = MutableLiveData<FavoriteVacanciesState>()
     fun observeState(): LiveData<FavoriteVacanciesState> = stateLiveData
 
@@ -38,22 +38,22 @@ class FavoriteViewModel(private val interactor: FavoriteVacancyInteractor) : Vie
 
     fun appDataBase() {
         viewModelScope.launch {
-            interactor.favoriteVacancies().collect { vacancyCards ->
-                showResults(vacancyCards)
+            try {
+                interactor.favoriteVacancies().collect { vacancyCards ->
+                    showResults(vacancyCards)
+                }
+            }catch (e: Exception){
+                renderState(FavoriteVacanciesState.Error)
             }
+
         }
     }
 
     fun showResults(vacancyCard: List<VacancyCard>) {
         if (vacancyCard.isNotEmpty()) {
-            vacancyList.clear()
-            vacancyList.addAll(vacancyCard)
             renderState(FavoriteVacanciesState.Content(vacancyCard))
-        } else if (vacancyCard.isEmpty()) {
-            vacancyList.clear()
-            renderState(FavoriteVacanciesState.Empty)
         } else {
-            renderState(FavoriteVacanciesState.Error)
+            renderState(FavoriteVacanciesState.Empty)
         }
     }
 

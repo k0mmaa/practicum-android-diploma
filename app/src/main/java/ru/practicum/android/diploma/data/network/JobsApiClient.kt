@@ -1,23 +1,22 @@
 package ru.practicum.android.diploma.data.network
 
 import android.util.Log
-
 import kotlinx.coroutines.CancellationException
 import retrofit2.HttpException
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.NetworkClientInterface
 import ru.practicum.android.diploma.data.dto.requests.AreasRequest
-import ru.practicum.android.diploma.data.dto.response.area.AreasResponseDto
 import ru.practicum.android.diploma.data.dto.requests.IndustriesRequest
 import ru.practicum.android.diploma.data.dto.requests.VacanciesRequest
 import ru.practicum.android.diploma.data.dto.requests.VacancyDetailsRequest
-import ru.practicum.android.diploma.data.dto.response.industries.IndustriesResponseDto
 import ru.practicum.android.diploma.data.dto.response.Response
-import java.io.IOException
-import ru.practicum.android.diploma.data.network.NetworkResultCode.NO_INTERNET
+import ru.practicum.android.diploma.data.dto.response.area.AreasResponseDto
+import ru.practicum.android.diploma.data.dto.response.industries.IndustriesResponseDto
 import ru.practicum.android.diploma.data.network.NetworkResultCode.NOT_FOUND
+import ru.practicum.android.diploma.data.network.NetworkResultCode.NO_INTERNET
 import ru.practicum.android.diploma.data.network.NetworkResultCode.SERVER_ERROR
 import ru.practicum.android.diploma.data.network.NetworkResultCode.SUCCESS
+import java.io.IOException
 import java.net.SocketTimeoutException
 
 class JobsApiClient(
@@ -25,44 +24,44 @@ class JobsApiClient(
     private val checkNetwork: CheckNetwork
 ) : NetworkClientInterface {
 
-    override  suspend fun doRequest(dto: Any): Response {
+    override suspend fun doRequest(dto: Any): Response {
         if (BuildConfig.API_ACCESS_TOKEN.isBlank()) {
             return Response().apply { resultCode = NetworkResultCode.UNAUTHORIZED }
         }
         if (!checkNetwork.isConnected()) {
             Log.e("JobsApiClient", "No internet connection")
-            return Response().apply {  resultCode = NO_INTERNET }
+            return Response().apply { resultCode = NO_INTERNET }
         }
 
         return try {
-                val response =  when (dto) {
-                    is AreasRequest -> AreasResponseDto(areas = jobsApiService.areas())
-                    is IndustriesRequest -> IndustriesResponseDto(industries = jobsApiService.industries())
-                    is VacanciesRequest -> jobsApiService.vacancies(dto.toQueryMap())
-                    is VacancyDetailsRequest -> jobsApiService.vacancy(dto.id)
-                    else -> {
-                        return Response().apply { resultCode = NetworkResultCode.BAD_REQUEST }
-                    }
+            val response = when (dto) {
+                is AreasRequest -> AreasResponseDto(areas = jobsApiService.areas())
+                is IndustriesRequest -> IndustriesResponseDto(industries = jobsApiService.industries())
+                is VacanciesRequest -> jobsApiService.vacancies(dto.toQueryMap())
+                is VacancyDetailsRequest -> jobsApiService.vacancy(dto.id)
+                else -> {
+                    return Response().apply { resultCode = NetworkResultCode.BAD_REQUEST }
                 }
-                response.apply {
-                    resultCode = SUCCESS
-                }
-            }catch (e: CancellationException ){
-                throw e
-            }catch (e: HttpException) {
-                when (e.code()) {
-                    401, 403 -> Response().apply { resultCode = NetworkResultCode.UNAUTHORIZED }
-                    404 -> Response().apply { resultCode = NOT_FOUND }
+            }
+            response.apply {
+                resultCode = SUCCESS
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: HttpException) {
+            when (e.code()) {
+                401, 403 -> Response().apply { resultCode = NetworkResultCode.UNAUTHORIZED }
+                404 -> Response().apply { resultCode = NOT_FOUND }
                 400 -> Response().apply { resultCode = NetworkResultCode.BAD_REQUEST }
                 else -> Response().apply { resultCode = SERVER_ERROR }
             }
-            }catch (e: SocketTimeoutException) {
-                Response().apply { resultCode = SERVER_ERROR }
-            }catch (e: IOException) {
-                Response().apply { resultCode = NO_INTERNET }
-            } catch (e: Exception){
-                Log.e("JobsApiClient", "Unexpected request error", e)
-                Response().apply { resultCode = SERVER_ERROR }
-            }
+        } catch (e: SocketTimeoutException) {
+            Response().apply { resultCode = SERVER_ERROR }
+        } catch (e: IOException) {
+            Response().apply { resultCode = NO_INTERNET }
+        } catch (e: Exception) {
+            Log.e("JobsApiClient", "Unexpected request error", e)
+            Response().apply { resultCode = SERVER_ERROR }
         }
+    }
 }
