@@ -19,8 +19,8 @@ class FavoriteVacancyRepositoryImpl(
         }
     }
 
-    override suspend fun deleteVacancy(vacancy: VacancyDetail) {
-        vacancyDao.deleteVacancyById(vacancy.id)
+    override suspend fun deleteVacancy(id: String) {
+        vacancyDao.deleteVacancyById(id)
     }
 
     override suspend fun insertVacancy(vacancy: VacancyDetail) {

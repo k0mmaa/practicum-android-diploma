@@ -65,9 +65,14 @@ class VacancyViewModel(
                                 ?.takeIf { it.vacancy.id == vacancyId }
                                 ?: VacancyState.Error(ErrorType.SERVER_ERROR)
 
-                            is Resource.Error -> VacancyState.Error(
-                                result.code ?: ErrorType.SERVER_ERROR
-                            )
+                            is Resource.Error -> {
+                                if (result.code == ErrorType.NOT_FOUND) {
+                                    favoriteInteractor.deleteVacancy(vacancyId)
+                                }
+                                VacancyState.Error(
+                                    result.code ?: ErrorType.SERVER_ERROR
+                                )
+                            }
                         }
                     }
                 } catch (exception: CancellationException) {
@@ -85,7 +90,7 @@ class VacancyViewModel(
 
         viewModelScope.launch {
             if (favoriteLiveData.value == true) {
-                favoriteInteractor.deleteVacancy(vacancy)
+                favoriteInteractor.deleteVacancy(vacancy.id)
             } else {
                 favoriteInteractor.insertVacancy(vacancy)
             }
