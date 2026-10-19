@@ -112,7 +112,7 @@ class SearchFragment : Fragment() {
         })
         binding.inputStrings.doOnTextChanged { s: CharSequence?, start: Int, before: Int, count: Int ->
             if (!s.isNullOrEmpty()) {
-                current_search = s.toString()
+                current_search = s.toString().trim()
             } else {
                 current_search = STRING_DEF
             }
@@ -172,6 +172,12 @@ class SearchFragment : Fragment() {
                 hideAll(errorPlaceholder = true)
                 binding.errorImage.setImageResource(R.drawable.ic_server_error_1)
                 binding.errorMessage.text = getString(R.string.server_error)
+            }
+
+            SearchState.AuthorizationError -> {
+                hideAll(errorPlaceholder = true)
+                binding.errorImage.setImageResource(R.drawable.ic_server_error_1)
+                binding.errorMessage.text = getString(R.string.api_authorization_error)
             }
 
             SearchState.StartPage -> {

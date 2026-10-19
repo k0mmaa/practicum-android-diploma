@@ -31,7 +31,6 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.appDataBase()
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }

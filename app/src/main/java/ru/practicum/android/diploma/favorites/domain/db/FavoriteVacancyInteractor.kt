@@ -8,4 +8,5 @@ interface FavoriteVacancyInteractor {
     fun favoriteVacancies(): Flow<List<VacancyCard>>
     suspend fun deleteVacancy(vacancy: VacancyDetail)
     suspend fun insertVacancy(vacancy: VacancyDetail)
+    fun isVacancyFavorite(id: String): Flow<Boolean>
 }

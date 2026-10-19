@@ -14,4 +14,5 @@ sealed interface SearchState {
     object NoInternet : SearchState
     object NotFound : SearchState
     object ServerError : SearchState
+    object AuthorizationError : SearchState
 }
