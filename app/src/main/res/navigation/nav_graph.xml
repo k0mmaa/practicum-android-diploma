@@ -19,7 +19,7 @@
     <!-- Экран выбора места работы -->
     <fragment
         android:id="@+id/filterFragmentWorkPlace"
-        android:name="ru.practicum.android.diploma.FilterFragmentWorkPlace"
+        android:name="ru.practicum.android.diploma.filter.ui.FilterFragmentWorkPlace"
         android:label="filter_fragment_work_place"
         tools:layout="@layout/filter_fragment_work_place">
         <action
@@ -30,7 +30,7 @@
     <!-- Экран выбора страны -->
     <fragment
         android:id="@+id/filterFragmentCountry"
-        android:name="ru.practicum.android.diploma.FilterFragmentCountry"
+        android:name="ru.practicum.android.diploma.filter.ui.FilterFragmentCountry"
         android:label="filter_fragment_country"
         tools:layout="@layout/filter_fragment_country" />
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorBackground"
-    tools:context="ru.practicum.android.diploma.FilterFragmentCountry">
+    tools:context="ru.practicum.android.diploma.filter.ui.FilterFragmentCountry">
 
     <!-- Тулбар -->
     <com.google.android.material.appbar.MaterialToolbar
