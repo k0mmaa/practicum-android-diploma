@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.BulletSpan
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +30,7 @@ class VacancyFragment : Fragment() {
     private val viewModel by viewModel<VacancyViewModel>()
     private lateinit var skillsAdapter: VacancySkillsAdapter
     private val descriptionParser = VacancyDescriptionParser()
-
+    private var likeMenuItem: MenuItem? = null
     private val vacancyId: String?
         get() = arguments?.getString(ARGS_VACANCY_ID)
 
@@ -70,6 +71,39 @@ class VacancyFragment : Fragment() {
             render(VacancyState.Error(ErrorType.BAD_REQUEST))
         } else {
             viewModel.loadVacancy(id)
+        }
+
+        viewModel.observeFavorite().observe(viewLifecycleOwner) { isFavorite ->
+            if (isFavorite == true) {
+                likeMenuItem?.setIcon(R.drawable.ic_favorites_on__24px)
+            } else {
+                likeMenuItem?.setIcon(R.drawable.favorites_off__24px)
+            }
+        }
+
+        binding.vacancyFragmentTitle.menu.clear()
+        binding.vacancyFragmentTitle.inflateMenu(R.menu.vacancy_toolbar_menu)
+        likeMenuItem = binding.vacancyFragmentTitle.menu.findItem(R.id.button_like)
+        if (viewModel.observeFavorite().value == true) {
+            likeMenuItem?.setIcon(R.drawable.ic_favorites_on__24px)
+        } else {
+            likeMenuItem?.setIcon(R.drawable.favorites_off__24px)
+        }
+
+        binding.vacancyFragmentTitle.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.button_like -> {
+                    viewModel.onLikeButtonClick()
+                    true
+                }
+
+                R.id.button_share -> {
+
+                    true
+                }
+
+                else -> false
+            }
         }
     }
 
@@ -223,6 +257,7 @@ class VacancyFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        likeMenuItem = null
         _binding = null
     }
 }

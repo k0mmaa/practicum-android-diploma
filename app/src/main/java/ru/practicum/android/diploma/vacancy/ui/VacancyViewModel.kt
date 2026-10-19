@@ -10,11 +10,13 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.JobsInteractor
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyDetail
+import ru.practicum.android.diploma.favorites.domain.db.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.util.ErrorType
 import ru.practicum.android.diploma.util.Resource
 
 class VacancyViewModel(
-    private val interactor: JobsInteractor
+    private val jobInteractor: JobsInteractor,
+    private val favoriteInteractor: FavoriteVacancyInteractor
 ) : ViewModel() {
     private companion object {
         const val TAG = "VacancyViewModel"
@@ -22,8 +24,11 @@ class VacancyViewModel(
 
     private val mutableState = MutableLiveData<VacancyState>()
     val state: LiveData<VacancyState> = mutableState
+    private val favoriteLiveData = MutableLiveData<Boolean>()
+    fun observeFavorite(): LiveData<Boolean> = favoriteLiveData
     private var loadJob: Job? = null
     private var requestedVacancyId: String? = null
+    private var favoriteJob: Job? = null
 
     fun loadVacancy(id: String, forceReload: Boolean = false) {
         val vacancyId = id.trim()
@@ -38,32 +43,53 @@ class VacancyViewModel(
         }
 
         requestedVacancyId = vacancyId
+        favoriteJob?.cancel()
         loadJob?.cancel()
-        loadJob = viewModelScope.launch {
-            mutableState.value = VacancyState.Loading
-            try {
-                interactor.getVacancyDetails(vacancyId).collect { result ->
-                    mutableState.value = when (result) {
-                        is Resource.Success -> result.data
-                            ?.let(VacancyState::Content)
-                            ?.takeIf { it.vacancy.id == vacancyId }
-                            ?: VacancyState.Error(ErrorType.SERVER_ERROR)
 
-                        is Resource.Error -> VacancyState.Error(
-                            result.code ?: ErrorType.SERVER_ERROR
-                        )
-                    }
+        favoriteJob = viewModelScope.launch {
+            favoriteInteractor.isVacancyFavorite(vacancyId)
+                .collect { result ->
+                    favoriteLiveData.value = result
                 }
-            } catch (exception: CancellationException) {
-                throw exception
-            } catch (exception: Exception) {
-                Log.e(TAG, "Unexpected failure while loading vacancy $vacancyId", exception)
-                mutableState.value = VacancyState.Error(ErrorType.SERVER_ERROR)
+        }
+
+        loadJob = viewModelScope.launch {
+                mutableState.value = VacancyState.Loading
+                try {
+                    jobInteractor.getVacancyDetails(vacancyId).collect { result ->
+                        mutableState.value = when (result) {
+                            is Resource.Success -> result.data
+                                ?.let(VacancyState::Content)
+                                ?.takeIf { it.vacancy.id == vacancyId }
+                                ?: VacancyState.Error(ErrorType.SERVER_ERROR)
+
+                            is Resource.Error -> VacancyState.Error(
+                                result.code ?: ErrorType.SERVER_ERROR
+                            )
+                        }
+                    }
+                } catch (exception: CancellationException) {
+                    throw exception
+                } catch (exception: Exception) {
+                    Log.e(TAG, "Unexpected failure while loading vacancy $vacancyId", exception)
+                    mutableState.value = VacancyState.Error(ErrorType.SERVER_ERROR)
+                }
+            }
+        }
+
+    fun onLikeButtonClick() {
+        val contentNow = mutableState.value as? VacancyState.Content ?: return
+        val vacancy = contentNow.vacancy
+
+        viewModelScope.launch {
+            if (favoriteLiveData.value == true) {
+                favoriteInteractor.deleteVacancy(vacancy)
+            } else {
+                favoriteInteractor.insertVacancy(vacancy)
             }
         }
     }
 }
-
 sealed interface VacancyState {
     data object Loading : VacancyState
     data class Content(val vacancy: VacancyDetail) : VacancyState

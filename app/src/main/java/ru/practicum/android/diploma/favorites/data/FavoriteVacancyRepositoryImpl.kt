@@ -26,4 +26,9 @@ class FavoriteVacancyRepositoryImpl(
     override suspend fun insertVacancy(vacancy: VacancyDetail) {
         vacancyDao.insertVacancy(converter.map(vacancy))
     }
+
+    override fun isVacancyFavorite(id: String): Flow<Boolean> {
+        return vacancyDao.isVacancyInFavorites(id)
+    }
+
 }

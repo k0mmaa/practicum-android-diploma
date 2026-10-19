@@ -46,9 +46,11 @@ class FavoriteViewModel(private val interactor: FavoriteVacancyInteractor) : Vie
 
     fun showResults(vacancyCard: List<VacancyCard>) {
         if (vacancyCard.isNotEmpty()) {
+            vacancyList.clear()
             vacancyList.addAll(vacancyCard)
             renderState(FavoriteVacanciesState.Content(vacancyCard))
         } else if (vacancyCard.isEmpty()) {
+            vacancyList.clear()
             renderState(FavoriteVacanciesState.Empty)
         } else {
             renderState(FavoriteVacanciesState.Error)
