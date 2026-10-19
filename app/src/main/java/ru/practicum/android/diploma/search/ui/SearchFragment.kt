@@ -112,7 +112,7 @@ class SearchFragment : Fragment() {
         })
         binding.inputStrings.doOnTextChanged { s: CharSequence?, start: Int, before: Int, count: Int ->
             if (!s.isNullOrEmpty()) {
-                current_search = s.toString()
+                current_search = s.toString().trim()
             } else {
                 current_search = STRING_DEF
             }
