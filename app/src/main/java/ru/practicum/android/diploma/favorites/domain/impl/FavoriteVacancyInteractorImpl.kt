@@ -11,8 +11,8 @@ class FavoriteVacancyInteractorImpl(private val repository: FavoriteVacancyRepos
         return repository.favoriteVacancies()
     }
 
-    override suspend fun deleteVacancy(vacancy: VacancyDetail) {
-        repository.deleteVacancy(vacancy)
+    override suspend fun deleteVacancy(id: String) {
+        repository.deleteVacancy(id)
     }
 
     override suspend fun insertVacancy(vacancy: VacancyDetail) {
