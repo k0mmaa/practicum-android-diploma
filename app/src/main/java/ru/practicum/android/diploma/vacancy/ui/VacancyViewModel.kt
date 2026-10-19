@@ -9,6 +9,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.JobsInteractor
+import ru.practicum.android.diploma.domain.api.SharingInteractor
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyDetail
 import ru.practicum.android.diploma.favorites.domain.db.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.util.ErrorType
@@ -16,7 +17,8 @@ import ru.practicum.android.diploma.util.Resource
 
 class VacancyViewModel(
     private val jobInteractor: JobsInteractor,
-    private val favoriteInteractor: FavoriteVacancyInteractor
+    private val favoriteInteractor: FavoriteVacancyInteractor,
+    private val sharingInteractor: SharingInteractor
 ) : ViewModel() {
     private companion object {
         const val TAG = "VacancyViewModel"
@@ -89,6 +91,20 @@ class VacancyViewModel(
             }
         }
     }
+
+    fun shareLink() {
+        val contentNow = mutableState.value as? VacancyState.Content ?: return
+        val vacancy = contentNow.vacancy
+
+        val formUrl = if (vacancy.url.startsWith("http://") || vacancy.url.startsWith("https://")) {
+            vacancy.url
+        } else {
+            "https://${vacancy.url}"
+        }
+
+        sharingInteractor.shareLink(formUrl)
+    }
+
 }
 sealed interface VacancyState {
     data object Loading : VacancyState
