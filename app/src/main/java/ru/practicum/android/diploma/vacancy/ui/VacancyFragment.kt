@@ -6,17 +6,13 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.style.BulletSpan
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
-import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -34,7 +30,7 @@ class VacancyFragment : Fragment() {
     private val viewModel by viewModel<VacancyViewModel>()
     private lateinit var skillsAdapter: VacancySkillsAdapter
     private val descriptionParser = VacancyDescriptionParser()
-
+    private var likeMenuItem: MenuItem? = null
     private val vacancyId: String?
         get() = arguments?.getString(ARGS_VACANCY_ID)
 
@@ -77,39 +73,38 @@ class VacancyFragment : Fragment() {
             viewModel.loadVacancy(id)
         }
 
-        viewModel.observeFavorite().observe(viewLifecycleOwner) {
-            requireActivity().invalidateMenu()
+        viewModel.observeFavorite().observe(viewLifecycleOwner) { isFavorite ->
+            if (isFavorite == true) {
+                likeMenuItem?.setIcon(R.drawable.ic_favorites_on__24px)
+            } else {
+                likeMenuItem?.setIcon(R.drawable.favorites_off__24px)
+            }
         }
 
-        requireActivity().addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.vacancy_toolbar_menu, menu)
-                val likeItem = menu.findItem(R.id.button_like)
-                val currentLikeState = viewModel.observeFavorite().value
+        binding.vacancyFragmentTitle.menu.clear()
+        binding.vacancyFragmentTitle.inflateMenu(R.menu.vacancy_toolbar_menu)
+        likeMenuItem = binding.vacancyFragmentTitle.menu.findItem(R.id.button_like)
+        if (viewModel.observeFavorite().value == true) {
+            likeMenuItem?.setIcon(R.drawable.ic_favorites_on__24px)
+        } else {
+            likeMenuItem?.setIcon(R.drawable.favorites_off__24px)
+        }
 
-                if (currentLikeState == true) {
-                    likeItem.setIcon(R.drawable.ic_favorites_on__24px)
-                } else {
-                    likeItem.setIcon(R.drawable.favorites_off__24px)
+        binding.vacancyFragmentTitle.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.button_like -> {
+                    viewModel.onLikeButtonClick()
+                    true
                 }
-            }
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId) {
-                    R.id.button_like -> {
-                        viewModel.onLikeButtonClick()
-                        true
-                    }
+                R.id.button_share -> {
 
-                    R.id.button_share -> {
-
-                        true
-                    }
-
-                    else -> false
+                    true
                 }
+
+                else -> false
             }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }
     }
 
     private fun render(state: VacancyState) {
@@ -262,6 +257,7 @@ class VacancyFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        likeMenuItem = null
         _binding = null
     }
 }

@@ -28,6 +28,7 @@ class VacancyViewModel(
     fun observeFavorite(): LiveData<Boolean> = favoriteLiveData
     private var loadJob: Job? = null
     private var requestedVacancyId: String? = null
+    private var favoriteJob: Job? = null
 
     fun loadVacancy(id: String, forceReload: Boolean = false) {
         val vacancyId = id.trim()
@@ -42,14 +43,17 @@ class VacancyViewModel(
         }
 
         requestedVacancyId = vacancyId
+        favoriteJob?.cancel()
         loadJob?.cancel()
-        loadJob = viewModelScope.launch {
 
-            launch {
-                favoriteInteractor.isVacancyFavorite(vacancyId).collect { result ->
+        favoriteJob = viewModelScope.launch {
+            favoriteInteractor.isVacancyFavorite(vacancyId)
+                .collect { result ->
                     favoriteLiveData.value = result
                 }
+        }
 
+        loadJob = viewModelScope.launch {
                 mutableState.value = VacancyState.Loading
                 try {
                     jobInteractor.getVacancyDetails(vacancyId).collect { result ->
@@ -72,7 +76,6 @@ class VacancyViewModel(
                 }
             }
         }
-    }
 
     fun onLikeButtonClick() {
         val contentNow = mutableState.value as? VacancyState.Content ?: return
@@ -84,9 +87,7 @@ class VacancyViewModel(
             } else {
                 favoriteInteractor.insertVacancy(vacancy)
             }
-            favoriteLiveData.postValue(!(favoriteLiveData.value!!))
         }
-
     }
 }
 sealed interface VacancyState {
