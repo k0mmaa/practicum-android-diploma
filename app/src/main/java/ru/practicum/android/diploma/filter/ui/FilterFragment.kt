@@ -6,28 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import ru.practicum.android.diploma.databinding.FilterFragmentBinding
+import ru.practicum.android.diploma.databinding.FilterFragmentSettingsBinding
 
 class FilterFragment : Fragment() {
-    private var _binding: FilterFragmentBinding? = null
+    private var _binding: FilterFragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FilterFragmentBinding.inflate(inflater,container, false)
+    ): View {
+        _binding = FilterFragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonBack.setOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-
     }
 
     override fun onDestroyView() {
