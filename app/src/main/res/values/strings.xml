@@ -72,4 +72,6 @@
     <string name="finding_vacancies">%1$s %2$s</string>
     <string name="finding">Найдено</string>
 
+    <string name="chooser_text" translatable="false">Отправить с помощью</string>
+
 </resources>

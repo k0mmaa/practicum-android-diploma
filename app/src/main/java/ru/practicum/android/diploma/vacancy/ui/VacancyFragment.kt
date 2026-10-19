@@ -98,7 +98,7 @@ class VacancyFragment : Fragment() {
                 }
 
                 R.id.button_share -> {
-
+                    viewModel.shareLink()
                     true
                 }
 
