@@ -8,6 +8,12 @@
         <item name="android:textColor">?attr/textColorPrimary</item>
     </style>
 
+    <style name="TextAppearance.Diploma.Bold20" parent="">
+        <item name="android:fontFamily">@font/ys_display_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">?attr/textColorPrimary</item>
+    </style>
+
     <style name="TextAppearance.Diploma.Medium22" parent="">
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textSize">22sp</item>

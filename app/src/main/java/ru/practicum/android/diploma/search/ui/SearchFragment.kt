@@ -174,6 +174,12 @@ class SearchFragment : Fragment() {
                 binding.errorMessage.text = getString(R.string.server_error)
             }
 
+            SearchState.AuthorizationError -> {
+                hideAll(errorPlaceholder = true)
+                binding.errorImage.setImageResource(R.drawable.ic_server_error_1)
+                binding.errorMessage.text = getString(R.string.api_authorization_error)
+            }
+
             SearchState.StartPage -> {
                 hideAll(startImage = true)
                 binding.inputStrings.setText("")
