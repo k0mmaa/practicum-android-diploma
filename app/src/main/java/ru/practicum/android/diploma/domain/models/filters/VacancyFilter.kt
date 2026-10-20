@@ -8,3 +8,14 @@ data class VacancyFilter(
     val onlyWithSalary: Boolean = false,
 ) {
 }
+
+fun VacancyFilter.isModelEmpty(): Boolean {
+    return countryId.isNullOrBlank()
+        && regionId.isNullOrBlank()
+        && industryId.isNullOrBlank()
+        && salary == null
+        && !onlyWithSalary
+}
+fun VacancyFilter.isChanged(other: VacancyFilter): Boolean {
+    return this != other
+}
