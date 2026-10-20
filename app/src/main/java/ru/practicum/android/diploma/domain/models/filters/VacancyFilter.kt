@@ -1,18 +1,22 @@
 package ru.practicum.android.diploma.domain.models.filters
 
+data class FilterOption(
+    val id: String,
+    val name: String,
+)
+
 data class VacancyFilter(
-    val countryId: String? = null,
-    val regionId: String? = null,
-    val industryId: String? = null,
+    val country: FilterOption? = null,
+    val region: FilterOption? = null,
+    val industry: FilterOption? = null,
     val salary: Int? = null,
     val onlyWithSalary: Boolean = false,
-) {
-}
+)
 
 fun VacancyFilter.isModelEmpty(): Boolean {
-    return countryId.isNullOrBlank()
-        && regionId.isNullOrBlank()
-        && industryId.isNullOrBlank()
+    return country == null
+        && region == null
+        && industry == null
         && salary == null
         && !onlyWithSalary
 }
