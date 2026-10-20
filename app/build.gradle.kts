@@ -81,4 +81,8 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.activity.ktx)
     implementation(libs.kotlinx.coroutines.android)
+
+    // для общей модели в фильтрах
+    implementation(libs.koin.androidx.navigation)
+
 }
