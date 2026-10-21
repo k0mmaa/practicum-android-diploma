@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         app:navigationIcon="@drawable/ic_arrow_back_24px"
         app:title="@string/choose_work_place_title"
+        app:navigationIconTint="?attr/textColorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

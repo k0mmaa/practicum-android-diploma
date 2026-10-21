@@ -31,6 +31,9 @@
             <action
                 android:id="@+id/action_filterFragmentWorkPlace_to_filterFragmentCountry"
                 app:destination="@id/filterFragmentCountry" />
+            <action
+                android:id="@+id/action_filterFragmentWorkPlace_to_filterFragmentRegion"
+                app:destination="@id/filterFragmentRegion" />
         </fragment>
 
         <!-- Выбор страны -->
@@ -40,6 +43,12 @@
             android:label="filter_fragment_country"
             tools:layout="@layout/filter_fragment_country" />
 
+        <!-- Выбор региона -->
+        <fragment
+            android:id="@+id/filterFragmentRegion"
+            android:name="ru.practicum.android.diploma.filter.ui.FilterFragmentRegion"
+            android:label="filter_fragment_region"
+            tools:layout="@layout/filter_fragment_region" />
     </navigation>
 
     <!-- Избранное -->
