@@ -11,6 +11,7 @@ import ru.practicum.android.diploma.R
 
 import ru.practicum.android.diploma.databinding.FilterFragmentWorkPlaceBinding
 import ru.practicum.android.diploma.R.id.action_filterFragmentWorkPlace_to_filterFragmentCountry
+import ru.practicum.android.diploma.domain.models.filters.FilterOption
 import ru.practicum.android.diploma.filter.view_model.FiltersViewModel
 import kotlin.getValue
 
@@ -41,7 +42,7 @@ class FilterFragmentWorkPlace : Fragment() {
         }
 
         // тест того что модель меняется потом удалить
-        filtersViewModel.setRegion("region_1")
+        filtersViewModel.setRegion( FilterOption("id_test2", "Москва"))
     }
 
 
