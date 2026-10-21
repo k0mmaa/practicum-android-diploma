@@ -10,13 +10,14 @@
         <item name="colorOnSurface">@color/white</item>
         <item name="colorSurfaceVariant">@color/light_gray</item>
         <item name="colorOnSurfaceVariant">@color/gray</item>
+        <item name="titleTextColor">@color/white</item>
 
         <!-- Свои атрибуты (attrs.xml) -->
         <item name="colorBackground">@color/black</item>
         <item name="textColorPrimary">@color/white</item>
         <item name="textColorSecondary">@color/gray</item>
-        <item name="textColorHint">@color/gray</item>
-        <item name="searchFieldBackground">@color/light_gray</item>
+        <item name="textColorHint">@color/white</item>
+        <item name="searchFieldBackground">@color/gray</item>
         <item name="searchFieldTextColor">@color/black</item>
         <item name="clearButtonTint">@color/black</item>
         <item name="searchIconTint">@color/black</item>

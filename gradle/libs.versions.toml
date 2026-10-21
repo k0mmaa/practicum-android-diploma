@@ -8,6 +8,7 @@ minSdk = "26"
 targetSdk = "33"
 
 gson = "2.10"
+jsoup = "1.18.3"
 glide = "4.16.0"
 retrofit = "2.9.0"
 okhttp = "4.12.0"
@@ -46,6 +47,8 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 # UI
 material = { module = "com.google.android.material:material", version.ref = "material" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+androidsvg = { module = "com.caverock:androidsvg-aar", version = "1.4" }
 
 # Testing
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
@@ -62,6 +65,7 @@ staticAnalysis-detektTest = { module = "io.gitlab.arturbosch.detekt:detekt-test"
 staticAnalysis-detektTwitterComposeRules = { module = "com.twitter.compose.rules:detekt", version.ref = "detektTwitterComposeRules" }
 
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
@@ -71,5 +75,4 @@ lifecycle-viewmodel-ktx = {group = "androidx.lifecycle", name="lifecycle-viewmod
 activity-ktx = {group = "androidx.activity", name="activity-ktx", version.ref="activity-ktx"}
 kotlinx-coroutines-android = {group="org.jetbrains.kotlinx", name="kotlinx-coroutines-android", version.ref="kotlinx-coroutines-android"}
 [bundles]
-
 

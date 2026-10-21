@@ -9,5 +9,6 @@ enum class ErrorType{
     NO_INTERNET,
     NOT_FOUND,
     SERVER_ERROR,
-    BAD_REQUEST
+    BAD_REQUEST,
+    AUTHORIZATION_ERROR
 }

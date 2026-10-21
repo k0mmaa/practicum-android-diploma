@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/button_to_filter"
+        android:icon="@drawable/ic_trailing_24px"
+        android:title="@string/title_filters"
+        app:iconTint="?attr/textColorPrimary"
+        android:width="48dp"
+        android:height="48dp"
+        app:showAsAction="always" />
+</menu>

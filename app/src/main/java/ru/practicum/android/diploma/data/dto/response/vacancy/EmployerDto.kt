@@ -4,5 +4,5 @@ package ru.practicum.android.diploma.data.dto.response.vacancy
 data class EmployerDto(
     val id: String,
     val name: String,
-    val logo: String
+    val logo: String?
 )

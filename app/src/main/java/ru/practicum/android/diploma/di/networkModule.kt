@@ -14,10 +14,10 @@ import ru.practicum.android.diploma.data.network.CheckNetworkImpl
 import ru.practicum.android.diploma.data.network.JobsApiClient
 import ru.practicum.android.diploma.data.network.JobsApiService
 
-private const val DEFAULT_API_BASE_URL =
-    "https://android-diploma.education-services.ru"
+private const val DEFAULT_API_BASE_URL = "https://android-diploma.education-services.ru"
+private const val AUTHORIZATION_SCHEME = "Bearer"
+
 val networkModule = module {
-    // Регистрация CheckNetwork
     single<CheckNetwork> {
         CheckNetworkImpl(androidContext())
     }
@@ -32,6 +32,7 @@ val networkModule = module {
     single<JobsApiService> {
         get<Retrofit>().create(JobsApiService::class.java)
     }
+
     single<Retrofit> {
         val baseUrl = BuildConfig.API_BASE_URL.ifBlank {
             DEFAULT_API_BASE_URL
@@ -39,27 +40,32 @@ val networkModule = module {
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(get())
-            .addConverterFactory(
-                GsonConverterFactory.create()
-            ).build()
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     factory<OkHttpClient> {
+        val token = BuildConfig.API_ACCESS_TOKEN.trim()
+        val authorization = when {
+            token.isBlank() -> null
+            token.startsWith("Bearer ", ignoreCase = true) -> token
+            else -> listOf(AUTHORIZATION_SCHEME, token).joinToString(" ")
+        }
+
         OkHttpClient.Builder()
             .addInterceptor { chain ->
-                val originalRequest = chain.request()
-                val request = originalRequest.newBuilder().addHeader(
-                    "Authorization",
-                    "Bearer ${BuildConfig.API_ACCESS_TOKEN}"
-                ).addHeader(
-                    "Content-Type",
-                    "application/json"
-                ).build()
-
+                val request = chain.request().newBuilder()
+                    .addHeader("Content-Type", "application/json")
+                    .apply {
+                        authorization?.let { header("Authorization", it) }
+                    }
+                    .build()
                 chain.proceed(request)
-            }.addInterceptor(get<HttpLoggingInterceptor>())
+            }
+            .addInterceptor(get<HttpLoggingInterceptor>())
             .build()
     }
+
     factory<HttpLoggingInterceptor> {
         HttpLoggingInterceptor { message ->
             Log.d("API_HTTP", message)

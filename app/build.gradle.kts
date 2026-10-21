@@ -61,7 +61,10 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(libs.gson)
+    implementation(libs.jsoup)
     implementation(libs.glide)
+    implementation(libs.androidsvg)
+    kapt(libs.glide.compiler)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
@@ -79,4 +82,3 @@ dependencies {
     implementation(libs.activity.ktx)
     implementation(libs.kotlinx.coroutines.android)
 }
-
