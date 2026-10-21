@@ -41,6 +41,18 @@ class JobsInteractorImpl(
         )
     }
 
+    override fun getVacancies(
+        params: Map<String, Any>
+    ): Flow<Resource<Vacancies>> {
+        return getVacancies(
+            area = params["area"] as? Int,
+            industry = params["industry"] as? Int,
+            text = params["text"] as? String,
+            salary = params["salary"] as? Int,
+            page = params["page"] as? Int,
+            onlyWithSalary = (params["only_with_salary"] as? Boolean)?.takeIf { it }
+        )
+    }
     override fun getVacancyDetails(
         id: String
     ): Flow<Resource<VacancyDetail>> {

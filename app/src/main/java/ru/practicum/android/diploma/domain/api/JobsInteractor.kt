@@ -20,7 +20,7 @@ interface JobsInteractor {
         page: Int? = null,
         onlyWithSalary: Boolean? = null
     ): Flow<Resource<Vacancies>>
-
+    fun getVacancies(params: Map<String, Any>): Flow<Resource<Vacancies>>
     fun getVacancyDetails(
         id: String
     ): Flow<Resource<VacancyDetail>>

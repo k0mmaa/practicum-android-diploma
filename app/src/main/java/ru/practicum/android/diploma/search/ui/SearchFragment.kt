@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.SearchFragmentBinding
+import ru.practicum.android.diploma.domain.models.filters.isModelEmpty
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
+import ru.practicum.android.diploma.filter.ui.FilterFragment.Companion.FILTERS_APPLIED_KEY
 import ru.practicum.android.diploma.search.ui.activity.VacanciesListAdapter
 import ru.practicum.android.diploma.search.ui.view_model.SearchState
 import ru.practicum.android.diploma.search.ui.view_model.SearchViewModel
@@ -43,6 +45,11 @@ class SearchFragment : Fragment() {
         private const val CLICK_DEBOUNCE_DELAY = 2000L
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.loadFilter()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,6 +68,7 @@ class SearchFragment : Fragment() {
                     findNavController().navigate(R.id.action_searchFragment_to_filterFragment)
                     true
                 }
+
                 else -> false
             }
         }
@@ -72,7 +80,12 @@ class SearchFragment : Fragment() {
                 viewModel.clearSearch()
             }
         }
-
+        parentFragmentManager.setFragmentResultListener(
+            FILTERS_APPLIED_KEY,
+            viewLifecycleOwner
+        ) { _, _ ->
+            viewModel.filterSearch()
+        }
         onVacancyClickDebounce = debounce<VacancyCard>(
             CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false
         )
@@ -97,6 +110,15 @@ class SearchFragment : Fragment() {
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
+
+        viewModel.observeFilter().observe(viewLifecycleOwner) {
+            if (it == null || it.isModelEmpty()) {
+                // без подсветки
+            } else {
+                // подсветка
+            }
+        }
+
         binding.vacanciesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -186,7 +208,7 @@ class SearchFragment : Fragment() {
             }
 
             SearchState.LoadingNextPage -> {
-                hideAll(progressBar = true, vacanciesList = true,  textInfo = true)
+                hideAll(progressBar = true, vacanciesList = true, textInfo = true)
             }
         }
     }
@@ -225,7 +247,6 @@ class SearchFragment : Fragment() {
         adapter.submitList(list)
         adapter.notifyDataSetChanged()
     }
-
 
 
     fun hideKeyboard() {
