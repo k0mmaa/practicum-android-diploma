@@ -14,6 +14,7 @@
         style="@style/Toolbars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:navigationIconTint="?attr/textColorPrimary"
         app:navigationIcon="@drawable/ic_arrow_back_24px"
         app:title="@string/choose_region"
         app:layout_constraintEnd_toEndOf="parent"
