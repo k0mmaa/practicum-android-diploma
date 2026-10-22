@@ -75,6 +75,7 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
 
     fun reset() {
         filter.value = VacancyFilter()
+        save()
     }
 
     private fun loadFilter() {
