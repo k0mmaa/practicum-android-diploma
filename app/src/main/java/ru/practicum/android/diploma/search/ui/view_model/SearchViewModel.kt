@@ -1,27 +1,33 @@
 package ru.practicum.android.diploma.search.ui.view_model
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.domain.api.FiltersInteractor
 import ru.practicum.android.diploma.domain.api.JobsInteractor
+import ru.practicum.android.diploma.domain.models.filters.VacancyFilter
+import ru.practicum.android.diploma.domain.models.filters.isModelEmpty
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancies
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
 import ru.practicum.android.diploma.util.Debounce
+import ru.practicum.android.diploma.util.ErrorType.AUTHORIZATION_ERROR
 import ru.practicum.android.diploma.util.ErrorType.NOT_FOUND
 import ru.practicum.android.diploma.util.ErrorType.NO_INTERNET
-import ru.practicum.android.diploma.util.ErrorType.AUTHORIZATION_ERROR
 import ru.practicum.android.diploma.util.Resource
 
-class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() {
+class SearchViewModel(
+    private val jobsInteractor: JobsInteractor,
+    private val filtersInteractor: FiltersInteractor
+) : ViewModel() {
 
     private val stateLiveData = MutableLiveData<SearchState>()
     fun observeState(): LiveData<SearchState> = stateLiveData
-
+    private val filter = MutableLiveData<VacancyFilter>()
+    fun observeFilter(): LiveData<VacancyFilter> = filter
     private var vacanciesList: MutableList<VacancyCard> = mutableListOf()
     private var latestSearchText: String = ""
     private var currentPage: Int = DEFAULT_PAGE_VALUE
@@ -66,6 +72,13 @@ class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() 
         } else {
             renderState(SearchState.StartPage)
         }
+    }
+
+    fun filterSearch() {
+        if (this.latestSearchText.isBlank()) {
+            return
+        }
+        searchNow(this.latestSearchText)
     }
 
     fun searchNow(changedText: String) {
@@ -120,7 +133,9 @@ class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() 
             searchJob?.cancel()
             searchJob = viewModelScope.launch {
 
-                jobsInteractor.getVacancies(text = newSearchText, page = page).collect { result ->
+                jobsInteractor.getVacancies(
+                    buildSearchParams(newSearchText, page, filter.value)
+                ).collect { result ->
                     if (txt == latestSearchText) {
                         processResult(result, clearResult)
                     }
@@ -128,6 +143,39 @@ class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() 
                 }
             }
         }
+    }
+
+    private fun buildSearchParams(newSearchText: String, page: Int, currentFilter: VacancyFilter?):
+        Map<String, Any> {
+        val params = mutableMapOf<String, Any>(
+            "text" to newSearchText,
+            "page" to page
+        )
+
+        if (currentFilter == null || currentFilter.isModelEmpty()) {
+            return params
+        }
+
+        val areaId = currentFilter.region?.id
+            ?: currentFilter.country?.id
+
+        areaId?.toIntOrNull()?.let {
+            params["area"] = it
+        }
+
+        currentFilter.industry?.id?.toIntOrNull()?.let {
+            params["industry"] = it
+        }
+
+        currentFilter.salary?.takeIf { it > 0 }?.let {
+            params["salary"] = it
+        }
+
+        if (currentFilter.onlyWithSalary) {
+            params["only_with_salary"] = true
+        }
+
+        return params
     }
 
     private fun processResult(result: Resource<Vacancies>, clearResult: Boolean = true) {
@@ -170,6 +218,13 @@ class SearchViewModel(private val jobsInteractor: JobsInteractor) : ViewModel() 
             }
         }
 
+    }
+
+    fun loadFilter() {
+        val savedFilter = filtersInteractor.getFilter()
+        if (filter.value != savedFilter) {
+            filter.value = savedFilter
+        }
     }
 
     private fun renderState(state: SearchState) {

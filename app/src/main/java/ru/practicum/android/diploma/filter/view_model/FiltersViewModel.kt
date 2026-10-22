@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.domain.api.FiltersInteractor
 import ru.practicum.android.diploma.domain.models.filters.FilterOption
 import ru.practicum.android.diploma.domain.models.filters.VacancyFilter
-import ru.practicum.android.diploma.domain.models.filters.isChanged
+
 import ru.practicum.android.diploma.domain.models.filters.isModelEmpty
 
 
 class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewModel() {
     private val filter = MutableLiveData<VacancyFilter>()
     fun observeFilter(): LiveData<VacancyFilter> = filter
-    private lateinit var lastFilter: VacancyFilter
+
 
     init {
         loadFilter()
@@ -21,16 +21,22 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
 
     fun setOnlyWithSalary(value: Boolean) {
         val current = filter.value ?: return
+        if (current.onlyWithSalary == value) return
         filter.value = current.copy(onlyWithSalary = value)
+        save()
     }
 
     fun setSalary(salary: Int?) {
         val current = filter.value ?: return
+        if (current.salary == salary) return
         filter.value = current.copy(salary = salary)
+        save()
     }
 
     fun setCountry(country: FilterOption?) {
         val current = filter.value ?: return
+        if (current.country == country) return
+
         filter.value = current.copy(
             country = country,
             region = if (current.country?.id == country?.id) {
@@ -39,27 +45,29 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
                 null
             }
         )
+        save()
     }
 
     fun setRegion(region: FilterOption?) {
         val current = filter.value ?: return
+        if (current.region == region) return
         filter.value = current.copy(region = region)
+        save()
     }
 
     fun setIndustry(industry: FilterOption?) {
         val current = filter.value ?: return
+        if (current.industry == industry) return
         filter.value = current.copy(industry = industry)
+        save()
     }
 
     fun save() {
         val current = filter.value ?: return
         filtersInteractor.saveFilter(current)
-        lastFilter = current
+
     }
 
-    fun isFilterWasChanged(): Boolean {
-        return filter.value?.isChanged(lastFilter) ?: false
-    }
 
     fun isFiltersEmpty(): Boolean {
         return filter.value?.isModelEmpty() ?: true
@@ -70,7 +78,6 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
     }
 
     private fun loadFilter() {
-        lastFilter = filtersInteractor.getFilter();
-        filter.value = lastFilter.copy()
+        filter.value = filtersInteractor.getFilter()
     }
 }

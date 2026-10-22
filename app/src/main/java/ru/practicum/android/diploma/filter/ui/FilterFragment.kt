@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
@@ -22,6 +23,10 @@ class FilterFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val filtersViewModel: FiltersViewModel by koinNavGraphViewModel(R.id.filters_graph)
+
+    companion object{
+        const val FILTERS_APPLIED_KEY = "filters_applied"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,24 +49,41 @@ class FilterFragment : Fragment() {
         }
 
         filtersViewModel.observeFilter().observe(viewLifecycleOwner) {
-            // тут приходит измененая модель в других фрагментах
-            Log.d("FilterFragment", it.toString())
-            binding.btnApply.isInvisible = !filtersViewModel.isFilterWasChanged()
-            binding.hideSalaryCheckbox.isChecked = it.onlyWithSalary
+
+            binding.btnApply.isInvisible = it.isModelEmpty()
+            if (binding.hideSalaryCheckbox.isChecked != it.onlyWithSalary) {
+                binding.hideSalaryCheckbox.isChecked = it.onlyWithSalary
+            }
             binding.btnClear.isInvisible = it.isModelEmpty()
+
+            val displayedSalary = binding.salaryInputEditText.text
+                ?.toString()
+                ?.toIntOrNull()
+
+            if (displayedSalary != it.salary) {
+                binding.salaryInputEditText.setText(it.salary?.toString().orEmpty())
+            }
         }
 
         binding.hideSalaryCheckbox.setOnCheckedChangeListener { button, checked ->
             filtersViewModel.setOnlyWithSalary(checked)
         }
-
+        binding.salaryInputEditText.doOnTextChanged {s: CharSequence?, start: Int, before: Int, count: Int  ->
+            filtersViewModel.setSalary(s.toString().toIntOrNull())
+        }
         binding.btnApply.setOnClickListener {
-
             filtersViewModel.save()
+
+            parentFragmentManager.setFragmentResult(
+                FILTERS_APPLIED_KEY,
+                Bundle.EMPTY
+            )
+
             findNavController().popBackStack()
 
         }
         binding.btnClear.setOnClickListener {
+            filtersViewModel.save()
             filtersViewModel.reset()
         }
     }
