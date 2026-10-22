@@ -50,7 +50,7 @@ class FilterFragment : Fragment() {
 
         filtersViewModel.observeFilter().observe(viewLifecycleOwner) {
 
-            binding.btnApply.isInvisible = it.isModelEmpty()
+            binding.btnApply.isInvisible = it.isModelEmpty() && !filtersViewModel.isFilterWasChanged()
             if (binding.hideSalaryCheckbox.isChecked != it.onlyWithSalary) {
                 binding.hideSalaryCheckbox.isChecked = it.onlyWithSalary
             }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.domain.api.FiltersInteractor
 import ru.practicum.android.diploma.domain.models.filters.FilterOption
 import ru.practicum.android.diploma.domain.models.filters.VacancyFilter
+import ru.practicum.android.diploma.domain.models.filters.isChanged
 
 import ru.practicum.android.diploma.domain.models.filters.isModelEmpty
 
@@ -14,6 +15,7 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
     private val filter = MutableLiveData<VacancyFilter>()
     fun observeFilter(): LiveData<VacancyFilter> = filter
 
+    private lateinit var lastFilter: VacancyFilter
 
     init {
         loadFilter()
@@ -36,7 +38,6 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
     fun setCountry(country: FilterOption?) {
         val current = filter.value ?: return
         if (current.country == country) return
-
         filter.value = current.copy(
             country = country,
             region = if (current.country?.id == country?.id) {
@@ -61,11 +62,12 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
         filter.value = current.copy(industry = industry)
         save()
     }
-
+    fun isFilterWasChanged(): Boolean {
+        return filter.value?.isChanged(lastFilter) ?: false
+    }
     fun save() {
         val current = filter.value ?: return
         filtersInteractor.saveFilter(current)
-
     }
 
 
@@ -78,7 +80,12 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
         save()
     }
 
+    private fun setPreviousFilter(){
+        val current = filter.value ?: return
+        lastFilter = current.copy()
+    }
     private fun loadFilter() {
-        filter.value = filtersInteractor.getFilter()
+        filter.value =  filtersInteractor.getFilter();
+        setPreviousFilter()
     }
 }
