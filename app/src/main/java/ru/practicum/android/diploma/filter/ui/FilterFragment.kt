@@ -82,7 +82,7 @@ class FilterFragment : Fragment() {
             binding.industryTitle.isVisible = true // заголовок никогда не прячем всегда виден. см. Макет
             binding.industryTitle.setTextSize( //в макете размер зависит от наличия workPlace
                 TypedValue.COMPLEX_UNIT_SP,
-                if (hasWorkPlace) 12f else 16f
+                if (hasIndustry) 12f else 16f
             )
             binding.industryValue.isVisible = hasIndustry
             binding.industryValue.text = industry.orEmpty()
