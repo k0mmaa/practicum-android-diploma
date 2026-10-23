@@ -45,10 +45,10 @@ class JobsInteractorImpl(
         params: Map<String, Any>
     ): Flow<Resource<Vacancies>> {
         return getVacancies(
-            area = params["area"] as? String,
-            industry = params["industry"] as? String,
-            text = params["text"] as? String,
-            salary = params["salary"] as? String,
+            area = params["area"]?.toString(),
+            industry = params["industry"]?.toString(),
+            text = params["text"]?.toString(),
+            salary = params["salary"]?.toString(),
             page = params["page"] as? Int,
             onlyWithSalary = (params["only_with_salary"] as? Boolean)?.takeIf { it }
         )
