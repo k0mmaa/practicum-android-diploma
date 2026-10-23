@@ -71,7 +71,7 @@ class JobsRepositoryImpl(
         area: String?,
         industry: String?,
         text: String?,
-        salary: String?,
+        salary: Int?,
         page: Int?,
         onlyWithSalary: Boolean?
     ): Flow<Resource<Vacancies>> = flow {

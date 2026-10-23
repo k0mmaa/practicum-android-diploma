@@ -16,7 +16,7 @@ interface JobsInteractor {
         area: String? = null,
         industry: String? = null,
         text: String? = null,
-        salary: String? = null,
+        salary: Int? = null,
         page: Int? = null,
         onlyWithSalary: Boolean? = null
     ): Flow<Resource<Vacancies>>

@@ -27,7 +27,7 @@ class JobsInteractorImpl(
         area: String?,
         industry: String?,
         text: String?,
-        salary: String?,
+        salary: Int?,
         page: Int?,
         onlyWithSalary: Boolean?
     ): Flow<Resource<Vacancies>> {
@@ -48,7 +48,7 @@ class JobsInteractorImpl(
             area = params["area"]?.toString(),
             industry = params["industry"]?.toString(),
             text = params["text"]?.toString(),
-            salary = params["salary"]?.toString(),
+            salary = params["salary"] as? Int,
             page = params["page"] as? Int,
             onlyWithSalary = (params["only_with_salary"] as? Boolean)?.takeIf { it }
         )
