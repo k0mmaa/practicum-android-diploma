@@ -13,10 +13,10 @@ interface JobsInteractor {
     fun getIndustries(): Flow<Resource<List<FilterIndustry>>>
 
     fun getVacancies(
-        area: Int? = null,
-        industry: Int? = null,
+        area: String? = null,
+        industry: String? = null,
         text: String? = null,
-        salary: Int? = null,
+        salary: String? = null,
         page: Int? = null,
         onlyWithSalary: Boolean? = null
     ): Flow<Resource<Vacancies>>

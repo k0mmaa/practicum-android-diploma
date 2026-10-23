@@ -68,10 +68,10 @@ class JobsRepositoryImpl(
     }
 
     override fun getVacancies(
-        area: Int?,
-        industry: Int?,
+        area: String?,
+        industry: String?,
         text: String?,
-        salary: Int?,
+        salary: String?,
         page: Int?,
         onlyWithSalary: Boolean?
     ): Flow<Resource<Vacancies>> = flow {

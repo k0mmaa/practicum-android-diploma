@@ -24,10 +24,10 @@ class JobsInteractorImpl(
     }
 
     override fun getVacancies(
-        area: Int?,
-        industry: Int?,
+        area: String?,
+        industry: String?,
         text: String?,
-        salary: Int?,
+        salary: String?,
         page: Int?,
         onlyWithSalary: Boolean?
     ): Flow<Resource<Vacancies>> {
@@ -45,10 +45,10 @@ class JobsInteractorImpl(
         params: Map<String, Any>
     ): Flow<Resource<Vacancies>> {
         return getVacancies(
-            area = params["area"] as? Int,
-            industry = params["industry"] as? Int,
+            area = params["area"] as? String,
+            industry = params["industry"] as? String,
             text = params["text"] as? String,
-            salary = params["salary"] as? Int,
+            salary = params["salary"] as? String,
             page = params["page"] as? Int,
             onlyWithSalary = (params["only_with_salary"] as? Boolean)?.takeIf { it }
         )
