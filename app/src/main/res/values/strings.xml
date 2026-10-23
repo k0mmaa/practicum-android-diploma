@@ -82,4 +82,6 @@
 
     <string name="chooser_text" translatable="false">Отправить с помощью</string>
 
+    <string name="clear_work_place">Очистить место работы</string>
+    <string name="clear_industry">Очистить отрасль</string>
 </resources>

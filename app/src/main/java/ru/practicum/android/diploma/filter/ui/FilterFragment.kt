@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.filter.ui
 
 import android.os.Bundle
-import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
-
 import ru.practicum.android.diploma.R.id.action_filterFragment_to_filterFragmentWorkPlace
 import ru.practicum.android.diploma.databinding.FilterFragmentSettingsBinding
 import ru.practicum.android.diploma.filter.view_model.FiltersViewModel
@@ -47,21 +46,54 @@ class FilterFragment : Fragment() {
         binding.workPlaceContainer.setOnClickListener {
             findNavController().navigate(action_filterFragment_to_filterFragmentWorkPlace)
         }
+        binding.workPlaceClear.setOnClickListener {
+            filtersViewModel.clearWorkPlace()
+        }
 
-        filtersViewModel.observeFilter().observe(viewLifecycleOwner) {
+        binding.industryClear.setOnClickListener {
+            filtersViewModel.clearIndustry()
+        }
 
-            binding.btnApply.isInvisible = it.isModelEmpty() && !filtersViewModel.isFilterWasChanged()
-            if (binding.hideSalaryCheckbox.isChecked != it.onlyWithSalary) {
-                binding.hideSalaryCheckbox.isChecked = it.onlyWithSalary
+        filtersViewModel.observeFilter().observe(viewLifecycleOwner) { filter ->
+
+            binding.btnApply.isInvisible = filter.isModelEmpty() && !filtersViewModel.isFilterWasChanged()
+            if (binding.hideSalaryCheckbox.isChecked != filter.onlyWithSalary) {
+                binding.hideSalaryCheckbox.isChecked = filter.onlyWithSalary
             }
-            binding.btnClear.isInvisible = it.isModelEmpty()
+            binding.btnClear.isInvisible = filter.isModelEmpty()
+
+            val workPlace = listOfNotNull(filter.country?.name, filter.region?.name)
+                .joinToString(", ")
+                .ifEmpty {null }
+
+            val hasWorkPlace = workPlace != null
+            binding.workPlaceTitle.isVisible = true // заголовок никогда не прячем всегда виден. см. Макет
+            binding.workPlaceTitle.setTextSize( //в макете размер зависит от наличия workPlace
+                TypedValue.COMPLEX_UNIT_SP,
+                if (hasWorkPlace) 12f else 16f
+            )
+            binding.workPlaceValue.isVisible = hasWorkPlace
+            binding.workPlaceValue.text = workPlace.orEmpty()
+            binding.workPlaceArrow.isVisible = !hasWorkPlace
+            binding.workPlaceClear.isVisible = hasWorkPlace
+
+            val industry = filter.industry?.name
+            val hasIndustry = industry != null
+            binding.industryTitle.isVisible = true // заголовок никогда не прячем всегда виден. см. Макет
+            binding.industryTitle.setTextSize( //в макете размер зависит от наличия workPlace
+                TypedValue.COMPLEX_UNIT_SP,
+                if (hasWorkPlace) 12f else 16f
+            )
+            binding.industryValue.isVisible = hasIndustry
+            binding.industryValue.text = industry.orEmpty()
+            binding.industryArrow.isVisible = !hasIndustry
+            binding.industryClear.isVisible = hasIndustry
 
             val displayedSalary = binding.salaryInputEditText.text
                 ?.toString()
                 ?.toIntOrNull()
-
-            if (displayedSalary != it.salary) {
-                binding.salaryInputEditText.setText(it.salary?.toString().orEmpty())
+            if (displayedSalary != filter.salary) {
+                binding.salaryInputEditText.setText(filter.salary?.toString().orEmpty())
             }
         }
 

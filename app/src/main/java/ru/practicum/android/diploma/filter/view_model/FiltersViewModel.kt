@@ -88,4 +88,18 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
         filter.value =  filtersInteractor.getFilter();
         setPreviousFilter()
     }
+
+    fun clearWorkPlace() {
+        val current = filter.value ?: return
+        if (current.country == null && current.region == null) return
+        filter.value = current.copy(country = null, region = null)
+        save()
+    }
+
+    fun clearIndustry() {
+        val current = filter.value ?: return
+        if (current.industry == null) return
+        filter.value = current.copy(industry = null)
+        save()
+    }
 }

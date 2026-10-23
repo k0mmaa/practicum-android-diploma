@@ -67,6 +67,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         tools:text="Россия, Москва"
                         tools:visibility="visible" />
                 </LinearLayout>
@@ -79,6 +81,18 @@
                     android:contentDescription="@string/choose_work_place"
                     android:src="@drawable/ic_arrow_forward_24px"
                     app:tint="?attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/work_place_clear"
+                    android:layout_width="@dimen/icon_size_24"
+                    android:layout_height="@dimen/icon_size_24"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/clear_work_place"
+                    android:src="@drawable/ic_clear"
+                    android:visibility="gone"
+                    app:tint="?attr/textColorPrimary"
+                    tools:visibility="visible" />
             </FrameLayout>
 
             <!-- Отрасль -->
@@ -111,6 +125,8 @@
                         style="@style/TextAppearance.Diploma.Regular16"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:visibility="gone"
                         tools:text="IT, Интернет, Телеком"
                         tools:visibility="visible" />
@@ -124,6 +140,17 @@
                     android:contentDescription="@string/choose_industry"
                     android:src="@drawable/ic_arrow_forward_24px"
                     app:tint="?attr/textColorPrimary" />
+                <ImageView
+                    android:id="@+id/industry_clear"
+                    android:layout_width="@dimen/icon_size_24"
+                    android:layout_height="@dimen/icon_size_24"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/clear_industry"
+                    android:src="@drawable/ic_clear"
+                    android:visibility="gone"
+                    app:tint="?attr/textColorPrimary"
+                    tools:visibility="visible" />
             </FrameLayout>
 
             <!-- Введите сумму зарплаты -->
