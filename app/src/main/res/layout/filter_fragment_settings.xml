@@ -58,7 +58,7 @@
                         style="@style/TextAppearance.Diploma.Regular16"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="?attr/textColorHint"
+                        android:textColor="?attr/placeholderSecondaryColor"
                         android:text="@string/choose_work_place" />
 
                     <TextView
@@ -117,7 +117,7 @@
                         style="@style/TextAppearance.Diploma.Regular16"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="?attr/textColorHint"
+                        android:textColor="?attr/placeholderSecondaryColor"
                         android:text="@string/choose_industry" />
 
                     <TextView
