@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.search.ui
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -113,9 +114,9 @@ class SearchFragment : Fragment() {
 
         viewModel.observeFilter().observe(viewLifecycleOwner) {
             if (it == null || it.isModelEmpty()) {
-                // без подсветки
+                updateFilterIcon(false)
             } else {
-                // подсветка
+                updateFilterIcon(true)
             }
         }
 
@@ -256,4 +257,15 @@ class SearchFragment : Fragment() {
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
+    private fun updateFilterIcon(hasFilters: Boolean) {
+        binding.searchFragmentTitle.menu
+            .findItem(R.id.button_to_filter)
+            .setIcon(
+                if (hasFilters) {
+                    R.drawable.selected_filter_on_24px
+                } else {
+                    R.drawable.ic_trailing_24px
+                }
+            )
+    }
 }
