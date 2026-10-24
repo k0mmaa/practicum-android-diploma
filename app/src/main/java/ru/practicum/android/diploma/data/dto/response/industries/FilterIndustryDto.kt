@@ -1,4 +1,7 @@
 package ru.practicum.android.diploma.data.dto.response.industries
 
-data class FilterIndustryDto(val id: String,
-                             val name: String)
+data class FilterIndustryDto(
+    val id: String,
+    val name: String,
+    val industries: List<FilterIndustryDto>? = emptyList()
+)

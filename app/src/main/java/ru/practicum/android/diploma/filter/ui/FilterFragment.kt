@@ -50,6 +50,10 @@ class FilterFragment : Fragment() {
             filtersViewModel.clearWorkPlace()
         }
 
+        binding.industryContainer.setOnClickListener {
+            findNavController().navigate(R.id.action_filterFragment_to_filterFragmentIndustry)
+        }
+
         binding.industryClear.setOnClickListener {
             filtersViewModel.clearIndustry()
         }
