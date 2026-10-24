@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorBackground"
-    tools:context="ru.practicum.android.diploma.filter.ui.FilterFragmentWorkPlace">
+    tools:context="ru.practicum.android.diploma.filter.ui.place.FilterFragmentWorkPlace">
 
     <!-- Тулбар -->
     <com.google.android.material.appbar.MaterialToolbar
@@ -50,7 +50,7 @@
 
                 <TextView
                     android:id="@+id/country_title"
-                    style="@style/TextAppearance.Diploma.Regular16"
+                    style="@style/TextAppearance.Diploma.Regular12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/cuntry"
@@ -95,7 +95,7 @@
 
                 <TextView
                     android:id="@+id/region_title"
-                    style="@style/TextAppearance.Diploma.Regular16"
+                    style="@style/TextAppearance.Diploma.Regular12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/region"

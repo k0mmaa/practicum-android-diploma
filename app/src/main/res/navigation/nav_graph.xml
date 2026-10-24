@@ -24,10 +24,9 @@
         <!-- Выбор места работы -->
         <fragment
             android:id="@+id/filterFragmentWorkPlace"
-            android:name="ru.practicum.android.diploma.filter.ui.FilterFragmentWorkPlace"
+            android:name="ru.practicum.android.diploma.filter.ui.place.FilterFragmentWorkPlace"
             android:label="filter_fragment_work_place"
             tools:layout="@layout/filter_fragment_work_place">
-
             <action
                 android:id="@+id/action_filterFragmentWorkPlace_to_filterFragmentCountry"
                 app:destination="@id/filterFragmentCountry" />
@@ -39,14 +38,14 @@
         <!-- Выбор страны -->
         <fragment
             android:id="@+id/filterFragmentCountry"
-            android:name="ru.practicum.android.diploma.filter.ui.FilterFragmentCountry"
+            android:name="ru.practicum.android.diploma.filter.ui.place.FilterFragmentCountry"
             android:label="filter_fragment_country"
             tools:layout="@layout/filter_fragment_country" />
 
         <!-- Выбор региона -->
         <fragment
             android:id="@+id/filterFragmentRegion"
-            android:name="ru.practicum.android.diploma.filter.ui.FilterFragmentRegion"
+            android:name="ru.practicum.android.diploma.filter.ui.place.FilterFragmentRegion"
             android:label="filter_fragment_region"
             tools:layout="@layout/filter_fragment_region" />
     </navigation>
