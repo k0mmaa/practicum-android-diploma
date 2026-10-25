@@ -81,7 +81,7 @@ class FilterRegionViewModel(private val interactor: JobsInteractor) : ViewModel(
 
     fun searchRegion(value: String) {
         query = value.trim()
-        val filteredRegion = allRegions.filter { it.name.startsWith(query, ignoreCase = true) }
+        val filteredRegion = allRegions.filter { it.name.contains(query, ignoreCase = true) }
 
         if (filteredRegion.isEmpty()) {
             regionState.value = RegionFilterState.Empty
