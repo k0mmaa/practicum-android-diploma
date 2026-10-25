@@ -28,11 +28,11 @@ val interactorModule = module {
         SharingInteractorImpl(get())
     }
 
-    factory<ExternalNavigatorInterface>{
+    factory<ExternalNavigatorInterface> {
         ExternalNavigator(androidContext())
     }
 
-    factory<FiltersInteractor>{
+    factory<FiltersInteractor> {
         FiltersInteractorImpl(get())
     }
 }

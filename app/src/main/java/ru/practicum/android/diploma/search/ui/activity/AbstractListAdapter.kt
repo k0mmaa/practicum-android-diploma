@@ -39,7 +39,7 @@ abstract class AbstractListAdapter<T>(
 
     override fun getItemCount(): Int = list.size
 
-    fun submitList(list: List<T>){
+    fun submitList(list: List<T>) {
         this.list.clear()
         this.list.addAll(list)
         notifyDataSetChanged()

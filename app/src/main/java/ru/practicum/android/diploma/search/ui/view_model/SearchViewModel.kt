@@ -36,7 +36,8 @@ class SearchViewModel(
     private var loadingNextPage = false
     private var searchJob: Job? = null
 
-    private var lastFilter : VacancyFilter? = null;
+    private var lastFilter: VacancyFilter? = null
+
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val DEFAULT_PAGE_VALUE = 1
@@ -100,9 +101,9 @@ class SearchViewModel(
         if (loadingNextPage) {
             return
         }
-        if(lastFilter != filter.value){
+        if (lastFilter != filter.value) {
             searchNow(this.latestSearchText)
-            return;
+            return
         }
         if (totalPages > currentPage) {
             vacanciesSearchDebounce.cancel()

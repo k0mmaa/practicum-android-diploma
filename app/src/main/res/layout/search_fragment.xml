@@ -31,8 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/search_toolbar_menu"
-        />
+        app:menu="@menu/search_toolbar_menu" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_input_layout"

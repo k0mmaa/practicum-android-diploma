@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:background="?attr/colorBackground"
     tools:context=".favorites.ui.FavoriteFragment">
+
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,8 +17,8 @@
         style="@style/Toolbars"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vacancies_list"
         android:layout_width="0dp"
@@ -29,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@id/title_favorite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/placeholder_message"
@@ -50,8 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_favorite"
-        app:layout_constraintBottom_toTopOf="@id/placeholder_text"
-        />
+        app:layout_constraintBottom_toTopOf="@id/placeholder_text" />
 
     <TextView
         android:id="@+id/placeholder_text"
@@ -64,7 +64,6 @@
         app:layout_constraintTop_toBottomOf="@+id/placeholder_image"
         app:layout_constraintStart_toStartOf="@+id/placeholder_image"
         app:layout_constraintEnd_toEndOf="@+id/placeholder_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

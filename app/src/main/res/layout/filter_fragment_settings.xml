@@ -140,6 +140,7 @@
                     android:contentDescription="@string/choose_industry"
                     android:src="@drawable/ic_arrow_forward_24px"
                     app:tint="?attr/textColorPrimary" />
+
                 <ImageView
                     android:id="@+id/industry_clear"
                     android:layout_width="@dimen/icon_size_24"
