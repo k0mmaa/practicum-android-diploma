@@ -95,6 +95,19 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
         save()
     }
 
+    fun clearRegion() {
+        val current = filter.value ?: return
+        if (current.region == null) return
+        filter.value = current.copy(region = null)
+        save()
+    }
+    fun clearCountry() {
+        val current = filter.value ?: return
+        if (current.country == null) return
+        filter.value = current.copy(country = null)
+        save()
+    }
+
     fun clearIndustry() {
         val current = filter.value ?: return
         if (current.industry == null) return

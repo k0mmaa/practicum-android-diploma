@@ -30,8 +30,6 @@ class FilterFragmentWorkPlace : Fragment() {
         return binding.root
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,6 +53,11 @@ class FilterFragmentWorkPlace : Fragment() {
                         countryTitle.isVisible = true
                         countryValue.isVisible = true
                         countryValue.text = vacancyFilter.country.name
+                        countryArrow.setImageResource(R.drawable.ic_clear)
+                    }
+
+                    binding.countryArrow.setOnClickListener {
+                        filtersViewModel.clearCountry()
                     }
 
                 } else {
@@ -62,6 +65,7 @@ class FilterFragmentWorkPlace : Fragment() {
                         countryTitle.isVisible = false
                         countryValue.isVisible = true
                         countryValue.text = getString(R.string.cuntry)
+                        countryArrow.setImageResource(R.drawable.ic_arrow_forward_24px)
                     }
                 }
                 if (vacancyFilter.region != null) {
@@ -69,12 +73,18 @@ class FilterFragmentWorkPlace : Fragment() {
                         regionTitle.isVisible = true
                         regionValue.isVisible = true
                         regionValue.text = vacancyFilter.region.name
+                        regionArrow.setImageResource(R.drawable.ic_clear)
+                    }
+
+                    binding.regionArrow.setOnClickListener {
+                        filtersViewModel.clearRegion()
                     }
                 } else {
                     binding.apply {
                         regionTitle.isVisible = false
                         regionValue.isVisible = true
                         regionValue.text = getString(R.string.region)
+                        regionArrow.setImageResource(R.drawable.ic_arrow_forward_24px)
                     }
                 }
             } else {
@@ -85,6 +95,8 @@ class FilterFragmentWorkPlace : Fragment() {
                     regionValue.isVisible = true
                     countryValue.text = getString(R.string.cuntry)
                     regionValue.text = getString(R.string.region)
+                    regionArrow.setImageResource(R.drawable.ic_arrow_forward_24px)
+                    countryArrow.setImageResource(R.drawable.ic_arrow_forward_24px)
                 }
             }
         }

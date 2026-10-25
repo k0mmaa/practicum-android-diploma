@@ -117,7 +117,6 @@ class FilterFragment : Fragment() {
         binding.btnClear.setOnClickListener {
             filtersViewModel.save()
             filtersViewModel.reset()
-            binding.btnApply.isVisible = false
         }
     }
 
