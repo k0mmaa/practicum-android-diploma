@@ -7,7 +7,6 @@ import ru.practicum.android.diploma.domain.api.FiltersInteractor
 import ru.practicum.android.diploma.domain.models.filters.FilterOption
 import ru.practicum.android.diploma.domain.models.filters.VacancyFilter
 import ru.practicum.android.diploma.domain.models.filters.isChanged
-
 import ru.practicum.android.diploma.domain.models.filters.isModelEmpty
 
 
@@ -93,6 +92,19 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
         val current = filter.value ?: return
         if (current.country == null && current.region == null) return
         filter.value = current.copy(country = null, region = null)
+        save()
+    }
+
+    fun clearRegion() {
+        val current = filter.value ?: return
+        if (current.region == null) return
+        filter.value = current.copy(region = null)
+        save()
+    }
+    fun clearCountry() {
+        val current = filter.value ?: return
+        if (current.country == null) return
+        filter.value = current.copy(country = null)
         save()
     }
 

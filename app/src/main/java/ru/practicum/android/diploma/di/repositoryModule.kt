@@ -19,9 +19,11 @@ val repositoryModule = module {
     single<FavoriteVacancyRepository> {
         FavoriteVacancyRepositoryImpl(get(), get())
     }
+
     single<FiltersRepository> {
         FilterRepositoryImpl(content = androidContext(), gson = get())
     }
+
 
     single { Gson() }
 }

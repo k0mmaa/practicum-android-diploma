@@ -10,12 +10,12 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import org.koin.androidx.navigation.koinNavGraphViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.R.id.action_filterFragment_to_filterFragmentWorkPlace
 import ru.practicum.android.diploma.databinding.FilterFragmentSettingsBinding
-import ru.practicum.android.diploma.filter.view_model.FiltersViewModel
-import org.koin.androidx.navigation.koinNavGraphViewModel
 import ru.practicum.android.diploma.domain.models.filters.isModelEmpty
+import ru.practicum.android.diploma.filter.view_model.FiltersViewModel
 
 class FilterFragment : Fragment() {
     private var _binding: FilterFragmentSettingsBinding? = null
