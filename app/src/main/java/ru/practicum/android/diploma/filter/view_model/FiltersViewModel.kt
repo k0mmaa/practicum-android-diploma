@@ -61,9 +61,11 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
         filter.value = current.copy(industry = industry)
         save()
     }
+
     fun isFilterWasChanged(): Boolean {
         return filter.value?.isChanged(lastFilter) ?: false
     }
+
     fun save() {
         val current = filter.value ?: return
         filtersInteractor.saveFilter(current)
@@ -79,12 +81,13 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
         save()
     }
 
-    private fun setPreviousFilter(){
+    private fun setPreviousFilter() {
         val current = filter.value ?: return
         lastFilter = current.copy()
     }
+
     private fun loadFilter() {
-        filter.value =  filtersInteractor.getFilter();
+        filter.value = filtersInteractor.getFilter()
         setPreviousFilter()
     }
 
@@ -101,6 +104,7 @@ class FiltersViewModel(private val filtersInteractor: FiltersInteractor) : ViewM
         filter.value = current.copy(region = null)
         save()
     }
+
     fun clearCountry() {
         val current = filter.value ?: return
         if (current.country == null) return

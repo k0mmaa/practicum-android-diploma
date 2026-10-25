@@ -106,5 +106,6 @@ sealed interface IndustryState {
         val industries: List<FilterIndustry>,
         val selectedIndustryId: String?
     ) : IndustryState
+
     data class Error(val error: ErrorType) : IndustryState
 }

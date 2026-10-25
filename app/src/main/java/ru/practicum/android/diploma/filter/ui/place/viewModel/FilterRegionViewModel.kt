@@ -73,6 +73,7 @@ class FilterRegionViewModel(private val interactor: JobsInteractor) : ViewModel(
             }
             return null
         }
+
         var currentParent = findCountry(areas, current.parentId)
         return currentParent
     }

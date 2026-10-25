@@ -23,7 +23,7 @@ class FilterFragment : Fragment() {
 
     private val filtersViewModel: FiltersViewModel by koinNavGraphViewModel(R.id.filters_graph)
 
-    companion object{
+    companion object {
         const val FILTERS_APPLIED_KEY = "filters_applied"
     }
 
@@ -68,7 +68,7 @@ class FilterFragment : Fragment() {
 
             val workPlace = listOfNotNull(filter.country?.name, filter.region?.name)
                 .joinToString(", ")
-                .ifEmpty {null }
+                .ifEmpty { null }
 
             val hasWorkPlace = workPlace != null
             binding.workPlaceTitle.isVisible = true // заголовок никогда не прячем всегда виден. см. Макет
@@ -104,7 +104,7 @@ class FilterFragment : Fragment() {
         binding.hideSalaryCheckbox.setOnCheckedChangeListener { button, checked ->
             filtersViewModel.setOnlyWithSalary(checked)
         }
-        binding.salaryInputEditText.doOnTextChanged {s: CharSequence?, start: Int, before: Int, count: Int  ->
+        binding.salaryInputEditText.doOnTextChanged { s: CharSequence?, start: Int, before: Int, count: Int ->
             filtersViewModel.setSalary(s.toString().toIntOrNull())
         }
         binding.btnApply.setOnClickListener {

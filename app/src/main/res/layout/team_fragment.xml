@@ -8,13 +8,14 @@
     android:background="?attr/colorBackground"
     android:orientation="vertical"
     tools:context="ru.practicum.android.diploma.ui.TeamFragment">
+
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/title_team"
         style="@style/Toolbars"
-        android:id="@+id/team_title"
-        />
+        android:id="@+id/team_title" />
+
     <TextView
         android:id="@+id/tv_team_desc"
         style="@style/TextAppearance.Diploma.Bold32"

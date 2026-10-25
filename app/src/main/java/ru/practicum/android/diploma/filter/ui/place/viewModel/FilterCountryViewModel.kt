@@ -10,7 +10,7 @@ import ru.practicum.android.diploma.domain.api.JobsInteractor
 import ru.practicum.android.diploma.domain.models.area.FilterArea
 import ru.practicum.android.diploma.util.Resource
 
-class FilterCountryViewModel(private val interactor: JobsInteractor): ViewModel() {
+class FilterCountryViewModel(private val interactor: JobsInteractor) : ViewModel() {
 
     init {
         loadCountries()
@@ -45,6 +45,7 @@ class FilterCountryViewModel(private val interactor: JobsInteractor): ViewModel(
         }
     }
 }
+
 fun getCountries(areas: List<FilterArea>): List<FilterArea> {
     return areas
         .filter { it.parentId == null }

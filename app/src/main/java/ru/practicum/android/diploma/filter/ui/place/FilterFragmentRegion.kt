@@ -19,9 +19,8 @@ import ru.practicum.android.diploma.filter.activity.AreasAdapter
 import ru.practicum.android.diploma.filter.ui.place.viewModel.FilterRegionViewModel
 import ru.practicum.android.diploma.filter.ui.place.viewModel.RegionFilterState
 import ru.practicum.android.diploma.filter.view_model.FiltersViewModel
-import ru.practicum.android.diploma.search.ui.SearchFragment.Companion.STRING_DEF
 
-class FilterFragmentRegion: Fragment() {
+class FilterFragmentRegion : Fragment() {
     private var _binding: FilterFragmentRegionBinding? = null
     private val binding get() = _binding!!
 
@@ -118,6 +117,7 @@ class FilterFragmentRegion: Fragment() {
         _binding = null
     }
 }
+
 fun FilterArea.toFilterOption() = FilterOption(
     id = this.id,
     name = this.name

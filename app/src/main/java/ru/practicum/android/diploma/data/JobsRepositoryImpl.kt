@@ -42,6 +42,7 @@ class JobsRepositoryImpl(
 
                 emit(Resource.Success(areas))
             }
+
             else -> {
                 emit(Resource.Error(mapErrorCode(response.resultCode)))
             }
