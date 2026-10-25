@@ -9,12 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.navigation.koinNavGraphViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FilterFragmentCountryBinding
 import ru.practicum.android.diploma.filter.activity.AreasAdapter
 import ru.practicum.android.diploma.filter.ui.place.viewModel.CountryFilterState
+import ru.practicum.android.diploma.filter.ui.place.viewModel.FilterCountryViewModel
 import ru.practicum.android.diploma.filter.view_model.FiltersViewModel
-import ru.practicum.android.diploma.filter.view_model.toFilterOption
 
 
 class FilterFragmentCountry : Fragment() {
@@ -22,6 +23,7 @@ class FilterFragmentCountry : Fragment() {
     private var _binding: FilterFragmentCountryBinding? = null
     private val binding get() = _binding!!
     private val filtersViewModel: FiltersViewModel by koinNavGraphViewModel(R.id.filters_graph)
+    private val countryViewModel: FilterCountryViewModel by viewModel()
     private lateinit var adapterCountry: AreasAdapter
 
     override fun onCreateView(
@@ -47,7 +49,7 @@ class FilterFragmentCountry : Fragment() {
         }
         binding.countryList.adapter = adapterCountry
 
-        filtersViewModel.observeCountriesState.observe(viewLifecycleOwner) { state ->
+        countryViewModel.observeCountriesState.observe(viewLifecycleOwner) { state ->
             render(state)
         }
     }

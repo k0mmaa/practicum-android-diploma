@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.filter.ui.place.viewModel
 import ru.practicum.android.diploma.domain.models.area.FilterArea
 
 sealed interface RegionFilterState {
-    object Start: RegionFilterState
     object Loading: RegionFilterState
     object Error: RegionFilterState
     object Empty: RegionFilterState
