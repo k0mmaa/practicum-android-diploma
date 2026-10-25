@@ -42,6 +42,7 @@ abstract class AbstractListAdapter<T>(
     fun submitList(list: List<T>){
         this.list.clear()
         this.list.addAll(list)
+        notifyDataSetChanged()
     }
 
     fun interface ClickListener<T> {
