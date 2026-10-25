@@ -19,6 +19,9 @@
             <action
                 android:id="@+id/action_filterFragment_to_filterFragmentWorkPlace"
                 app:destination="@id/filterFragmentWorkPlace" />
+            <action
+                android:id="@+id/action_filterFragment_to_filterFragmentIndustry"
+                app:destination="@id/filterFragmentIndustry" />
         </fragment>
 
         <!-- Выбор места работы -->
@@ -48,6 +51,13 @@
             android:name="ru.practicum.android.diploma.filter.ui.place.FilterFragmentRegion"
             android:label="filter_fragment_region"
             tools:layout="@layout/filter_fragment_region" />
+
+        <!-- Выбор отрасли -->
+        <fragment
+            android:id="@+id/filterFragmentIndustry"
+            android:name="ru.practicum.android.diploma.filter.ui.FilterFragmentIndustry"
+            android:label="filter_fragment_industry"
+            tools:layout="@layout/filter_fragment_industry" />
     </navigation>
 
     <!-- Избранное -->

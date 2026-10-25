@@ -165,11 +165,11 @@ class SearchViewModel(
         val areaId = currentFilter.region?.id
             ?: currentFilter.country?.id
 
-        areaId?.toIntOrNull()?.let {
+        areaId?.let {
             params["area"] = it
         }
 
-        currentFilter.industry?.id?.toIntOrNull()?.let {
+        currentFilter.industry?.id?.let {
             params["industry"] = it
         }
 

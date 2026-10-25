@@ -9,6 +9,7 @@ import ru.practicum.android.diploma.data.dto.requests.IndustriesRequest
 import ru.practicum.android.diploma.data.dto.requests.VacanciesRequest
 import ru.practicum.android.diploma.data.dto.requests.VacancyDetailsRequest
 import ru.practicum.android.diploma.data.dto.response.area.AreasResponseDto
+import ru.practicum.android.diploma.data.dto.response.industries.FilterIndustryDto
 import ru.practicum.android.diploma.data.dto.response.industries.IndustriesResponseDto
 import ru.practicum.android.diploma.data.dto.response.vacancy.VacancyDetailResponse
 import ru.practicum.android.diploma.data.dto.response.vacancy.VacancyResponse
@@ -54,7 +55,9 @@ class JobsRepositoryImpl(
         when (response.resultCode) {
 
             NetworkResultCode.SUCCESS -> {
-                val industries = (response as IndustriesResponseDto).industries.map { it.toModel() }
+                val industries = (response as IndustriesResponseDto)
+                    .industries
+                    .flatMap { it.flatten() }
 
                 emit(Resource.Success(industries))
             }
@@ -68,8 +71,8 @@ class JobsRepositoryImpl(
     }
 
     override fun getVacancies(
-        area: Int?,
-        industry: Int?,
+        area: String?,
+        industry: String?,
         text: String?,
         salary: Int?,
         page: Int?,
@@ -150,5 +153,9 @@ class JobsRepositoryImpl(
             NetworkResultCode.SERVER_ERROR -> ErrorType.SERVER_ERROR
             else -> ErrorType.SERVER_ERROR
         }
+    }
+
+    private fun FilterIndustryDto.flatten(): List<FilterIndustry> {
+        return listOf(toModel()) + industries.orEmpty().flatMap { it.flatten() }
     }
 }
