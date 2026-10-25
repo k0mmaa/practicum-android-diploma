@@ -48,6 +48,7 @@ class FilterFragmentWorkPlace : Fragment() {
         }
 
         filtersViewModel.observeFilter().observe(viewLifecycleOwner) { vacancyFilter ->
+            binding.btnChoose.isVisible = vacancyFilter?.country != null || vacancyFilter?.region != null
             if (vacancyFilter != null) {
                 if (vacancyFilter.country != null) {
                     binding.apply {
@@ -89,7 +90,7 @@ class FilterFragmentWorkPlace : Fragment() {
         }
 
         binding.btnChoose.setOnClickListener {
-            findNavController().navigate(R.id.filter_fragment)
+            findNavController().popBackStack()
         }
 
     }

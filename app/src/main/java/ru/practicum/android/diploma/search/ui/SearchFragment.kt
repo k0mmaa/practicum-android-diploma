@@ -246,7 +246,6 @@ class SearchFragment : Fragment() {
 
     fun showVacancies(list: List<VacancyCard>) {
         adapter.submitList(list)
-        adapter.notifyDataSetChanged()
     }
 
 
