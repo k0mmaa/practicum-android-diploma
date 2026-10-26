@@ -3,20 +3,22 @@ package ru.practicum.android.diploma.filter.ui
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.ListItemIndustryBinding
 import ru.practicum.android.diploma.domain.models.industries.FilterIndustry
+import ru.practicum.android.diploma.search.ui.activity.AbstractListAdapter
+import ru.practicum.android.diploma.search.ui.activity.AbstractViewHolder
 
 data class IndustryUiItem(
     val industry: FilterIndustry,
     val isSelected: Boolean
 )
+
 class IndustryAdapter(
-    private val onIndustryClick: (FilterIndustry) -> Unit
-) : ListAdapter<IndustryUiItem, IndustryAdapter.IndustryViewHolder>(
-    IndustryDiffCallback()
+    onIndustryClick: ClickListener<IndustryUiItem>
+) : AbstractListAdapter<IndustryUiItem>(
+    clickListener = onIndustryClick,
+    diffCallback = IndustryDiffCallback()
 ) {
 
     fun update(industries: List<FilterIndustry>, selectedIndustryId: String?) {
@@ -29,28 +31,25 @@ class IndustryAdapter(
         submitList(items)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IndustryViewHolder {
-        val binding = ListItemIndustryBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return IndustryViewHolder(binding)
-    }
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): IndustryViewHolder = IndustryViewHolder.from(parent)
 
-    override fun onBindViewHolder(holder: IndustryViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
-        holder.itemView.setOnClickListener {
-            onIndustryClick(item.industry)
-        }
-
-    }
 
     class IndustryViewHolder(
         private val binding: ListItemIndustryBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: IndustryUiItem) {
+    ) : AbstractViewHolder<IndustryUiItem>(binding.root) {
+
+        companion object {
+            fun from(parent: ViewGroup): IndustryViewHolder {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = ListItemIndustryBinding.inflate(inflater, parent, false)
+                return IndustryViewHolder(binding)
+            }
+        }
+
+        override fun bind(item: IndustryUiItem) {
             binding.industryName.text = item.industry.name
             binding.industryRadio.setImageResource(
                 if (item.isSelected) R.drawable.ic_radio_button_on__24px
@@ -59,6 +58,7 @@ class IndustryAdapter(
         }
     }
 }
+
 private class IndustryDiffCallback : DiffUtil.ItemCallback<IndustryUiItem>() {
 
     override fun areItemsTheSame(

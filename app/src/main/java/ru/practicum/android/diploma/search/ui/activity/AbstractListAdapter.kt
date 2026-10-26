@@ -1,21 +1,20 @@
 package ru.practicum.android.diploma.search.ui.activity
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 
 abstract class AbstractListAdapter<T>(
     val clickListener: ClickListener<T>,
-) : RecyclerView.Adapter<AbstractViewHolder<T>>() {
-
-    private var list = ArrayList<T>()
+    diffCallback: DiffUtil.ItemCallback<T>
+) : ListAdapter<T, AbstractViewHolder<T>>(diffCallback) {
 
     private var longClickListener: ((T) -> Unit)? = null
 
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder<T>
 
     override fun onBindViewHolder(holder: AbstractViewHolder<T>, position: Int) {
-
-        val item = list[position]
+        val item = getItem(position)
 
         holder.bind(item)
 
@@ -35,14 +34,6 @@ abstract class AbstractListAdapter<T>(
 
     fun setOnLongClickListener(listener: (T) -> Unit) {
         longClickListener = listener
-    }
-
-    override fun getItemCount(): Int = list.size
-
-    fun submitList(list: List<T>) {
-        this.list.clear()
-        this.list.addAll(list)
-        notifyDataSetChanged()
     }
 
     fun interface ClickListener<T> {
