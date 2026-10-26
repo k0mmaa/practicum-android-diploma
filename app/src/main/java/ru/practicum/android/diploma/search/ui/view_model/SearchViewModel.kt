@@ -146,7 +146,7 @@ class SearchViewModel(
                 ).collect { result ->
                     if (txt == latestSearchText) {
                         processResult(result, clearResult)
-                        lastFilter = filter.value
+                        lastFilter = requestFilter
                     }
                     loadingNextPage = false
                 }
