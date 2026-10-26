@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.flowOf
 import ru.practicum.android.diploma.domain.api.JobsInteractor
 import ru.practicum.android.diploma.domain.api.JobsRepository
 import ru.practicum.android.diploma.domain.models.area.FilterArea
+import ru.practicum.android.diploma.domain.models.filters.VacancyFilter
 import ru.practicum.android.diploma.domain.models.industries.FilterIndustry
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancies
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyDetail
@@ -24,35 +25,18 @@ class JobsInteractorImpl(
     }
 
     override fun getVacancies(
-        area: String?,
-        industry: String?,
         text: String?,
-        salary: Int?,
         page: Int?,
-        onlyWithSalary: Boolean?
+        filter: VacancyFilter?
     ): Flow<Resource<Vacancies>> {
         return repository.getVacancies(
-            area = area,
-            industry = industry,
             text = text,
-            salary = salary,
             page = page,
-            onlyWithSalary = onlyWithSalary
+            filter = filter
         )
     }
 
-    override fun getVacancies(
-        params: Map<String, Any>
-    ): Flow<Resource<Vacancies>> {
-        return getVacancies(
-            area = params["area"]?.toString(),
-            industry = params["industry"]?.toString(),
-            text = params["text"]?.toString(),
-            salary = params["salary"] as? Int,
-            page = params["page"] as? Int,
-            onlyWithSalary = (params["only_with_salary"] as? Boolean)?.takeIf { it }
-        )
-    }
+
     override fun getVacancyDetails(
         id: String
     ): Flow<Resource<VacancyDetail>> {

@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.domain.api
 
 import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.domain.models.area.FilterArea
+import ru.practicum.android.diploma.domain.models.filters.VacancyFilter
 import ru.practicum.android.diploma.domain.models.industries.FilterIndustry
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancies
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyDetail
@@ -12,12 +13,9 @@ interface JobsRepository {
 
     fun getIndustries(): Flow<Resource<List<FilterIndustry>>>
     fun getVacancies(
-        area: String? = null,
-        industry: String? = null,
-        text: String? = null,
-        salary: Int? = null,
-        page: Int? = null,
-        onlyWithSalary: Boolean? = null
+        text: String?,
+        page: Int?,
+        filter: VacancyFilter?
     ): Flow<Resource<Vacancies>>
 
     fun getVacancyDetails(

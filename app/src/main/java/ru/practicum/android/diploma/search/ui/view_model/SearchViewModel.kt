@@ -138,9 +138,11 @@ class SearchViewModel(
             val txt = newSearchText
             searchJob?.cancel()
             searchJob = viewModelScope.launch {
-
+                val requestFilter = filter.value?.copy()
                 jobsInteractor.getVacancies(
-                    buildSearchParams(newSearchText, page, filter.value)
+                    newSearchText,
+                    page,
+                    requestFilter
                 ).collect { result ->
                     if (txt == latestSearchText) {
                         processResult(result, clearResult)
@@ -152,38 +154,7 @@ class SearchViewModel(
         }
     }
 
-    private fun buildSearchParams(newSearchText: String, page: Int, currentFilter: VacancyFilter?):
-        Map<String, Any> {
-        val params = mutableMapOf<String, Any>(
-            "text" to newSearchText,
-            "page" to page
-        )
 
-        if (currentFilter == null || currentFilter.isModelEmpty()) {
-            return params
-        }
-
-        val areaId = currentFilter.region?.id
-            ?: currentFilter.country?.id
-
-        areaId?.let {
-            params["area"] = it
-        }
-
-        currentFilter.industry?.id?.let {
-            params["industry"] = it
-        }
-
-        currentFilter.salary?.takeIf { it > 0 }?.let {
-            params["salary"] = it
-        }
-
-        if (currentFilter.onlyWithSalary) {
-            params["only_with_salary"] = true
-        }
-
-        return params
-    }
 
     private fun processResult(result: Resource<Vacancies>, clearResult: Boolean = true) {
         when (result) {

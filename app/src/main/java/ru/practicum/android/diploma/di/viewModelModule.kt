@@ -34,5 +34,4 @@ val viewModelModule = module {
         FilterRegionViewModel(get())
     }
 
-    viewModel { IndustryViewModel(get()) }
 }

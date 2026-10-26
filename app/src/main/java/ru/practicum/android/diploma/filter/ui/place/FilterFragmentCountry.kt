@@ -38,7 +38,7 @@ class FilterFragmentCountry : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
 
@@ -48,7 +48,7 @@ class FilterFragmentCountry : Fragment() {
             findNavController().popBackStack()
         }
         binding.countryList.adapter = adapterCountry
-
+        countryViewModel.loadCountries()
         countryViewModel.observeCountriesState.observe(viewLifecycleOwner) { state ->
             render(state)
         }

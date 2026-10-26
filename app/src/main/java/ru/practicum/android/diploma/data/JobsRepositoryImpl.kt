@@ -17,6 +17,7 @@ import ru.practicum.android.diploma.data.mapper.toModel
 import ru.practicum.android.diploma.data.network.NetworkResultCode
 import ru.practicum.android.diploma.domain.api.JobsRepository
 import ru.practicum.android.diploma.domain.models.area.FilterArea
+import ru.practicum.android.diploma.domain.models.filters.VacancyFilter
 import ru.practicum.android.diploma.domain.models.industries.FilterIndustry
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancies
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyDetail
@@ -72,22 +73,16 @@ class JobsRepositoryImpl(
     }
 
     override fun getVacancies(
-        area: String?,
-        industry: String?,
         text: String?,
-        salary: Int?,
         page: Int?,
-        onlyWithSalary: Boolean?
+        filter: VacancyFilter?
     ): Flow<Resource<Vacancies>> = flow {
 
         val response = networkClient.doRequest(
             VacanciesRequest(
-                area = area,
-                industry = industry,
                 text = text,
-                salary = salary,
                 page = page,
-                onlyWithSalary = onlyWithSalary
+                filter = filter
             )
         )
 

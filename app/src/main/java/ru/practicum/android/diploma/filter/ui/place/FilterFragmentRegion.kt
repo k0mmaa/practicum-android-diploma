@@ -51,7 +51,7 @@ class FilterFragmentRegion : Fragment() {
         }
         binding.regionList.adapter = regionAdapter
 
-        binding.toolbar.setOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
 
