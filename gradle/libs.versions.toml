@@ -33,7 +33,7 @@ detekt = "1.23.8"
 detektTwitterComposeRules = "0.0.26"
 
 [libraries]
-
+koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin" }
 # AndroidX
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }

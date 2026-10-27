@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/filter_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorBackground"
+    tools:context=".filter.ui.FilterFragment">
+
+    <!-- Тулбар -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_arrow_back_24px"
+        app:title="@string/title_filters"
+        app:navigationIconTint="?attr/textColorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/buttons_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/padding_16"
+            android:paddingTop="@dimen/padding_16">
+
+            <!-- Место работы -->
+            <FrameLayout
+                android:id="@+id/work_place_container"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="40dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/work_place_title"
+                        style="@style/TextAppearance.Diploma.Regular16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/placeholderSecondaryColor"
+                        android:text="@string/choose_work_place" />
+
+                    <TextView
+                        android:id="@+id/work_place_value"
+                        style="@style/TextAppearance.Diploma.Regular16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        tools:text="Россия, Москва"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/work_place_arrow"
+                    android:layout_width="@dimen/icon_size_24"
+                    android:layout_height="@dimen/icon_size_24"
+                    android:layout_gravity="end|center_vertical"
+                    android:contentDescription="@string/choose_work_place"
+                    android:src="@drawable/ic_arrow_forward_24px"
+                    app:tint="?attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/work_place_clear"
+                    android:layout_width="@dimen/icon_size_24"
+                    android:layout_height="@dimen/icon_size_24"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/clear_work_place"
+                    android:src="@drawable/ic_clear"
+                    android:visibility="gone"
+                    app:tint="?attr/textColorPrimary"
+                    tools:visibility="visible" />
+            </FrameLayout>
+
+            <!-- Отрасль -->
+            <FrameLayout
+                android:id="@+id/industry_container"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="@dimen/padding_8"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="40dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/industry_title"
+                        style="@style/TextAppearance.Diploma.Regular16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/placeholderSecondaryColor"
+                        android:text="@string/choose_industry" />
+
+                    <TextView
+                        android:id="@+id/industry_value"
+                        style="@style/TextAppearance.Diploma.Regular16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:visibility="gone"
+                        tools:text="IT, Интернет, Телеком"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/industry_arrow"
+                    android:layout_width="@dimen/icon_size_24"
+                    android:layout_height="@dimen/icon_size_24"
+                    android:layout_gravity="end|center_vertical"
+                    android:contentDescription="@string/choose_industry"
+                    android:src="@drawable/ic_arrow_forward_24px"
+                    app:tint="?attr/textColorPrimary" />
+
+                <ImageView
+                    android:id="@+id/industry_clear"
+                    android:layout_width="@dimen/icon_size_24"
+                    android:layout_height="@dimen/icon_size_24"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/clear_industry"
+                    android:src="@drawable/ic_clear"
+                    android:visibility="gone"
+                    app:tint="?attr/textColorPrimary"
+                    tools:visibility="visible" />
+            </FrameLayout>
+
+            <!-- Введите сумму зарплаты -->
+            <LinearLayout
+                android:id="@+id/salary_input_container"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="@dimen/padding_24"
+                android:background="@drawable/background_edit_text"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/padding_16"
+                android:paddingVertical="8dp">
+
+                <TextView
+                    android:id="@+id/salary_title"
+                    style="@style/TextAppearance.Diploma.Regular12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_salary"
+                    android:textColor="?attr/textColorHint" />
+
+                <EditText
+                    android:id="@+id/salary_input_edit_text"
+                    style="@style/TextAppearance.Diploma.Regular16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/input_salary"
+                    android:importantForAutofill="no"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:padding="0dp"
+                    android:textColor="?attr/textColorPrimary"
+                    android:textColorHint="?attr/textColorHint" />
+            </LinearLayout>
+
+            <!-- Не показывать без зарплаты -->
+            <LinearLayout
+                android:id="@+id/hide_salary_container"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="@dimen/padding_24"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextAppearance.Diploma.Regular16"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/ch_box_hide_salary" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/hide_salary_checkbox"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:buttonTint="?attr/colorPrimary" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Кнопки Применить и Сбросить -->
+    <LinearLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/padding_16"
+        android:paddingBottom="@dimen/padding_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_apply"
+            style="@style/Widget.Diploma.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:text="@string/btn_title_apply"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clear"
+            style="@style/Widget.Diploma.Button.Text"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/padding_8"
+            android:text="@string/btn_title_clear"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

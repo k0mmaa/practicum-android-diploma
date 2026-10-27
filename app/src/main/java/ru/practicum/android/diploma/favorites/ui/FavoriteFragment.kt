@@ -81,7 +81,6 @@ class FavoriteFragment : Fragment() {
 
             is FavoriteVacanciesState.Content -> {
                 vacancyAdapter.submitList(state.vacanciesList)
-                vacancyAdapter.notifyDataSetChanged()
                 binding.apply {
                     placeholderMessage.visibility = View.GONE
                     vacanciesList.visibility = View.VISIBLE
