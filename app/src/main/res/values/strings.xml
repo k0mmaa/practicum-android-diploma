@@ -34,7 +34,7 @@
     <string name="vacancy_requirements_title">Требования</string>
     <string name="vacancy_terms_title">Условия</string>
     <string name="vacancy_skills_title">Ключевые навыки</string>
-
+    <string name="contact_title">Контакт</string>
 
     <!--Раздел Фильтрация-->
     <string name="error_region">Такого региона нет</string>

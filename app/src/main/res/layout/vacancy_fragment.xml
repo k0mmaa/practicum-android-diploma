@@ -253,6 +253,50 @@
                     tools:itemCount="3"
                     tools:listitem="@layout/item_vacancy_skill" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/contact_title"
+                    style="@style/TextAppearance.Diploma.Medium22"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/contact_title" />
+
+                <TextView
+                    android:id="@+id/contact_name"
+                    style="@style/TextAppearance.Diploma.Regular16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="?attr/textColorPrimary"
+                    tools:text="Иван Петрович" />
+
+                <TextView
+                    android:id="@+id/contact_email"
+                    style="@style/TextAppearance.Diploma.Regular16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="?attr/textColorPrimary"
+                    tools:text="aa@example.com" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/phone_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:overScrollMode="never"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_vacancy_phone" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

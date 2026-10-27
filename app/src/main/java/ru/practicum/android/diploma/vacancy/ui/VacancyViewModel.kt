@@ -10,6 +10,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.JobsInteractor
 import ru.practicum.android.diploma.domain.api.SharingInteractor
+import ru.practicum.android.diploma.domain.models.vacancy.Phone
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyDetail
 import ru.practicum.android.diploma.favorites.domain.db.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.util.ErrorType
@@ -56,33 +57,33 @@ class VacancyViewModel(
         }
 
         loadJob = viewModelScope.launch {
-                mutableState.value = VacancyState.Loading
-                try {
-                    jobInteractor.getVacancyDetails(vacancyId).collect { result ->
-                        mutableState.value = when (result) {
-                            is Resource.Success -> result.data
-                                ?.let(VacancyState::Content)
-                                ?.takeIf { it.vacancy.id == vacancyId }
-                                ?: VacancyState.Error(ErrorType.SERVER_ERROR)
+            mutableState.value = VacancyState.Loading
+            try {
+                jobInteractor.getVacancyDetails(vacancyId).collect { result ->
+                    mutableState.value = when (result) {
+                        is Resource.Success -> result.data
+                            ?.let(VacancyState::Content)
+                            ?.takeIf { it.vacancy.id == vacancyId }
+                            ?: VacancyState.Error(ErrorType.SERVER_ERROR)
 
-                            is Resource.Error -> {
-                                if (result.code == ErrorType.NOT_FOUND) {
-                                    favoriteInteractor.deleteVacancy(vacancyId)
-                                }
-                                VacancyState.Error(
-                                    result.code ?: ErrorType.SERVER_ERROR
-                                )
+                        is Resource.Error -> {
+                            if (result.code == ErrorType.NOT_FOUND) {
+                                favoriteInteractor.deleteVacancy(vacancyId)
                             }
+                            VacancyState.Error(
+                                result.code ?: ErrorType.SERVER_ERROR
+                            )
                         }
                     }
-                } catch (exception: CancellationException) {
-                    throw exception
-                } catch (exception: Exception) {
-                    Log.e(TAG, "Unexpected failure while loading vacancy $vacancyId", exception)
-                    mutableState.value = VacancyState.Error(ErrorType.SERVER_ERROR)
                 }
+            } catch (exception: CancellationException) {
+                throw exception
+            } catch (exception: Exception) {
+                Log.e(TAG, "Unexpected failure while loading vacancy $vacancyId", exception)
+                mutableState.value = VacancyState.Error(ErrorType.SERVER_ERROR)
             }
         }
+    }
 
     fun onLikeButtonClick() {
         val contentNow = mutableState.value as? VacancyState.Content ?: return
@@ -95,6 +96,14 @@ class VacancyViewModel(
                 favoriteInteractor.insertVacancy(vacancy)
             }
         }
+    }
+
+    fun openPhone(phone: Phone) {
+        sharingInteractor.openPhone(phone.formatted)
+    }
+
+    fun openEmail(email: String) {
+        sharingInteractor.openEmail(email)
     }
 
     fun shareLink() {
@@ -111,6 +120,7 @@ class VacancyViewModel(
     }
 
 }
+
 sealed interface VacancyState {
     data object Loading : VacancyState
     data class Content(val vacancy: VacancyDetail) : VacancyState
