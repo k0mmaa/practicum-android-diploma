@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.search.ui.activity
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import ru.practicum.android.diploma.domain.models.Identifiable
 
 abstract class AbstractListAdapter<T>(
     val clickListener: ClickListener<T>,
@@ -38,5 +39,17 @@ abstract class AbstractListAdapter<T>(
 
     fun interface ClickListener<T> {
         fun onClick(item: T)
+    }
+}
+
+class CommonDiffCallback<T : Identifiable> : DiffUtil.ItemCallback<T>() {
+
+    override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
+        return oldItem::class == newItem::class &&
+            oldItem.getIdentifier() == newItem.getIdentifier()
+    }
+
+    override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
+        return oldItem == newItem
     }
 }

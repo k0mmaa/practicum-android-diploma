@@ -2,23 +2,26 @@ package ru.practicum.android.diploma.filter.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.ListItemIndustryBinding
+import ru.practicum.android.diploma.domain.models.Identifiable
 import ru.practicum.android.diploma.domain.models.industries.FilterIndustry
 import ru.practicum.android.diploma.search.ui.activity.AbstractListAdapter
 import ru.practicum.android.diploma.search.ui.activity.AbstractViewHolder
+import ru.practicum.android.diploma.search.ui.activity.CommonDiffCallback
 
 data class IndustryUiItem(
     val industry: FilterIndustry,
     val isSelected: Boolean
-)
+) : Identifiable {
+    override fun getIdentifier(): String = industry.id
+}
 
 class IndustryAdapter(
     onIndustryClick: ClickListener<IndustryUiItem>
 ) : AbstractListAdapter<IndustryUiItem>(
     clickListener = onIndustryClick,
-    diffCallback = IndustryDiffCallback()
+    diffCallback = CommonDiffCallback()
 ) {
 
     fun update(industries: List<FilterIndustry>, selectedIndustryId: String?) {
@@ -56,22 +59,5 @@ class IndustryAdapter(
                 else R.drawable.ic_radio_button_off__24px
             )
         }
-    }
-}
-
-private class IndustryDiffCallback : DiffUtil.ItemCallback<IndustryUiItem>() {
-
-    override fun areItemsTheSame(
-        oldItem: IndustryUiItem,
-        newItem: IndustryUiItem
-    ): Boolean {
-        return oldItem.industry.id == newItem.industry.id
-    }
-
-    override fun areContentsTheSame(
-        oldItem: IndustryUiItem,
-        newItem: IndustryUiItem
-    ): Boolean {
-        return oldItem == newItem
     }
 }
