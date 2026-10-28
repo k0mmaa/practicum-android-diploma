@@ -48,7 +48,7 @@ class VacancyViewModel(
         requestedVacancyId = vacancyId
         favoriteJob?.cancel()
         loadJob?.cancel()
-
+        favoriteLiveData.value = false
         favoriteJob = viewModelScope.launch {
             favoriteInteractor.isVacancyFavorite(vacancyId)
                 .collect { result ->
@@ -58,28 +58,31 @@ class VacancyViewModel(
 
         loadJob = viewModelScope.launch {
             try {
-
                 mutableState.value = VacancyState.Loading
-                val vacancy = favoriteInteractor.getVacancy(id)
+                jobInteractor.getVacancyDetails(vacancyId).collect { result ->
+                    mutableState.value = when (result) {
+                        is Resource.Success -> result.data
+                            ?.let(VacancyState::Content)
+                            ?.takeIf { it.vacancy.id == vacancyId }
+                            ?: VacancyState.Error(ErrorType.SERVER_ERROR)
 
-                if (vacancy != null) {
-                    mutableState.value = VacancyState.Content(vacancy)
-                }else{
-                    jobInteractor.getVacancyDetails(vacancyId).collect { result ->
-                        mutableState.value = when (result) {
-                            is Resource.Success -> result.data
-                                ?.let(VacancyState::Content)
-                                ?.takeIf { it.vacancy.id == vacancyId }
-                                ?: VacancyState.Error(ErrorType.SERVER_ERROR)
-
-                            is Resource.Error -> {
-                                if (result.code == ErrorType.NOT_FOUND) {
-                                    favoriteInteractor.deleteVacancy(vacancyId)
-                                }
+                        is Resource.Error -> {
+                            if (result.code == ErrorType.NOT_FOUND) {
+                                favoriteInteractor.deleteVacancy(vacancyId)
                                 VacancyState.Error(
-                                    result.code ?: ErrorType.SERVER_ERROR
+                                    result.code
                                 )
+                            }else{
+                                val vacancy = favoriteInteractor.getVacancy(vacancyId)
+                                if (vacancy != null){
+                                    VacancyState.Content(vacancy)
+                                }else{
+                                    VacancyState.Error(
+                                        result.code ?: ErrorType.SERVER_ERROR
+                                    )
+                                }
                             }
+
                         }
                     }
                 }
