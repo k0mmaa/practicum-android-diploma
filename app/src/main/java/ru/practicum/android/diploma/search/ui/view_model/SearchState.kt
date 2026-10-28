@@ -15,4 +15,10 @@ sealed interface SearchState {
     object NotFound : SearchState
     object ServerError : SearchState
     object AuthorizationError : SearchState
+    data class ErrorWithToast(val errorType: ToastType): SearchState
+}
+
+enum class ToastType {
+    NO_INTERNET,
+    ANYTHING_ELSE
 }

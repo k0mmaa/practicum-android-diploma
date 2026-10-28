@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.FiltersInteractor
 import ru.practicum.android.diploma.domain.api.JobsInteractor
 import ru.practicum.android.diploma.domain.models.filters.VacancyFilter
-import ru.practicum.android.diploma.domain.models.filters.isModelEmpty
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancies
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
 import ru.practicum.android.diploma.util.Debounce
@@ -145,7 +144,7 @@ class SearchViewModel(
                     requestFilter
                 ).collect { result ->
                     if (txt == latestSearchText) {
-                        processResult(result, clearResult)
+                        processResult(result, clearResult, page > 1)
                         lastFilter = requestFilter
                     }
                     loadingNextPage = false
@@ -155,8 +154,7 @@ class SearchViewModel(
     }
 
 
-
-    private fun processResult(result: Resource<Vacancies>, clearResult: Boolean = true) {
+    private fun processResult(result: Resource<Vacancies>, clearResult: Boolean = true, isNextPage: Boolean) {
         when (result) {
             is Resource.Success -> {
                 if (clearResult) {
@@ -176,7 +174,16 @@ class SearchViewModel(
             }
 
             is Resource.Error -> {
-                when (result.code) {
+                if (isNextPage){
+                    when (result.code) {
+                        NO_INTERNET -> {
+                            renderState(SearchState.ErrorWithToast(ToastType.NO_INTERNET))
+                        }
+                        else -> {
+                            renderState(SearchState.ErrorWithToast(ToastType.ANYTHING_ELSE))
+                        }
+                }
+                } else { when (result.code) {
                     NOT_FOUND -> {
                         renderState(SearchState.NotFound)
                     }
@@ -192,6 +199,7 @@ class SearchViewModel(
                     else -> {
                         renderState(SearchState.ServerError)
                     }
+                }
                 }
             }
         }
