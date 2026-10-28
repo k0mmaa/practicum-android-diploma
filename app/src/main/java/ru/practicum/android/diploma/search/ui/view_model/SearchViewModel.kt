@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.search.ui.view_model
 
 
+import android.R
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,6 +29,9 @@ class SearchViewModel(
     fun observeState(): LiveData<SearchState> = stateLiveData
     private val filter = MutableLiveData<VacancyFilter>()
     fun observeFilter(): LiveData<VacancyFilter> = filter
+
+    private val toastLiveData = MutableLiveData<Int?>()
+    fun observeToast(): LiveData<Int?> = toastLiveData
     private var vacanciesList: MutableList<VacancyCard> = mutableListOf()
     private var latestSearchText: String = ""
     private var currentPage: Int = DEFAULT_PAGE_VALUE
@@ -138,16 +142,19 @@ class SearchViewModel(
             val txt = newSearchText
             searchJob?.cancel()
             searchJob = viewModelScope.launch {
-                val requestFilter = filter.value?.copy()
-                jobsInteractor.getVacancies(
-                    newSearchText,
-                    page,
-                    requestFilter
-                ).collect { result ->
-                    if (txt == latestSearchText) {
-                        processResult(result, clearResult)
-                        lastFilter = requestFilter
+                try {
+                    val requestFilter = filter.value?.copy()
+                    jobsInteractor.getVacancies(
+                        newSearchText,
+                        page,
+                        requestFilter
+                    ).collect { result ->
+                        if (txt == latestSearchText) {
+                            processResult(result, clearResult)
+                            lastFilter = requestFilter
+                        }
                     }
+                } finally {
                     loadingNextPage = false
                 }
             }
@@ -176,26 +183,39 @@ class SearchViewModel(
             }
 
             is Resource.Error -> {
-                when (result.code) {
-                    NOT_FOUND -> {
-                        renderState(SearchState.NotFound)
-                    }
+                val errorToast = when(result.code){
+                    NO_INTERNET -> ru.practicum.android.diploma.R.string.pagination_no_internet
+                    else -> ru.practicum.android.diploma.R.string.pagination_not_found
+                }
+                if(!clearResult){
+                    toastLiveData.postValue(errorToast)
+                    renderState(SearchState.Content(vacanciesList.toList(), totalCount))
+                } else{
+                    when (result.code) {
+                        NOT_FOUND -> {
+                            renderState(SearchState.NotFound)
+                        }
 
-                    NO_INTERNET -> {
-                        renderState(SearchState.NoInternet)
-                    }
+                        NO_INTERNET -> {
+                            renderState(SearchState.NoInternet)
+                        }
 
-                    AUTHORIZATION_ERROR -> {
-                        renderState(SearchState.AuthorizationError)
-                    }
+                        AUTHORIZATION_ERROR -> {
+                            renderState(SearchState.AuthorizationError)
+                        }
 
-                    else -> {
-                        renderState(SearchState.ServerError)
+                        else -> {
+                            renderState(SearchState.ServerError)
+                        }
                     }
                 }
             }
         }
 
+    }
+
+    fun clearErrorToast() {
+        toastLiveData.value = null
     }
 
     fun loadFilter() {
