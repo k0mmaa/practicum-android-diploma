@@ -73,13 +73,21 @@ class VacancyViewModel(
                                     result.code
                                 )
                             }else{
-                                val vacancy = favoriteInteractor.getVacancy(vacancyId)
-                                if (vacancy != null){
-                                    VacancyState.Content(vacancy)
-                                }else{
-                                    VacancyState.Error(
-                                        result.code ?: ErrorType.SERVER_ERROR
-                                    )
+                                when(result.code){
+                                    ErrorType.NO_INTERNET ->{
+                                        val vacancy = favoriteInteractor.getVacancy(vacancyId)
+                                        if (vacancy != null){
+                                            VacancyState.Content(vacancy)
+                                        }else{
+                                            VacancyState.Error(result.code)
+                                        }
+                                    }
+
+                                    else -> {
+                                        VacancyState.Error(
+                                            result.code ?: ErrorType.SERVER_ERROR
+                                        )
+                                    }
                                 }
                             }
 
