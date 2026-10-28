@@ -38,7 +38,7 @@ class FilterFragmentCountry : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
 
@@ -48,7 +48,7 @@ class FilterFragmentCountry : Fragment() {
             findNavController().popBackStack()
         }
         binding.countryList.adapter = adapterCountry
-
+        countryViewModel.loadCountries()
         countryViewModel.observeCountriesState.observe(viewLifecycleOwner) { state ->
             render(state)
         }
@@ -60,6 +60,7 @@ class FilterFragmentCountry : Fragment() {
                 binding.apply {
                     progressBar.isVisible = true
                     countryList.isVisible = false
+                    placeholderMessage.isVisible = false
                 }
             }
 
@@ -67,6 +68,7 @@ class FilterFragmentCountry : Fragment() {
                 binding.apply {
                     progressBar.isVisible = false
                     countryList.isVisible = true
+                    placeholderMessage.isVisible = false
                 }
                 adapterCountry.submitList(state.countries)
             }
@@ -75,6 +77,9 @@ class FilterFragmentCountry : Fragment() {
                 binding.apply {
                     progressBar.isVisible = false
                     countryList.isVisible = false
+                    placeholderMessage.isVisible = true
+                    placeholderText.text = getString(R.string.empty_list_region)
+                    placeholderImage.setImageResource(R.drawable.img_empty_list_region)
                 }
             }
         }

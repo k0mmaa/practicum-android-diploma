@@ -26,6 +26,7 @@ class VacancyFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<VacancyViewModel>()
     private lateinit var skillsAdapter: VacancySkillsAdapter
+    private lateinit var phonesAdapter: PhonesAdapter
     private val descriptionParser = VacancyDescriptionParser()
     private var likeMenuItem: MenuItem? = null
     private val vacancyId: String?
@@ -50,6 +51,15 @@ class VacancyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         skillsAdapter = VacancySkillsAdapter()
+
+        phonesAdapter = PhonesAdapter({ phone ->
+            viewModel.openPhone(phone)
+        })
+        binding.phoneList.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = phonesAdapter
+            isNestedScrollingEnabled = false
+        }
         binding.skillsList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = skillsAdapter
@@ -189,6 +199,30 @@ class VacancyFragment : Fragment() {
         binding.skillsSection.isVisible = skills.isNotEmpty()
 
         binding.employerLogo.loadLogo(vacancy.employer.logo)
+
+        val contacts = vacancy.contacts
+
+        binding.contactName.text = contacts?.name.orEmpty()
+        binding.contactName.isVisible = !contacts?.name.isNullOrBlank()
+
+        binding.contactEmail.text = contacts?.email.orEmpty()
+        binding.contactEmail.isVisible = !contacts?.email.isNullOrBlank()
+        if (binding.contactEmail.isVisible) {
+            contacts?.email?.let { email ->
+                binding.contactEmail.setOnClickListener {
+                    viewModel.openEmail(email)
+                }
+            }
+        }
+        val phones = contacts?.phones.orEmpty()
+            .filter { it.formatted.isNotBlank() }
+
+        phonesAdapter.submitList(phones)
+        binding.phoneList.isVisible = phones.isNotEmpty()
+        binding.contact.isVisible =
+            binding.contactName.isVisible || binding.phoneList.isVisible || binding.contactEmail.isVisible
+
+
     }
 
     private fun formatDescriptionHtml(html: String): CharSequence {

@@ -30,15 +30,12 @@ class IndustryViewModel(
     private var selectionInitialized = false
     private var loadJob: Job? = null
 
-    init {
-        loadIndustries()
-    }
 
-    fun initializeSelection(industry: FilterOption?) {
+    fun initialize(industry: FilterOption?) {
         if (selectionInitialized) return
         selectionInitialized = true
         selectedIndustry = industry
-        renderContent()
+        loadIndustries()
     }
 
     fun selectIndustry(industry: FilterIndustry) {

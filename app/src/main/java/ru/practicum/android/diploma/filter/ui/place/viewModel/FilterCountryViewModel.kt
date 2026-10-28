@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.JobsInteractor
@@ -12,9 +13,7 @@ import ru.practicum.android.diploma.util.Resource
 
 class FilterCountryViewModel(private val interactor: JobsInteractor) : ViewModel() {
 
-    init {
-        loadCountries()
-    }
+
 
     private val countriesState = MutableStateFlow<CountryFilterState>(CountryFilterState.Loading)
     val observeCountriesState: LiveData<CountryFilterState> = countriesState.asLiveData()
@@ -39,6 +38,8 @@ class FilterCountryViewModel(private val interactor: JobsInteractor) : ViewModel
                         }
                     }
                 }
+            }catch (e: CancellationException){
+                throw  e
             } catch (e: Exception) {
                 countriesState.value = CountryFilterState.Error
             }

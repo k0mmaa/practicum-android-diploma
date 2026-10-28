@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:orientation="horizontal"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp">
+
+    <TextView
+        android:id="@+id/phone"
+        style="@style/TextAppearance.Diploma.Regular16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:includeFontPadding="false"
+        android:text=""
+        android:textColor="?attr/textColorPrimary" />
+
+    <TextView
+        android:id="@+id/comment"
+        style="@style/TextAppearance.Diploma.Regular16"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:includeFontPadding="false"
+        android:textColor="?attr/textColorPrimary" />
+</LinearLayout>

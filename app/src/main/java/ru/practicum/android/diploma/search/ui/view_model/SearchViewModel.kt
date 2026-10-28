@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.FiltersInteractor
 import ru.practicum.android.diploma.domain.api.JobsInteractor
 import ru.practicum.android.diploma.domain.models.filters.VacancyFilter
-import ru.practicum.android.diploma.domain.models.filters.isModelEmpty
 import ru.practicum.android.diploma.domain.models.vacancy.Vacancies
 import ru.practicum.android.diploma.domain.models.vacancy.VacancyCard
 import ru.practicum.android.diploma.util.Debounce
@@ -18,6 +17,7 @@ import ru.practicum.android.diploma.util.ErrorType.AUTHORIZATION_ERROR
 import ru.practicum.android.diploma.util.ErrorType.NOT_FOUND
 import ru.practicum.android.diploma.util.ErrorType.NO_INTERNET
 import ru.practicum.android.diploma.util.Resource
+import ru.practicum.android.diploma.util.SingleLiveEvent
 
 class SearchViewModel(
     private val jobsInteractor: JobsInteractor,
@@ -28,6 +28,9 @@ class SearchViewModel(
     fun observeState(): LiveData<SearchState> = stateLiveData
     private val filter = MutableLiveData<VacancyFilter>()
     fun observeFilter(): LiveData<VacancyFilter> = filter
+    private val toastEvent = SingleLiveEvent<ToastType>()
+
+    fun observeToast(): LiveData<ToastType> = toastEvent
     private var vacanciesList: MutableList<VacancyCard> = mutableListOf()
     private var latestSearchText: String = ""
     private var currentPage: Int = DEFAULT_PAGE_VALUE
@@ -138,13 +141,15 @@ class SearchViewModel(
             val txt = newSearchText
             searchJob?.cancel()
             searchJob = viewModelScope.launch {
-
+                val requestFilter = filter.value?.copy()
                 jobsInteractor.getVacancies(
-                    buildSearchParams(newSearchText, page, filter.value)
+                    newSearchText,
+                    page,
+                    requestFilter
                 ).collect { result ->
                     if (txt == latestSearchText) {
-                        processResult(result, clearResult)
-                        lastFilter = filter.value
+                        processResult(result, clearResult, page > 1)
+                        lastFilter = requestFilter
                     }
                     loadingNextPage = false
                 }
@@ -152,40 +157,8 @@ class SearchViewModel(
         }
     }
 
-    private fun buildSearchParams(newSearchText: String, page: Int, currentFilter: VacancyFilter?):
-        Map<String, Any> {
-        val params = mutableMapOf<String, Any>(
-            "text" to newSearchText,
-            "page" to page
-        )
 
-        if (currentFilter == null || currentFilter.isModelEmpty()) {
-            return params
-        }
-
-        val areaId = currentFilter.region?.id
-            ?: currentFilter.country?.id
-
-        areaId?.let {
-            params["area"] = it
-        }
-
-        currentFilter.industry?.id?.let {
-            params["industry"] = it
-        }
-
-        currentFilter.salary?.takeIf { it > 0 }?.let {
-            params["salary"] = it
-        }
-
-        if (currentFilter.onlyWithSalary) {
-            params["only_with_salary"] = true
-        }
-
-        return params
-    }
-
-    private fun processResult(result: Resource<Vacancies>, clearResult: Boolean = true) {
+    private fun processResult(result: Resource<Vacancies>, clearResult: Boolean = true, isNextPage: Boolean) {
         when (result) {
             is Resource.Success -> {
                 if (clearResult) {
@@ -205,21 +178,29 @@ class SearchViewModel(
             }
 
             is Resource.Error -> {
-                when (result.code) {
-                    NOT_FOUND -> {
-                        renderState(SearchState.NotFound)
+                if (isNextPage) {
+                    renderState(SearchState.Content(vacanciesList.toList(), totalCount))
+                    toastEvent.value = when (result.code) {
+                        NO_INTERNET -> ToastType.NO_INTERNET
+                        else -> ToastType.ANYTHING_ELSE
                     }
+                } else {
+                    when (result.code) {
+                        NOT_FOUND -> {
+                            renderState(SearchState.NotFound)
+                        }
 
-                    NO_INTERNET -> {
-                        renderState(SearchState.NoInternet)
-                    }
+                        NO_INTERNET -> {
+                            renderState(SearchState.NoInternet)
+                        }
 
-                    AUTHORIZATION_ERROR -> {
-                        renderState(SearchState.AuthorizationError)
-                    }
+                        AUTHORIZATION_ERROR -> {
+                            renderState(SearchState.AuthorizationError)
+                        }
 
-                    else -> {
-                        renderState(SearchState.ServerError)
+                        else -> {
+                            renderState(SearchState.ServerError)
+                        }
                     }
                 }
             }

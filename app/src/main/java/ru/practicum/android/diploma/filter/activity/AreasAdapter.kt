@@ -3,8 +3,12 @@ package ru.practicum.android.diploma.filter.activity
 import android.view.ViewGroup
 import ru.practicum.android.diploma.domain.models.area.FilterArea
 import ru.practicum.android.diploma.search.ui.activity.AbstractListAdapter
+import ru.practicum.android.diploma.search.ui.activity.CommonDiffCallback
 
-class AreasAdapter(clickListener: ClickListener<FilterArea>) : AbstractListAdapter<FilterArea>(clickListener) {
+class AreasAdapter(clickListener: ClickListener<FilterArea>) : AbstractListAdapter<FilterArea>(
+    clickListener = clickListener,
+    diffCallback = CommonDiffCallback()
+) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

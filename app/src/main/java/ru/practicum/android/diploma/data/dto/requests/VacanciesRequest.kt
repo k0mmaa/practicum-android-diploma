@@ -1,38 +1,40 @@
 package ru.practicum.android.diploma.data.dto.requests
 
+import ru.practicum.android.diploma.domain.models.filters.VacancyFilter
+import ru.practicum.android.diploma.domain.models.filters.isModelEmpty
+
 data class VacanciesRequest(
-    val area: String? = null,
-    val industry: String? = null,
-    val text: String? = null,
-    val salary: Int? = null,
-    val page: Int? = null,
-    val onlyWithSalary: Boolean? = null
+    val text: String?,
+    val page: Int?,
+    val filter: VacancyFilter?
 ) {
     fun toQueryMap(): Map<String, String> {
         val params = mutableMapOf<String, String>()
-
-        area?.let {
-            params["area"] = it
-        }
-
-        industry?.let {
-            params["industry"] = it
-        }
-
         text?.let {
             params["text"] = it
         }
-
-        salary?.let {
-            params["salary"] = it.toString()
-        }
-
         page?.let {
             params["page"] = it.toString()
         }
+        if (filter == null || filter.isModelEmpty()) {
+            return params
+        }
 
-        onlyWithSalary?.let {
-            params["only_with_salary"] = it.toString()
+        val areaId = filter.region?.id ?: filter.country?.id
+        areaId?.let {
+            params["area"] = it
+        }
+
+        filter.industry?.id?.let {
+            params["industry"] = it
+        }
+
+        filter.salary?.takeIf { it > 0 }?.let {
+            params["salary"] = it.toString()
+        }
+
+        if (filter.onlyWithSalary) {
+            params["only_with_salary"] = "true"
         }
 
         return params

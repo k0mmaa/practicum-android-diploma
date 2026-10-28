@@ -36,9 +36,8 @@ class FilterFragmentIndustry : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        industryViewModel.initializeSelection(filtersViewModel.observeFilter().value?.industry)
-        industryAdapter = IndustryAdapter(industryViewModel::selectIndustry)
+        industryViewModel.initialize(filtersViewModel.observeFilter().value?.industry)
+        industryAdapter = IndustryAdapter({ item -> industryViewModel.selectIndustry(item.industry) })
         binding.industryList.adapter = industryAdapter
 
         binding.toolbar.setNavigationOnClickListener {

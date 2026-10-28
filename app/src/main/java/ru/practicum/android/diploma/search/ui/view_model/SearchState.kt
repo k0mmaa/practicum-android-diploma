@@ -16,3 +16,8 @@ sealed interface SearchState {
     object ServerError : SearchState
     object AuthorizationError : SearchState
 }
+
+enum class ToastType {
+    NO_INTERNET,
+    ANYTHING_ELSE
+}

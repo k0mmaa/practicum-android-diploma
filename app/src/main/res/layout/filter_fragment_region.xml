@@ -44,7 +44,7 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="center_vertical"
-            android:hint="@string/input_text"
+            android:hint="@string/input_region"
             android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLines="1"
