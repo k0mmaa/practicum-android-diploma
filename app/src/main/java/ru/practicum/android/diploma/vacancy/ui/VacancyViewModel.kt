@@ -57,22 +57,29 @@ class VacancyViewModel(
         }
 
         loadJob = viewModelScope.launch {
-            mutableState.value = VacancyState.Loading
             try {
-                jobInteractor.getVacancyDetails(vacancyId).collect { result ->
-                    mutableState.value = when (result) {
-                        is Resource.Success -> result.data
-                            ?.let(VacancyState::Content)
-                            ?.takeIf { it.vacancy.id == vacancyId }
-                            ?: VacancyState.Error(ErrorType.SERVER_ERROR)
 
-                        is Resource.Error -> {
-                            if (result.code == ErrorType.NOT_FOUND) {
-                                favoriteInteractor.deleteVacancy(vacancyId)
+                mutableState.value = VacancyState.Loading
+                val vacancy = favoriteInteractor.getVacancy(id)
+
+                if (vacancy != null) {
+                    mutableState.value = VacancyState.Content(vacancy)
+                }else{
+                    jobInteractor.getVacancyDetails(vacancyId).collect { result ->
+                        mutableState.value = when (result) {
+                            is Resource.Success -> result.data
+                                ?.let(VacancyState::Content)
+                                ?.takeIf { it.vacancy.id == vacancyId }
+                                ?: VacancyState.Error(ErrorType.SERVER_ERROR)
+
+                            is Resource.Error -> {
+                                if (result.code == ErrorType.NOT_FOUND) {
+                                    favoriteInteractor.deleteVacancy(vacancyId)
+                                }
+                                VacancyState.Error(
+                                    result.code ?: ErrorType.SERVER_ERROR
+                                )
                             }
-                            VacancyState.Error(
-                                result.code ?: ErrorType.SERVER_ERROR
-                            )
                         }
                     }
                 }
