@@ -48,7 +48,7 @@ class VacancyViewModel(
         requestedVacancyId = vacancyId
         favoriteJob?.cancel()
         loadJob?.cancel()
-
+        favoriteLiveData.value = false
         favoriteJob = viewModelScope.launch {
             favoriteInteractor.isVacancyFavorite(vacancyId)
                 .collect { result ->
@@ -57,8 +57,8 @@ class VacancyViewModel(
         }
 
         loadJob = viewModelScope.launch {
-            mutableState.value = VacancyState.Loading
             try {
+                mutableState.value = VacancyState.Loading
                 jobInteractor.getVacancyDetails(vacancyId).collect { result ->
                     mutableState.value = when (result) {
                         is Resource.Success -> result.data
@@ -69,10 +69,20 @@ class VacancyViewModel(
                         is Resource.Error -> {
                             if (result.code == ErrorType.NOT_FOUND) {
                                 favoriteInteractor.deleteVacancy(vacancyId)
+                                VacancyState.Error(
+                                    result.code
+                                )
+                            }else{
+                                val vacancy = favoriteInteractor.getVacancy(vacancyId)
+                                if (vacancy != null){
+                                    VacancyState.Content(vacancy)
+                                }else{
+                                    VacancyState.Error(
+                                        result.code ?: ErrorType.SERVER_ERROR
+                                    )
+                                }
                             }
-                            VacancyState.Error(
-                                result.code ?: ErrorType.SERVER_ERROR
-                            )
+
                         }
                     }
                 }

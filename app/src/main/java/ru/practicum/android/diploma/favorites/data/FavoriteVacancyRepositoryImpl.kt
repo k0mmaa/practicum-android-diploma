@@ -19,6 +19,12 @@ class FavoriteVacancyRepositoryImpl(
         }
     }
 
+    override suspend fun getVacancy(id: String): VacancyDetail?{
+        return vacancyDao.getVacancy(id)?.let { entity ->
+            converter.map(entity)
+        }
+    }
+
     override suspend fun deleteVacancy(id: String) {
         vacancyDao.deleteVacancyById(id)
     }
