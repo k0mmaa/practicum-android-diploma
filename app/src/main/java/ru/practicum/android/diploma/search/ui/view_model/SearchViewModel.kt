@@ -17,6 +17,7 @@ import ru.practicum.android.diploma.util.ErrorType.AUTHORIZATION_ERROR
 import ru.practicum.android.diploma.util.ErrorType.NOT_FOUND
 import ru.practicum.android.diploma.util.ErrorType.NO_INTERNET
 import ru.practicum.android.diploma.util.Resource
+import ru.practicum.android.diploma.util.SingleLiveEvent
 
 class SearchViewModel(
     private val jobsInteractor: JobsInteractor,
@@ -27,6 +28,9 @@ class SearchViewModel(
     fun observeState(): LiveData<SearchState> = stateLiveData
     private val filter = MutableLiveData<VacancyFilter>()
     fun observeFilter(): LiveData<VacancyFilter> = filter
+    private val toastEvent = SingleLiveEvent<ToastType>()
+
+    fun observeToast(): LiveData<ToastType> = toastEvent
     private var vacanciesList: MutableList<VacancyCard> = mutableListOf()
     private var latestSearchText: String = ""
     private var currentPage: Int = DEFAULT_PAGE_VALUE
@@ -174,32 +178,30 @@ class SearchViewModel(
             }
 
             is Resource.Error -> {
-                if (isNextPage){
+                if (isNextPage) {
+                    renderState(SearchState.Content(vacanciesList.toList(), totalCount))
+                    toastEvent.value = when (result.code) {
+                        NO_INTERNET -> ToastType.NO_INTERNET
+                        else -> ToastType.ANYTHING_ELSE
+                    }
+                } else {
                     when (result.code) {
+                        NOT_FOUND -> {
+                            renderState(SearchState.NotFound)
+                        }
+
                         NO_INTERNET -> {
-                            renderState(SearchState.ErrorWithToast(ToastType.NO_INTERNET))
+                            renderState(SearchState.NoInternet)
                         }
+
+                        AUTHORIZATION_ERROR -> {
+                            renderState(SearchState.AuthorizationError)
+                        }
+
                         else -> {
-                            renderState(SearchState.ErrorWithToast(ToastType.ANYTHING_ELSE))
+                            renderState(SearchState.ServerError)
                         }
-                }
-                } else { when (result.code) {
-                    NOT_FOUND -> {
-                        renderState(SearchState.NotFound)
                     }
-
-                    NO_INTERNET -> {
-                        renderState(SearchState.NoInternet)
-                    }
-
-                    AUTHORIZATION_ERROR -> {
-                        renderState(SearchState.AuthorizationError)
-                    }
-
-                    else -> {
-                        renderState(SearchState.ServerError)
-                    }
-                }
                 }
             }
         }

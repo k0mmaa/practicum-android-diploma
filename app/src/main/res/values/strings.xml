@@ -93,4 +93,6 @@
 
     <string name="pagination_no_internet">Проверьте подключение к интернету</string>
     <string name="pagination_not_found">Произошла ошибка</string>
+
+    <string name="vacancy_phone_comment">- %1$s</string>
 </resources>

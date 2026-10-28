@@ -72,11 +72,11 @@ class VacancyViewModel(
                                 VacancyState.Error(
                                     result.code
                                 )
-                            }else{
+                            } else {
                                 val vacancy = favoriteInteractor.getVacancy(vacancyId)
-                                if (vacancy != null){
+                                if (vacancy != null) {
                                     VacancyState.Content(vacancy)
-                                }else{
+                                } else {
                                     VacancyState.Error(
                                         result.code ?: ErrorType.SERVER_ERROR
                                     )

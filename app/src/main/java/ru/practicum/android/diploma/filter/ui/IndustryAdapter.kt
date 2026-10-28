@@ -15,6 +15,7 @@ data class IndustryUiItem(
     val isSelected: Boolean
 ) : Identifiable {
     override fun getIdentifier(): String = industry.id
+    override fun hasSameContent(other: Identifiable): Boolean = this == other
 }
 
 class IndustryAdapter(

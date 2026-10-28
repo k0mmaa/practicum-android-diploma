@@ -11,4 +11,5 @@ data class VacancyCard(
     val logo: String?
 ) : Identifiable {
     override fun getIdentifier(): String = id
+    override fun hasSameContent(other: Identifiable): Boolean = this == other
 }

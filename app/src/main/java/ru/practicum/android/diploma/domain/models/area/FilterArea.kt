@@ -9,4 +9,5 @@ data class FilterArea(
     val areas: List<FilterArea>
 ) : Identifiable {
     override fun getIdentifier(): String = id
+    override fun hasSameContent(other: Identifiable): Boolean = this == other
 }

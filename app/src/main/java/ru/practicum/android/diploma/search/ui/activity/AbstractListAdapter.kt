@@ -50,6 +50,6 @@ class CommonDiffCallback<T : Identifiable> : DiffUtil.ItemCallback<T>() {
     }
 
     override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
-        return oldItem == newItem
+        return oldItem.hasSameContent(newItem)
     }
 }

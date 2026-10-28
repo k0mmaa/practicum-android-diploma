@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.search.ui
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -121,7 +120,13 @@ class SearchFragment : Fragment() {
                 updateFilterIcon(true)
             }
         }
-
+        viewModel.observeToast().observe(viewLifecycleOwner) { toastType ->
+            val errorMessage = when (toastType) {
+                ToastType.NO_INTERNET -> R.string.pagination_no_internet
+                ToastType.ANYTHING_ELSE -> R.string.pagination_not_found
+            }
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        }
         binding.vacanciesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -212,16 +217,6 @@ class SearchFragment : Fragment() {
 
             SearchState.LoadingNextPage -> {
                 hideAll(progressBar = true, vacanciesList = true, textInfo = true)
-            }
-
-            is SearchState.ErrorWithToast -> {
-                val errorMessage = when (state.errorType) {
-                    ToastType.NO_INTERNET -> R.string.pagination_no_internet
-                    ToastType.ANYTHING_ELSE -> R.string.pagination_not_found
-                }
-
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-                hideAll(vacanciesList = true, textInfo = true)
             }
         }
     }

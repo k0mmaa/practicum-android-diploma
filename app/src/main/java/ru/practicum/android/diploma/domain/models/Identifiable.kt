@@ -4,7 +4,5 @@ interface Identifiable {
 
     fun getIdentifier(): String
 
-    override fun equals(other: Any?): Boolean
-
-    override fun hashCode(): Int
+    fun hasSameContent(other: Identifiable): Boolean
 }
