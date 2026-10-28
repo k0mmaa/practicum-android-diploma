@@ -60,6 +60,7 @@ class FilterFragmentCountry : Fragment() {
                 binding.apply {
                     progressBar.isVisible = true
                     countryList.isVisible = false
+                    placeholderMessage.isVisible = false
                 }
             }
 
@@ -67,6 +68,7 @@ class FilterFragmentCountry : Fragment() {
                 binding.apply {
                     progressBar.isVisible = false
                     countryList.isVisible = true
+                    placeholderMessage.isVisible = false
                 }
                 adapterCountry.submitList(state.countries)
             }
@@ -75,6 +77,9 @@ class FilterFragmentCountry : Fragment() {
                 binding.apply {
                     progressBar.isVisible = false
                     countryList.isVisible = false
+                    placeholderMessage.isVisible = true
+                    placeholderText.text = getString(R.string.empty_list_region)
+                    placeholderImage.setImageResource(R.drawable.img_empty_list_region)
                 }
             }
         }

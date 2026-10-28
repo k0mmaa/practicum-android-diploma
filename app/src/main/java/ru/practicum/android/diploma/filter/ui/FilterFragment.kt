@@ -58,6 +58,10 @@ class FilterFragment : Fragment() {
             filtersViewModel.clearIndustry()
         }
 
+        binding.salaryClear.setOnClickListener {
+            binding.salaryInputEditText.text?.clear()
+        }
+
         filtersViewModel.observeFilter().observe(viewLifecycleOwner) { filter ->
 
             binding.btnApply.isInvisible = filter.isModelEmpty() && !filtersViewModel.isFilterWasChanged()
@@ -106,6 +110,7 @@ class FilterFragment : Fragment() {
         }
         binding.salaryInputEditText.doOnTextChanged { s: CharSequence?, start: Int, before: Int, count: Int ->
             filtersViewModel.setSalary(s.toString().toIntOrNull())
+            binding.salaryClear.isVisible = !s.isNullOrEmpty()
         }
         binding.btnApply.setOnClickListener {
             filtersViewModel.save()

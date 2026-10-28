@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -24,6 +25,7 @@ import ru.practicum.android.diploma.filter.ui.FilterFragment.Companion.FILTERS_A
 import ru.practicum.android.diploma.search.ui.activity.VacanciesListAdapter
 import ru.practicum.android.diploma.search.ui.view_model.SearchState
 import ru.practicum.android.diploma.search.ui.view_model.SearchViewModel
+import ru.practicum.android.diploma.search.ui.view_model.ToastType
 import ru.practicum.android.diploma.util.debounce
 import ru.practicum.android.diploma.vacancy.ui.VacancyFragment
 
@@ -210,6 +212,16 @@ class SearchFragment : Fragment() {
 
             SearchState.LoadingNextPage -> {
                 hideAll(progressBar = true, vacanciesList = true, textInfo = true)
+            }
+
+            is SearchState.ErrorWithToast -> {
+                val errorMessage = when (state.errorType) {
+                    ToastType.NO_INTERNET -> R.string.pagination_no_internet
+                    ToastType.ANYTHING_ELSE -> R.string.pagination_not_found
+                }
+
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                hideAll(vacanciesList = true, textInfo = true)
             }
         }
     }

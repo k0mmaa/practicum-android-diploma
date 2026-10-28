@@ -88,4 +88,7 @@
 
     <string name="clear_work_place">Очистить место работы</string>
     <string name="clear_industry">Очистить отрасль</string>
+
+    <string name="pagination_no_internet">Проверьте подключение к интернету</string>
+    <string name="pagination_not_found">Произошла ошибка</string>
 </resources>
