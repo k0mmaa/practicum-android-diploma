@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -63,14 +62,6 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.observeToast().observe(viewLifecycleOwner){ errorId ->
-            if(errorId != null){
-                val errorMessage = getString(errorId)
-                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-            }
-            viewModel.clearErrorToast()
-        }
 
         binding.searchFragmentTitle.setOnMenuItemClickListener { item ->
             when (item.itemId) {
