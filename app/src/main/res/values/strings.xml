@@ -52,6 +52,7 @@
     <string name="choose_industry">Отрасль</string>
     <string name="choose_industry_title">Выбор отрасли</string>
     <string name="input_industry">Введите отрасль</string>
+    <string name="input_region">Введите регион</string>
     <string name="industry_not_found">Отрасль не найдена</string>
     <string name="industry_list_error">Не удалось получить список отраслей</string>
     <string name="choose_salary">Ожидаемая зарплата</string>
