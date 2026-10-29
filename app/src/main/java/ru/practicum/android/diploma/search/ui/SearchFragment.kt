@@ -127,16 +127,44 @@ class SearchFragment : Fragment() {
             }
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
         }
-        binding.vacanciesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        binding.vacanciesList.addOnScrollListener( object : RecyclerView.OnScrollListener() {
+
+            private var requestedDuringScroll = false
+
+            override fun onScrollStateChanged(
+                recyclerView: RecyclerView,
+                newState: Int
+            ) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    requestedDuringScroll = false
+                }
+            }
+
+            override fun onScrolled(
+                recyclerView: RecyclerView,
+                dx: Int,
+                dy: Int
+            ) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (dy > 0) {
-                    val pos = (binding.vacanciesList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val itemsCount = adapter.itemCount
-                    if (pos >= itemsCount - 1) {
-                        viewModel.nextPage()
-                    }
+                if (dy <= 0 || requestedDuringScroll) {
+                    return
+                }
+
+                val layoutManager =
+                    recyclerView.layoutManager as? LinearLayoutManager ?: return
+
+                val lastVisiblePosition =
+                    layoutManager.findLastVisibleItemPosition()
+
+                if (
+                    adapter.itemCount > 0 &&
+                    lastVisiblePosition >= adapter.itemCount - 1
+                ) {
+                    requestedDuringScroll = true
+                    viewModel.nextPage()
                 }
             }
         })
